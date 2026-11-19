@@ -146,7 +146,7 @@ LEGAL = {
             "callout": "몽실이 키우기는 이용자의 개인정보를 수집하지 않습니다. 서버·계정·광고·분석 도구가 없습니다.",
             "sections": [
                 ("1. 수집하는 정보 — 없음", [
-                    "몽실이 키우기(이하 \"앱\")는 개인 개발자 Davy Kim(ipe Studio)이 운영하는 모바일 게임입니다. 앱은 계정·로그인이 없고, 이름·이메일·연락처·위치 등 어떠한 개인정보도 수집하지 않습니다. 앱은 기기 안에서만 쓰는 무작위 ID 를 만들지만, 기기 밖(iCloud 포함)으로 보내지 않으며 ipe 는 어떤 개인정보도 받지 않습니다. 몽실이의 돌봄 기록·설정·도감은 이용자의 기기 안에만 저장되며, 앱을 삭제하면 함께 삭제됩니다.",
+                    "몽실이 키우기(이하 \"앱\")는 개인 개발자 Davy Kim(ipe Studio)이 운영하는 모바일 게임입니다. 앱은 계정·로그인이 없고, 이름·이메일·연락처·위치 등 어떠한 개인정보도 수집하지 않습니다. 앱은 기기 안에서만 쓰는 무작위 ID 를 만들지만, 기기 밖(iCloud 포함)으로 보내지 않으며 ipe 는 어떤 개인정보도 받지 않습니다. 몽실이의 돌봄 기록·설정·도감은 이용자의 기기 안에 저장되며, iCloud 를 켠 경우에 한해 이용자 본인의 iCloud 로 동기화됩니다. ipe 는 이 데이터를 받지 않습니다. 앱을 삭제하면 기기 안의 데이터는 함께 삭제됩니다.",
                     "앱에는 광고, 분석(애널리틱스), 추적 SDK가 포함되어 있지 않습니다.",
                 ]),
                 ("2. 기기 저장과 iCloud", [
@@ -221,7 +221,7 @@ LEGAL = {
             "callout": "Mongsil collects no personal information. There is no server, no account, no advertising and no analytics.",
             "sections": [
                 ("1. Information we collect — none", [
-                    "Mongsil (\"the App\") is a mobile game operated by an individual developer, Davy Kim (ipe Studio). The App has no accounts or sign-in, and it does not collect any personal information such as your name, email, contact details or location. The App creates a random ID that is used only on your device; it is not sent off your device (including to iCloud), and ipe receives no personal information. Your care records, settings and collection are stored only on your device and are deleted when you delete the App.",
+                    "Mongsil (\"the App\") is a mobile game operated by an individual developer, Davy Kim (ipe Studio). The App has no accounts or sign-in, and it does not collect any personal information such as your name, email, contact details or location. The App creates a random ID that stays on your device; it is not synced to iCloud or sent off your device, and ipe receives no personal information. Your care records, settings and collection are stored on your device and, only if you turn on iCloud, synced through your own iCloud. ipe does not receive this data. Deleting the App deletes the data on your device.",
                     "The App contains no advertising, analytics or tracking SDKs.",
                 ]),
                 ("2. Device storage and iCloud", [

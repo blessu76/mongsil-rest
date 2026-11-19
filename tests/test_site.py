@@ -131,6 +131,13 @@ class SiteTest(unittest.TestCase):
         self.assertIn("iCloud", en)
         self.assertIn("In-App Purchase", en)
 
+    def test_privacy_section1_does_not_say_device_only(self):
+        # §1 는 iCloud 동기화(§2)와 어긋나면 안 된다 — "기기 안에만" / "only on your device" 를 쓰지 않는다.
+        ko_s1 = " ".join(build.LEGAL["ko"]["privacy"]["sections"][0][1])
+        en_s1 = " ".join(build.LEGAL["en"]["privacy"]["sections"][0][1])
+        self.assertNotIn("기기 안에만", ko_s1)
+        self.assertNotIn("only on your device", en_s1)
+
     def test_no_external_analytics_script_on_any_page(self):
         for rel in PAGES + LEGAL_PAGES:
             with self.subTest(page=rel):
