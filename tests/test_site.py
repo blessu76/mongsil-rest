@@ -138,11 +138,23 @@ class SiteTest(unittest.TestCase):
         self.assertNotIn("기기 안에만", ko_s1)
         self.assertNotIn("only on your device", en_s1)
 
+    def test_privacy_section1_states_random_id_sync_fact(self):
+        # 무작위 ID 는 iCloud 를 켜면 본인 iCloud 로 동기화될 수 있으므로, §1 은 "iCloud 포함 미전송" 이라고 쓰면 안 된다.
+        ko_s1 = " ".join(build.LEGAL["ko"]["privacy"]["sections"][0][1])
+        en_s1 = " ".join(build.LEGAL["en"]["privacy"]["sections"][0][1])
+        self.assertNotIn("기기 밖(iCloud 포함)", ko_s1)
+        self.assertNotIn("not synced to iCloud", en_s1)
+        self.assertNotIn("sent off your device", en_s1)
+        self.assertIn("ipe 로는 보내지 않", ko_s1)
+        self.assertIn("not sent to ipe", en_s1)
+
     def test_no_external_analytics_script_on_any_page(self):
+        # 외부 스크립트(http/https src) 금지 — 인라인 <script> 와 같은 출처 스크립트는 허용.
         for rel in PAGES + LEGAL_PAGES:
             with self.subTest(page=rel):
                 text = (ROOT / rel).read_text(encoding="utf-8")
-                self.assertNotIn("<script src=", text)
+                for src in re.findall(r"<script[^>]*\ssrc\s*=\s*[\"']?([^\"'\s>]+)", text, re.I):
+                    self.assertFalse(src.lower().startswith(("http://", "https://", "//")), src)
 
 
 if __name__ == "__main__":
