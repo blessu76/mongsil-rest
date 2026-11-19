@@ -15,7 +15,12 @@ python3 scripts/build.py                 # 페이지 다시 만들기
 python3 -m unittest discover -s tests    # 메뉴 3개 · 생성본 최신 · 캐시버스팅 · 금칙어
 ```
 
+## 약관·개인정보처리방침
+- `/privacy/` · `/terms/` (ko) 와 `/en/privacy/` · `/en/terms/` (en) — 푸터 링크로 연결. 문구는 `scripts/build.py` 의 `LEGAL`.
+- 문구 출처: 자매 사이트 iltonggi-rest `content/ko.json`·`en.json` 의 기본 문구(ipe 앱 사이트 기본). 몽실 사실로 고친 점: 분석·쿠키·날씨 절 삭제, iCloud(본인 계정, ipe 서버 없음)·Apple 인앱결제 절 추가.
+- 연락처 `ipe.haven@gmail.com` · 운영 `Davy Kim (ipe Studio)` · 시행일 2026년 11월 19일 (iltonggi 방식).
+- 법적 문구라 게시 전 Davy 확인이 필요할 수 있다. 약관·방침에는 결제·서버 말이 들어가므로 금칙어 시험은 메뉴 페이지에만 건다.
+
 ## 아직 없는 것 (미정)
-- **약관·개인정보처리방침 페이지는 없다.** ipe_web_kit 에는 약관 모듈이 없고(v0.7.3 기준), 개인정보 모듈은 댓글 저장(Firebase) 전제라 이 앱의 실제 처리와 맞지 않는다. 법적 문구는 Davy 확인 전까지 싣지 않는다.
-- 릴리즈 노트·결제 안내·서버 설명은 넣지 않는다.
+- 릴리즈 노트·결제 안내(메뉴 페이지)·서버 설명은 넣지 않는다.
 - 대표 캐릭터 개별 이름은 확정 전이라 본문에 쓰지 않는다(「몽실이」·앱 이름만).

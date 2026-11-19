@@ -2,12 +2,14 @@
 """Build the mongsil.ipe.rest pages (stdlib only, Python 3.8+).
 
 Writes, from the repo root:
-  /               ko home · /about/ · /journal/ · /journal/dev-start/
-  /en/            en home · /en/about/ · /en/journal/ · /en/journal/dev-start/
+  /               ko home · /about/ · /journal/ · /journal/dev-start/ · /privacy/ · /terms/
+  /en/            en home · /en/about/ · /en/journal/ · /en/journal/dev-start/ · /en/privacy/ · /en/terms/
 
 Every page gets the same top menu: 홈 / 소개 / 저널 (Home / About / Journal).
-Terms and privacy pages are NOT built here: the ipe_web_kit has no terms module and its privacy
-module describes comment storage, which does not match this app. See README.md.
+The footer on every page links to the privacy policy and terms of use (LEGAL below).
+The legal text is the ipe 앱 사이트 기본 문구 (copied from iltonggi-rest content/ko.json · en.json,
+with the app facts filled in for Mongsil: no server, no account, no ads, no analytics, local/iCloud data,
+Apple in-app purchase). The site has no analytics tag, so the analytics sections are removed.
 
 Run:  python3 scripts/build.py          (rewrites the generated pages)
 """
@@ -125,6 +127,164 @@ STR = {
 }
 
 
+MAIL = "ipe.haven@gmail.com"  # contact, same as the other ipe sites (iltonggi)
+EFFECTIVE = {"ko": "2026년 11월 19일", "en": "November 19, 2026"}  # 시행일 — first publication date
+OPERATOR = "Davy Kim (ipe Studio)"
+
+# 약관·개인정보처리방침 — ipe 앱 사이트 기본 문구 (iltonggi-rest content/*.json 에서 옮김).
+# {mail} 은 MAIL 로 바꾼다. 몽실 사실에 맞춰 고친 곳: 분석·쿠키·날씨 절 삭제, iCloud·인앱결제 절 추가.
+LEGAL = {
+    "ko": {
+        "privacy_link": "개인정보처리방침",
+        "terms_link": "이용약관",
+        "legal_aria": "법적 링크",
+        "back_home": "홈",
+        "privacy": {
+            "title": "개인정보처리방침",
+            "desc": "몽실이 키우기 개인정보처리방침 — 앱은 개인정보를 수집하지 않으며, 진행 데이터는 기기 안(iCloud 를 켠 경우 본인 iCloud)에만 저장됩니다.",
+            "callout_label": "핵심:",
+            "callout": "몽실이 키우기는 이용자의 개인정보를 수집하지 않습니다. 서버·계정·광고·분석 도구가 없습니다.",
+            "sections": [
+                ("1. 수집하는 정보 — 없음", [
+                    "몽실이 키우기(이하 \"앱\")는 개인 개발자 Davy Kim(ipe Studio)이 운영하는 모바일 게임입니다. 앱은 계정·로그인이 없고, 이름·이메일·연락처·위치·기기 식별자 등 어떠한 개인정보도 수집하거나 서버로 전송하지 않습니다. 몽실이의 돌봄 기록·설정·도감은 이용자의 기기 안에만 저장되며, 앱을 삭제하면 함께 삭제됩니다.",
+                    "앱에는 광고, 분석(애널리틱스), 추적 SDK가 포함되어 있지 않습니다.",
+                ]),
+                ("2. 기기 저장과 iCloud", [
+                    "진행 데이터는 기기 안에 저장됩니다. iPhone 에서 iCloud 를 켜 두면 같은 Apple 계정의 기기끼리 진행 데이터가 이용자 본인의 iCloud 를 통해 동기화됩니다. 이 동기화는 Apple 의 iCloud 로 이루어지며, ipe 서버는 없고 ipe 는 이 데이터를 받지 않습니다.",
+                ]),
+                ("3. 웹사이트", [
+                    "몽실이 키우기 소개 사이트(mongsil.ipe.rest)에는 방문 통계를 모으는 분석 도구가 없습니다. 호스팅은 GitHub Pages이며, GitHub의 서버 로그 정책이 적용될 수 있습니다.",
+                ]),
+                ("4. 결제", [
+                    "앱 안의 유료 상품은 Apple 인앱결제(App Store)로만 판매합니다. 결제 정보(카드 번호·결제 수단 등)는 Apple이 처리하며, 몽실이 키우기와 ipe는 이를 받거나 보관하지 않습니다. 구매 확인과 복원은 Apple 스토어 기록을 기준으로 합니다.",
+                ]),
+                ("5. 제3자 제공", [
+                    "앱은 개인정보를 수집하지 않으므로 제3자에게 제공하거나 판매하는 정보가 없습니다. 앱은 Apple App Store 를 통해 배포되며, 다운로드·결제와 관련된 정보는 Apple의 개인정보 처리방침에 따라 Apple이 처리합니다.",
+                ]),
+                ("6. 문의·권리 행사", [
+                    "개인정보와 관련한 열람·정정·삭제·처리정지 요청이나 문의는 {mail} 으로 보내 주세요. 앱은 보유한 개인정보가 없어, 찾아서 처리할 정보가 없을 수 있습니다.",
+                ]),
+                ("7. 아동", [
+                    "앱은 만 14세 미만 아동을 대상으로 하지 않으며, 어떤 이용자로부터도 개인정보를 수집하지 않습니다.",
+                ]),
+                ("8. 개인정보 보호책임자", [
+                    "성명: Davy Kim (ipe Studio) · 연락처: {mail}",
+                ]),
+                ("9. 권리 침해 구제", [
+                    "- 개인정보분쟁조정위원회: 1833-6972 · kopico.go.kr",
+                    "- 개인정보침해신고센터: 118 · privacy.kisa.or.kr",
+                    "- 대검찰청 사이버수사과: 1301 · 경찰청 사이버수사국: 182",
+                ]),
+                ("10. 변경", [
+                    "수집 항목이 달라지면(예: 서버·계정·광고·분석 추가) 이 방침을 먼저 갱신하고 시행일을 바꿔 알립니다.",
+                ]),
+            ],
+        },
+        "terms": {
+            "title": "이용약관",
+            "desc": "몽실이 키우기 이용약관.",
+            "sections": [
+                ("1. 목적", [
+                    "이 약관은 Davy Kim(ipe Studio)이 제공하는 모바일 게임 \"몽실이 키우기\"(이하 \"앱\")의 이용 조건을 정합니다.",
+                ]),
+                ("2. 이용 허락", [
+                    "이용자는 앱을 개인적·비상업적 용도로 기기에 설치하여 이용할 수 있습니다. 앱의 소스 코드·이미지·음원 등을 무단으로 복제·배포·역설계하거나 상업적으로 이용할 수 없습니다.",
+                ]),
+                ("3. 서비스의 성격", [
+                    "앱은 인터넷 연결 없이도 동작하며, 게임 데이터는 이용자의 기기에 저장됩니다(iCloud 를 켠 경우 본인 iCloud 를 통해 동기화됩니다). 기기 변경·앱 삭제·초기화 시 데이터가 사라질 수 있고, 당사는 이를 복구해 드리지 못할 수 있습니다.",
+                ]),
+                ("4. 유료 상품", [
+                    "앱의 유료 상품은 Apple 인앱결제로 구매합니다. 결제·환불·구매 취소는 Apple 의 정책과 절차를 따르며, 구매한 상품은 같은 Apple 계정으로 복원할 수 있습니다.",
+                ]),
+                ("5. 변경과 중단", [
+                    "당사는 앱의 기능을 개선·변경하거나 제공을 중단할 수 있으며, 중요한 변경은 앱 스토어 설명 또는 이 사이트를 통해 알립니다.",
+                ]),
+                ("6. 면책", [
+                    "앱은 현재 상태 그대로 제공됩니다. 관련 법령이 허용하는 범위에서 당사는 앱 이용으로 인한 간접적·부수적 손해에 대해 책임을 지지 않습니다.",
+                ]),
+                ("7. 준거법과 문의", [
+                    "이 약관은 대한민국 법령에 따릅니다. 문의: {mail}",
+                ]),
+            ],
+        },
+    },
+    "en": {
+        "privacy_link": "Privacy Policy",
+        "terms_link": "Terms of Use",
+        "legal_aria": "Legal links",
+        "back_home": "Home",
+        "privacy": {
+            "title": "Privacy Policy",
+            "desc": "Privacy policy for Mongsil — the app collects no personal information, and your progress is stored only on your device (or in your own iCloud if you turn iCloud on).",
+            "callout_label": "In short:",
+            "callout": "Mongsil collects no personal information. There is no server, no account, no advertising and no analytics.",
+            "sections": [
+                ("1. Information we collect — none", [
+                    "Mongsil (\"the App\") is a mobile game operated by an individual developer, Davy Kim (ipe Studio). The App has no accounts or sign-in, and it does not collect or send to any server any personal information such as your name, email, contact details, location or device identifiers. Your care records, settings and collection are stored only on your device and are deleted when you delete the App.",
+                    "The App contains no advertising, analytics or tracking SDKs.",
+                ]),
+                ("2. Device storage and iCloud", [
+                    "Your progress is stored on your device. If you turn on iCloud on an iPhone, progress is synced between devices signed in to the same Apple account through your own iCloud. The sync runs on Apple's iCloud; there is no ipe server, and ipe does not receive this data.",
+                ]),
+                ("3. The website", [
+                    "The Mongsil website (mongsil.ipe.rest) has no analytics tool that collects visit statistics. The site is hosted on GitHub Pages, and GitHub's server-log policies may apply.",
+                ]),
+                ("4. Payments", [
+                    "Paid items in the App are sold only through Apple In-App Purchase (App Store). Payment information (such as card numbers and payment methods) is handled by Apple; Mongsil and ipe do not receive or keep it. Purchase checks and restores are based on Apple's store records.",
+                ]),
+                ("5. Third parties", [
+                    "The App collects no personal information, so there is nothing to share with or sell to third parties. The App is distributed through the Apple App Store; information related to downloads and payments is handled by Apple under Apple's privacy policy.",
+                ]),
+                ("6. Questions and your rights", [
+                    "To request access, correction, deletion or suspension of processing of your personal information, or to ask any question, write to {mail}. The App holds no personal information, so there may be nothing we can find to act on.",
+                ]),
+                ("7. Children", [
+                    "The App is not directed to children under 14 (or the minimum age in your region), and it collects no personal information from any user.",
+                ]),
+                ("8. Privacy officer", [
+                    "Name: Davy Kim (ipe Studio) · Contact: {mail}",
+                ]),
+                ("9. Remedies (Korea)", [
+                    "- Personal Information Dispute Mediation Committee: 1833-6972 · kopico.go.kr",
+                    "- Personal Information Infringement Report Center: 118 · privacy.kisa.or.kr",
+                    "- Supreme Prosecutors' Office Cybercrime Division: 1301 · National Police Agency Cyber Bureau: 182",
+                ]),
+                ("10. Changes", [
+                    "If the App later adds a server, accounts, advertising or analytics that change what is collected, we will update this policy first and change the effective date.",
+                ]),
+            ],
+        },
+        "terms": {
+            "title": "Terms of Use",
+            "desc": "Terms of Use for Mongsil.",
+            "sections": [
+                ("1. Purpose", [
+                    "These terms set out the conditions for using the mobile game \"Mongsil\" (\"the App\"), provided by Davy Kim (ipe Studio).",
+                ]),
+                ("2. License", [
+                    "You may install and use the App on your device for personal, non-commercial purposes. You may not copy, distribute, reverse engineer or commercially exploit the App's source code, images, audio or other content without permission.",
+                ]),
+                ("3. Nature of the service", [
+                    "The App works without an internet connection, and game data is stored on your device (or synced through your own iCloud if you turn iCloud on). Data may be lost if you change devices, delete the App or reset your device, and we may not be able to restore it.",
+                ]),
+                ("4. Paid items", [
+                    "Paid items in the App are purchased through Apple In-App Purchase. Payment, refunds and cancellations follow Apple's policies and procedures, and purchased items can be restored with the same Apple account.",
+                ]),
+                ("5. Changes and discontinuation", [
+                    "We may improve or change the App's features, or stop providing it. Important changes will be announced in the App Store description or on this site.",
+                ]),
+                ("6. Disclaimer", [
+                    "The App is provided as it is. To the extent permitted by law, we are not liable for indirect or incidental damages arising from your use of the App.",
+                ]),
+                ("7. Governing law and contact", [
+                    "These terms are governed by the laws of the Republic of Korea. Contact: {mail}",
+                ]),
+            ],
+        },
+    },
+}
+
+
 def prefix(lang):
     return "" if lang == "ko" else "/en"
 
@@ -183,7 +343,10 @@ def header(lang, current):
 
 
 def footer(lang):
-    return f"""<footer class="foot"><p>{STR[lang]['footer']}</p></footer>
+    p = prefix(lang)
+    L = LEGAL[lang]
+    return f"""<footer class="foot"><p>{STR[lang]['footer']}</p>
+<nav class="foot-links" aria-label="{esc(L['legal_aria'])}"><a href="{p}/privacy/">{esc(L['privacy_link'])}</a> <a href="{p}/terms/">{esc(L['terms_link'])}</a></nav></footer>
 </body>
 </html>
 """
@@ -271,6 +434,55 @@ def page_post(lang):
     return head(lang, s["post_title"] + " — " + s["site_title"], s["post_desc"], f"{p}/journal/dev-start/") + header(lang, "journal") + main + footer(lang)
 
 
+def legal_body(lang, text):
+    """{mail} → mailto link; '- ' lines → a bullet list; everything else → a paragraph."""
+    mail = f'<a href="mailto:{MAIL}">{MAIL}</a>'
+    out, bullets = [], []
+
+    def flush():
+        if bullets:
+            out.append('<ul class="bullets">' + "".join(f"<li>{x}</li>" for x in bullets) + "</ul>")
+            bullets.clear()
+
+    for line in text:
+        if line.startswith("- "):
+            bullets.append(esc(line[2:]).replace("{mail}", mail))
+        else:
+            flush()
+            out.append("<p>%s</p>" % esc(line).replace("{mail}", mail))
+    flush()
+    return "".join(out)
+
+
+def page_legal(lang, kind):
+    s = STR[lang]
+    L = LEGAL[lang]
+    d = L[kind]
+    p = prefix(lang)
+    sections = "".join(
+        f"<h2>{esc(h)}</h2>{legal_body(lang, paras)}" for h, paras in d["sections"]
+    )
+    if lang == "ko":
+        eff = f"시행일: {EFFECTIVE[lang]} · 운영: {OPERATOR}"
+    else:
+        eff = f"Effective: {EFFECTIVE[lang]} · Operated by {OPERATOR}"
+    lead = ""
+    if kind == "privacy":
+        lead = f'<p class="lead"><strong>{esc(d["callout_label"])}</strong> {esc(d["callout"])}</p>'
+    main = f"""<main id="main">
+<article class="doc">
+  <h1>{esc(d['title'])}</h1>
+  <p class="date">{esc(eff)}</p>
+  {lead}
+  {sections}
+  <p><a href="{p}/">← {esc(L['back_home'])}</a></p>
+</article>
+</main>
+"""
+    path = f"{p}/{kind}/"
+    return head(lang, f"{d['title']} — {s['site_title']}", d["desc"], path) + header(lang, None) + main + footer(lang)
+
+
 def write(rel, text):
     out = ROOT / rel
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -284,6 +496,8 @@ def main():
         write(f"{base}about/index.html", page_about(lang))
         write(f"{base}journal/index.html", page_journal(lang))
         write(f"{base}journal/dev-start/index.html", page_post(lang))
+        write(f"{base}privacy/index.html", page_legal(lang, "privacy"))
+        write(f"{base}terms/index.html", page_legal(lang, "terms"))
 
 
 if __name__ == "__main__":
