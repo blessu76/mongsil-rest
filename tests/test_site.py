@@ -53,6 +53,10 @@ class SiteTest(unittest.TestCase):
             text = (ROOT / rel).read_text(encoding="utf-8")
             self.assertIn(f"/assets/mongsil.css?v={build.CSS_V}", text, rel)
 
+    def test_css_keeps_korean_words_together(self):
+        css = (ROOT / "assets" / "mongsil.css").read_text(encoding="utf-8")
+        self.assertRegex(css, r"word-break:\s*keep-all;")
+
     def test_no_forbidden_terms(self):
         for rel in PAGES:
             text = (ROOT / rel).read_text(encoding="utf-8").lower()

@@ -15,7 +15,7 @@ from pathlib import Path
 import html
 
 ROOT = Path(__file__).resolve().parent.parent
-CSS_V = "20261119a"  # bump with any CSS / asset change (cache busting ?v=)
+CSS_V = "20261119b"  # bump with any CSS / asset change (cache busting ?v=)
 SITE = "https://mongsil.ipe.rest"
 
 NAV = {
