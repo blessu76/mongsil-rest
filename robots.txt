@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mongsil.ipe.rest/sitemap.xml

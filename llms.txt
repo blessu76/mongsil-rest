@@ -1,0 +1,26 @@
+# 몽실이 키우기 (Mongsil)
+
+> 몽실이 키우기(Mongsil)는 죽지 않는 다마고치류 펫 돌봄 게임입니다. 밥을 주고, 씻기고, 함께 놀고, 재워 주면 몽실이가 자랍니다. 며칠 비워 두어도 몽실이는 떠나지 않습니다.
+
+- 플랫폼: iOS 앱 (출시 준비 중)
+- 만든 곳: ipe() (ipe Studio, 개인 개발자 Davy Kim)
+- 광고 없음 · 서버·계정 없음 · 진행 데이터는 기기 안에 저장 (iCloud 를 켠 경우 본인 iCloud 로 동기화)
+- 언어: 12개 언어 지원 예정 (한국어·영어 먼저)
+
+Mongsil (몽실이 키우기) is a Tamagotchi-style pet care game where your pet never dies. Feed, wash, play and put it to bed, and it grows. Leave it alone for days and it stays. iOS app, in preparation. No ads, no server, no account.
+
+## 한국어 페이지
+- [홈](https://mongsil.ipe.rest/): 게임 소개
+- [소개](https://mongsil.ipe.rest/about/): 무엇을 하는지, 광고 없이 만드는 이유
+- [저널](https://mongsil.ipe.rest/journal/): 개발 소식
+- [저널: 개발을 시작했어요](https://mongsil.ipe.rest/journal/dev-start/)
+- [개인정보처리방침](https://mongsil.ipe.rest/privacy/)
+- [이용약관](https://mongsil.ipe.rest/terms/)
+
+## English pages
+- [Home](https://mongsil.ipe.rest/en/): game overview
+- [About](https://mongsil.ipe.rest/en/about/): what you do and why it has no ads
+- [Journal](https://mongsil.ipe.rest/en/journal/): development news
+- [Journal: Development has started](https://mongsil.ipe.rest/en/journal/dev-start/)
+- [Privacy Policy](https://mongsil.ipe.rest/en/privacy/)
+- [Terms of Use](https://mongsil.ipe.rest/en/terms/)

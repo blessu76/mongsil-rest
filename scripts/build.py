@@ -11,10 +11,15 @@ The legal text is the ipe 앱 사이트 기본 문구 (copied from iltonggi-rest
 with the app facts filled in for Mongsil: no server, no account, no ads, no analytics, local/iCloud data,
 Apple in-app purchase). The site has no analytics tag, so the analytics sections are removed.
 
-Run:  python3 scripts/build.py          (rewrites the generated pages)
+It also writes robots.txt, sitemap.xml (all 12 pages, hreflang alternates) and llms.txt.
+The home pages (ko · en) carry JSON-LD: WebSite + VideoGame. No release date, price, rating or store link
+is written, because the app is not on the store yet.
+
+Run:  python3 scripts/build.py          (rewrites the generated pages and the SEO files)
 """
 from pathlib import Path
 import html
+import json
 
 ROOT = Path(__file__).resolve().parent.parent
 CSS_V = "20261119c"  # bump with any CSS / asset change (cache busting ?v=)
@@ -295,11 +300,15 @@ def esc(s):
     return html.escape(s, quote=True)
 
 
-def head(lang, title, desc, path, og_img="/assets/img/icon.svg"):
-    canonical = SITE + path
+def alternates(path):
+    """(ko URL, en URL) for a page path — the same pair for ko and en versions of one page."""
     base = path[len("/en"):] if path.startswith("/en") else path  # language-neutral path
-    ko_url = SITE + base
-    en_url = SITE + "/en" + base
+    return SITE + base, SITE + "/en" + base
+
+
+def head(lang, title, desc, path, og_img="/assets/img/icon.svg", extra=""):
+    canonical = SITE + path
+    ko_url, en_url = alternates(path)
     return f"""<!doctype html>
 <html lang="{STR[lang]['lang']}">
 <head>
@@ -318,8 +327,39 @@ def head(lang, title, desc, path, og_img="/assets/img/icon.svg"):
 <meta property="og:image" content="{SITE}{og_img}">
 <link rel="icon" href="/assets/img/icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/mongsil.css?v={CSS_V}">
-</head>
+{extra}</head>
 """
+
+
+def jsonld_home(lang):
+    """JSON-LD for the home page: WebSite + VideoGame. Facts only — no datePublished, offers, rating or store URL."""
+    s = STR[lang]
+    p = prefix(lang)
+    home = SITE + (p + "/" if p else "/")
+    graph = [
+        {
+            "@type": "WebSite",
+            "name": s["site_title"],
+            "url": home,
+            "inLanguage": lang,
+        },
+        {
+            "@type": "VideoGame",
+            "name": s["site_title"],
+            "alternateName": "Mongsil" if lang == "ko" else "몽실이 키우기",
+            "description": s["home_desc"],
+            "genre": "Virtual pet",
+            "gamePlatform": "iOS",
+            "url": home,
+            "inLanguage": lang,
+            "publisher": {"@type": "Organization", "name": "ipe()", "url": "https://ipe.rest/"},
+        },
+    ]
+    for item in graph:
+        item["@context"] = "https://schema.org"
+    data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=2)
+    data = data.replace("</", "<\\/")  # never let a string close the script tag
+    return f'<script type="application/ld+json">\n{data}\n</script>\n'
 
 
 def header(lang, current):
@@ -381,7 +421,7 @@ def page_home(lang):
 </section>
 </main>
 """
-    return head(lang, s["home_title"], s["home_desc"], (p + "/") if p else "/") + header(lang, "home") + main + footer(lang)
+    return head(lang, s["home_title"], s["home_desc"], (p + "/") if p else "/", extra=jsonld_home(lang)) + header(lang, "home") + main + footer(lang)
 
 
 def page_about(lang):
@@ -491,6 +531,82 @@ def write(rel, text):
     out.write_text(text, encoding="utf-8")
 
 
+def public_pages():
+    """(output file, URL path) for the 12 generated pages, ko first then en."""
+    out = []
+    for lang in ("ko", "en"):
+        p = prefix(lang)
+        base = "" if lang == "ko" else "en/"
+        out += [
+            (f"{base}index.html", (p + "/") if p else "/"),
+            (f"{base}about/index.html", f"{p}/about/"),
+            (f"{base}journal/index.html", f"{p}/journal/"),
+            (f"{base}journal/dev-start/index.html", f"{p}/journal/dev-start/"),
+            (f"{base}privacy/index.html", f"{p}/privacy/"),
+            (f"{base}terms/index.html", f"{p}/terms/"),
+        ]
+    return out
+
+
+def robots_txt():
+    return f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n"
+
+
+def sitemap_xml():
+    entries = []
+    for _, path in public_pages():
+        ko_url, en_url = alternates(path)
+        links = (
+            f'    <xhtml:link rel="alternate" hreflang="ko" href="{ko_url}"/>\n'
+            f'    <xhtml:link rel="alternate" hreflang="en" href="{en_url}"/>\n'
+            f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>\n'
+        )
+        entries.append(f"  <url>\n    <loc>{SITE + path}</loc>\n{links}  </url>\n")
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+        + "".join(entries)
+        + "</urlset>\n"
+    )
+
+
+def llms_txt():
+    lines = [
+        "# 몽실이 키우기 (Mongsil)",
+        "",
+        "> 몽실이 키우기(Mongsil)는 죽지 않는 다마고치류 펫 돌봄 게임입니다. "
+        "밥을 주고, 씻기고, 함께 놀고, 재워 주면 몽실이가 자랍니다. 며칠 비워 두어도 몽실이는 떠나지 않습니다.",
+        "",
+        "- 플랫폼: iOS 앱 (출시 준비 중)",
+        "- 만든 곳: ipe() (ipe Studio, 개인 개발자 Davy Kim)",
+        "- 광고 없음 · 서버·계정 없음 · 진행 데이터는 기기 안에 저장 (iCloud 를 켠 경우 본인 iCloud 로 동기화)",
+        "- 언어: 12개 언어 지원 예정 (한국어·영어 먼저)",
+        "",
+        "Mongsil (몽실이 키우기) is a Tamagotchi-style pet care game where your pet never dies. "
+        "Feed, wash, play and put it to bed, and it grows. Leave it alone for days and it stays. "
+        "iOS app, in preparation. No ads, no server, no account.",
+        "",
+        "## 한국어 페이지",
+        f"- [홈]({SITE}/): 게임 소개",
+        f"- [소개]({SITE}/about/): 무엇을 하는지, 광고 없이 만드는 이유",
+        f"- [저널]({SITE}/journal/): 개발 소식",
+        f"- [저널: 개발을 시작했어요]({SITE}/journal/dev-start/)",
+        f"- [개인정보처리방침]({SITE}/privacy/)",
+        f"- [이용약관]({SITE}/terms/)",
+        "",
+        "## English pages",
+        f"- [Home]({SITE}/en/): game overview",
+        f"- [About]({SITE}/en/about/): what you do and why it has no ads",
+        f"- [Journal]({SITE}/en/journal/): development news",
+        f"- [Journal: Development has started]({SITE}/en/journal/dev-start/)",
+        f"- [Privacy Policy]({SITE}/en/privacy/)",
+        f"- [Terms of Use]({SITE}/en/terms/)",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def main():
     for lang in ("ko", "en"):
         base = "" if lang == "ko" else "en/"
@@ -500,6 +616,9 @@ def main():
         write(f"{base}journal/dev-start/index.html", page_post(lang))
         write(f"{base}privacy/index.html", page_legal(lang, "privacy"))
         write(f"{base}terms/index.html", page_legal(lang, "terms"))
+    write("robots.txt", robots_txt())
+    write("sitemap.xml", sitemap_xml())
+    write("llms.txt", llms_txt())
 
 
 if __name__ == "__main__":

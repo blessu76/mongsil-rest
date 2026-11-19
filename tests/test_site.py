@@ -157,5 +157,108 @@ class SiteTest(unittest.TestCase):
                     self.assertFalse(src.lower().startswith(("http://", "https://", "//")), src)
 
 
+class SeoTest(unittest.TestCase):
+    """SEO / GEO: every page has its head tags, nothing is noindexed, the sitemap lists the 12 pages,
+    the home pages carry parseable JSON-LD without store facts, and robots.txt / llms.txt exist."""
+
+    ALL = PAGES + LEGAL_PAGES
+    HEAD_TAGS = [
+        r'<title>[^<]+</title>',
+        r'<meta name="description" content="[^"]+">',
+        r'<link rel="canonical" href="[^"]+">',
+        r'<link rel="alternate" hreflang="ko" href="[^"]+">',
+        r'<link rel="alternate" hreflang="en" href="[^"]+">',
+        r'<link rel="alternate" hreflang="x-default" href="[^"]+">',
+        r'<meta property="og:title" content="[^"]+">',
+        r'<meta property="og:description" content="[^"]+">',
+        r'<meta property="og:url" content="[^"]+">',
+        r'<meta property="og:type" content="website">',
+        r'<meta property="og:image" content="https://mongsil\.ipe\.rest/assets/img/[^"]+">',
+    ]
+
+    def test_every_page_has_title_description_canonical_hreflang_og(self):
+        for rel in self.ALL:
+            text = (ROOT / rel).read_text(encoding="utf-8")
+            for pattern in self.HEAD_TAGS:
+                with self.subTest(page=rel, tag=pattern):
+                    self.assertRegex(text, pattern)
+
+    def test_og_image_file_exists(self):
+        for rel in self.ALL:
+            text = (ROOT / rel).read_text(encoding="utf-8")
+            for path in re.findall(r'og:image" content="https://mongsil\.ipe\.rest(/assets/img/[^"]+)"', text):
+                with self.subTest(page=rel, image=path):
+                    self.assertTrue((ROOT / path.lstrip("/")).is_file())
+
+    def test_no_noindex_anywhere(self):
+        for rel in self.ALL:
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8").lower()
+                self.assertNotIn("noindex", text)
+                self.assertNotIn("nofollow", text)
+
+    def test_sitemap_lists_all_12_pages_with_alternates(self):
+        import xml.etree.ElementTree as ET
+        ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "x": "http://www.w3.org/1999/xhtml"}
+        root_el = ET.parse(ROOT / "sitemap.xml").getroot()
+        urls = root_el.findall("s:url", ns)
+        self.assertEqual(len(urls), 12)
+        locs = {u.find("s:loc", ns).text for u in urls}
+        expected = {build.SITE + path for _, path in build.public_pages()}
+        self.assertEqual(locs, expected)
+        self.assertEqual(len(expected), 12)
+        for u in urls:
+            hreflangs = {l.get("hreflang") for l in u.findall("x:link", ns)}
+            with self.subTest(loc=u.find("s:loc", ns).text):
+                self.assertEqual(hreflangs, {"ko", "en", "x-default"})
+
+    def test_sitemap_matches_the_page_files(self):
+        # 시트맵의 URL 12개는 실제 생성 파일 12개와 같은 쪽을 가리킨다.
+        for file, path in build.public_pages():
+            with self.subTest(file=file):
+                self.assertTrue((ROOT / file).is_file())
+                self.assertIn(f'<link rel="canonical" href="{build.SITE + path}">',
+                              (ROOT / file).read_text(encoding="utf-8"))
+
+    def test_home_jsonld_parses_and_has_no_store_facts(self):
+        import json
+        for rel in ("index.html", "en/index.html"):
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8")
+                blocks = re.findall(r'<script type="application/ld\+json">\n(.*?)\n</script>', text, re.S)
+                self.assertEqual(len(blocks), 1)
+                data = json.loads(blocks[0])
+                types = {item["@type"] for item in data["@graph"]}
+                self.assertEqual(types, {"WebSite", "VideoGame"})
+                game = next(i for i in data["@graph"] if i["@type"] == "VideoGame")
+                self.assertEqual(game["gamePlatform"], "iOS")
+                self.assertIn("name", game)
+                self.assertIn("description", game)
+                for banned in ("datePublished", "offers", "aggregateRating", "review", "downloadUrl"):
+                    self.assertNotIn(banned, game)
+                self.assertNotIn("apps.apple.com", blocks[0])
+
+    def test_robots_txt_points_to_sitemap(self):
+        text = (ROOT / "robots.txt").read_text(encoding="utf-8")
+        self.assertIn("User-agent: *", text)
+        self.assertNotRegex(text, r"(?m)^Disallow:\s*/\s*$")
+        self.assertIn(f"Sitemap: {build.SITE}/sitemap.xml", text)
+
+    def test_llms_txt_describes_game_and_links_pages(self):
+        text = (ROOT / "llms.txt").read_text(encoding="utf-8")
+        self.assertTrue(text.startswith("# "))
+        for word in ("몽실이 키우기", "Mongsil", "iOS", "광고 없음", "12개 언어"):
+            with self.subTest(word=word):
+                self.assertIn(word, text)
+        for _, path in build.public_pages():
+            with self.subTest(path=path):
+                self.assertIn(build.SITE + path, text)
+
+    def test_generated_seo_files_are_up_to_date(self):
+        self.assertEqual((ROOT / "robots.txt").read_text(encoding="utf-8"), build.robots_txt())
+        self.assertEqual((ROOT / "sitemap.xml").read_text(encoding="utf-8"), build.sitemap_xml())
+        self.assertEqual((ROOT / "llms.txt").read_text(encoding="utf-8"), build.llms_txt())
+
+
 if __name__ == "__main__":
     unittest.main()
