@@ -102,6 +102,41 @@ class SiteTest(unittest.TestCase):
                 self.assertIn(f'href="{p}/privacy/"', foot.group(1))
                 self.assertIn(f'href="{p}/terms/"', foot.group(1))
 
+    def test_legal_ko_en_have_same_number_of_sections(self):
+        for kind in ("privacy", "terms"):
+            ko = (ROOT / kind / "index.html").read_text(encoding="utf-8")
+            en = (ROOT / "en" / kind / "index.html").read_text(encoding="utf-8")
+            with self.subTest(kind=kind):
+                self.assertEqual(len(re.findall(r"<h2>", ko)), len(re.findall(r"<h2>", en)))
+
+    def test_legal_canonical_and_hreflang_pair_up(self):
+        for kind in ("privacy", "terms"):
+            ko = (ROOT / kind / "index.html").read_text(encoding="utf-8")
+            en = (ROOT / "en" / kind / "index.html").read_text(encoding="utf-8")
+            with self.subTest(kind=kind):
+                ko_canon = re.search(r'<link rel="canonical" href="([^"]+)"', ko).group(1)
+                en_canon = re.search(r'<link rel="canonical" href="([^"]+)"', en).group(1)
+                ko_hreflang = dict(re.findall(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"', ko))
+                en_hreflang = dict(re.findall(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"', en))
+                self.assertEqual(ko_canon, ko_hreflang["ko"])
+                self.assertEqual(ko_hreflang["en"], en_canon)
+                self.assertEqual(en_canon, en_hreflang["en"])
+                self.assertEqual(en_hreflang["ko"], ko_canon)
+
+    def test_privacy_has_icloud_and_iap_sections(self):
+        ko = (ROOT / "privacy" / "index.html").read_text(encoding="utf-8")
+        en = (ROOT / "en" / "privacy" / "index.html").read_text(encoding="utf-8")
+        self.assertIn("iCloud", ko)
+        self.assertIn("인앱결제", ko)
+        self.assertIn("iCloud", en)
+        self.assertIn("In-App Purchase", en)
+
+    def test_no_external_analytics_script_on_any_page(self):
+        for rel in PAGES + LEGAL_PAGES:
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8")
+                self.assertNotIn("<script src=", text)
+
 
 if __name__ == "__main__":
     unittest.main()

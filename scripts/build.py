@@ -17,7 +17,7 @@ from pathlib import Path
 import html
 
 ROOT = Path(__file__).resolve().parent.parent
-CSS_V = "20261119b"  # bump with any CSS / asset change (cache busting ?v=)
+CSS_V = "20261119c"  # bump with any CSS / asset change (cache busting ?v=)
 SITE = "https://mongsil.ipe.rest"
 
 NAV = {
@@ -146,14 +146,15 @@ LEGAL = {
             "callout": "몽실이 키우기는 이용자의 개인정보를 수집하지 않습니다. 서버·계정·광고·분석 도구가 없습니다.",
             "sections": [
                 ("1. 수집하는 정보 — 없음", [
-                    "몽실이 키우기(이하 \"앱\")는 개인 개발자 Davy Kim(ipe Studio)이 운영하는 모바일 게임입니다. 앱은 계정·로그인이 없고, 이름·이메일·연락처·위치·기기 식별자 등 어떠한 개인정보도 수집하거나 서버로 전송하지 않습니다. 몽실이의 돌봄 기록·설정·도감은 이용자의 기기 안에만 저장되며, 앱을 삭제하면 함께 삭제됩니다.",
+                    "몽실이 키우기(이하 \"앱\")는 개인 개발자 Davy Kim(ipe Studio)이 운영하는 모바일 게임입니다. 앱은 계정·로그인이 없고, 이름·이메일·연락처·위치 등 어떠한 개인정보도 수집하지 않습니다. 앱은 기기 안에서만 쓰는 무작위 ID 를 만들지만, 기기 밖(iCloud 포함)으로 보내지 않으며 ipe 는 어떤 개인정보도 받지 않습니다. 몽실이의 돌봄 기록·설정·도감은 이용자의 기기 안에만 저장되며, 앱을 삭제하면 함께 삭제됩니다.",
                     "앱에는 광고, 분석(애널리틱스), 추적 SDK가 포함되어 있지 않습니다.",
                 ]),
                 ("2. 기기 저장과 iCloud", [
-                    "진행 데이터는 기기 안에 저장됩니다. iPhone 에서 iCloud 를 켜 두면 같은 Apple 계정의 기기끼리 진행 데이터가 이용자 본인의 iCloud 를 통해 동기화됩니다. 이 동기화는 Apple 의 iCloud 로 이루어지며, ipe 서버는 없고 ipe 는 이 데이터를 받지 않습니다.",
+                    "현재 iOS 앱 기준: 진행 데이터는 기기 안에 저장되며, iPhone 에서 iCloud 를 켠 경우에 한해 같은 Apple 계정의 기기끼리 진행 데이터가 이용자 본인의 iCloud 를 통해 동기화됩니다. 이 동기화는 Apple 의 iCloud 로 이루어지며, ipe 서버는 없고 ipe 는 이 데이터를 받지 않습니다.",
+                    "다른 플랫폼을 출시하면 이 방침을 갱신합니다.",
                 ]),
                 ("3. 웹사이트", [
-                    "몽실이 키우기 소개 사이트(mongsil.ipe.rest)에는 방문 통계를 모으는 분석 도구가 없습니다. 호스팅은 GitHub Pages이며, GitHub의 서버 로그 정책이 적용될 수 있습니다.",
+                    "몽실이 키우기 소개 사이트(mongsil.ipe.rest)에는 방문 통계를 모으는 분석 도구가 없습니다. 호스팅은 GitHub Pages이며, 웹사이트에 접속하면 IP 주소 등 접속 기록이 GitHub 호스팅의 서버 로그에 남을 수 있습니다. 당사는 이 로그를 수집하거나 이용하지 않으며, GitHub의 서버 로그 정책이 적용됩니다.",
                 ]),
                 ("4. 결제", [
                     "앱 안의 유료 상품은 Apple 인앱결제(App Store)로만 판매합니다. 결제 정보(카드 번호·결제 수단 등)는 Apple이 처리하며, 몽실이 키우기와 ipe는 이를 받거나 보관하지 않습니다. 구매 확인과 복원은 Apple 스토어 기록을 기준으로 합니다.",
@@ -191,7 +192,7 @@ LEGAL = {
                     "이용자는 앱을 개인적·비상업적 용도로 기기에 설치하여 이용할 수 있습니다. 앱의 소스 코드·이미지·음원 등을 무단으로 복제·배포·역설계하거나 상업적으로 이용할 수 없습니다.",
                 ]),
                 ("3. 서비스의 성격", [
-                    "앱은 인터넷 연결 없이도 동작하며, 게임 데이터는 이용자의 기기에 저장됩니다(iCloud 를 켠 경우 본인 iCloud 를 통해 동기화됩니다). 기기 변경·앱 삭제·초기화 시 데이터가 사라질 수 있고, 당사는 이를 복구해 드리지 못할 수 있습니다.",
+                    "앱은 인터넷 연결 없이도 동작합니다. 현재 iOS 앱 기준으로 게임 데이터는 이용자의 기기 안에 저장되며, iCloud 를 켠 경우에 한해 본인 iCloud 를 통해 동기화됩니다. 기기 변경·앱 삭제·초기화 시 데이터가 사라질 수 있고, 당사는 이를 복구해 드리지 못할 수 있습니다.",
                 ]),
                 ("4. 유료 상품", [
                     "앱의 유료 상품은 Apple 인앱결제로 구매합니다. 결제·환불·구매 취소는 Apple 의 정책과 절차를 따르며, 구매한 상품은 같은 Apple 계정으로 복원할 수 있습니다.",
@@ -220,14 +221,15 @@ LEGAL = {
             "callout": "Mongsil collects no personal information. There is no server, no account, no advertising and no analytics.",
             "sections": [
                 ("1. Information we collect — none", [
-                    "Mongsil (\"the App\") is a mobile game operated by an individual developer, Davy Kim (ipe Studio). The App has no accounts or sign-in, and it does not collect or send to any server any personal information such as your name, email, contact details, location or device identifiers. Your care records, settings and collection are stored only on your device and are deleted when you delete the App.",
+                    "Mongsil (\"the App\") is a mobile game operated by an individual developer, Davy Kim (ipe Studio). The App has no accounts or sign-in, and it does not collect any personal information such as your name, email, contact details or location. The App creates a random ID that is used only on your device; it is not sent off your device (including to iCloud), and ipe receives no personal information. Your care records, settings and collection are stored only on your device and are deleted when you delete the App.",
                     "The App contains no advertising, analytics or tracking SDKs.",
                 ]),
                 ("2. Device storage and iCloud", [
-                    "Your progress is stored on your device. If you turn on iCloud on an iPhone, progress is synced between devices signed in to the same Apple account through your own iCloud. The sync runs on Apple's iCloud; there is no ipe server, and ipe does not receive this data.",
+                    "Current iOS App: your progress is stored on your device, and only if you turn on iCloud on an iPhone is progress synced between devices signed in to the same Apple account through your own iCloud. The sync runs on Apple's iCloud; there is no ipe server, and ipe does not receive this data.",
+                    "If we release the App on other platforms, we will update this policy.",
                 ]),
                 ("3. The website", [
-                    "The Mongsil website (mongsil.ipe.rest) has no analytics tool that collects visit statistics. The site is hosted on GitHub Pages, and GitHub's server-log policies may apply.",
+                    "The Mongsil website (mongsil.ipe.rest) has no analytics tool that collects visit statistics. The site is hosted on GitHub Pages; when you visit the website, your IP address and other access records may be kept in GitHub Hosting's server logs. We do not collect or use these logs, and GitHub's server-log policies apply.",
                 ]),
                 ("4. Payments", [
                     "Paid items in the App are sold only through Apple In-App Purchase (App Store). Payment information (such as card numbers and payment methods) is handled by Apple; Mongsil and ipe do not receive or keep it. Purchase checks and restores are based on Apple's store records.",
@@ -265,7 +267,7 @@ LEGAL = {
                     "You may install and use the App on your device for personal, non-commercial purposes. You may not copy, distribute, reverse engineer or commercially exploit the App's source code, images, audio or other content without permission.",
                 ]),
                 ("3. Nature of the service", [
-                    "The App works without an internet connection, and game data is stored on your device (or synced through your own iCloud if you turn iCloud on). Data may be lost if you change devices, delete the App or reset your device, and we may not be able to restore it.",
+                    "The App works without an internet connection. Current iOS App: game data is stored on your device, and only if you turn on iCloud is it synced through your own iCloud. Data may be lost if you change devices, delete the App or reset your device, and we may not be able to restore it.",
                 ]),
                 ("4. Paid items", [
                     "Paid items in the App are purchased through Apple In-App Purchase. Payment, refunds and cancellations follow Apple's policies and procedures, and purchased items can be restored with the same Apple account.",
