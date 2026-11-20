@@ -308,7 +308,7 @@ def alternates(path):
 
 def head(lang, title, desc, path, og_img="/assets/img/icon.svg", extra=""):
     canonical = SITE + path
-    ko_url, en_url = alternates(path)
+    ko_url, en_url = alternates(path)  # x-default = 이 쪽의 ko 판 URL (영어 쪽이면 ko 쪽 주소)
     return f"""<!doctype html>
 <html lang="{STR[lang]['lang']}">
 <head>
@@ -319,7 +319,7 @@ def head(lang, title, desc, path, og_img="/assets/img/icon.svg", extra=""):
 <link rel="canonical" href="{canonical}">
 <link rel="alternate" hreflang="ko" href="{ko_url}">
 <link rel="alternate" hreflang="en" href="{en_url}">
-<link rel="alternate" hreflang="x-default" href="{SITE}/">
+<link rel="alternate" hreflang="x-default" href="{ko_url}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
@@ -559,7 +559,7 @@ def sitemap_xml():
         links = (
             f'    <xhtml:link rel="alternate" hreflang="ko" href="{ko_url}"/>\n'
             f'    <xhtml:link rel="alternate" hreflang="en" href="{en_url}"/>\n'
-            f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>\n'
+            f'    <xhtml:link rel="alternate" hreflang="x-default" href="{ko_url}"/>\n'
         )
         entries.append(f"  <url>\n    <loc>{SITE + path}</loc>\n{links}  </url>\n")
     return (

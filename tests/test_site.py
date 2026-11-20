@@ -220,6 +220,34 @@ class SeoTest(unittest.TestCase):
                 self.assertIn(f'<link rel="canonical" href="{build.SITE + path}">',
                               (ROOT / file).read_text(encoding="utf-8"))
 
+    def test_x_default_is_the_ko_url_of_each_page(self):
+        # x-default 은 쪽마다 그 쪽의 ko 판 URL 이다(예: /en/privacy/ → /privacy/). 홈 하나로 고정하지 않는다.
+        expected_by_file = {}
+        for file, path in build.public_pages():
+            ko_path = path[len("/en"):] if path.startswith("/en") else path
+            expected_by_file[file] = build.SITE + ko_path
+        self.assertEqual(len(expected_by_file), 12)
+        for file, want in expected_by_file.items():
+            with self.subTest(file=file):
+                text = (ROOT / file).read_text(encoding="utf-8")
+                got = re.search(r'<link rel="alternate" hreflang="x-default" href="([^"]+)">', text).group(1)
+                self.assertEqual(got, want)
+        # 영어 하위 쪽(홈 제외)이 x-default 로 홈(/)을 가리키지 않는지 — 2쪽 이상 검사한다(영어 홈의 ko 짝은 홈 자신이다).
+        en_files = [f for f in expected_by_file if f.startswith("en/") and f != "en/index.html"]
+        self.assertGreaterEqual(len(en_files), 2)
+        for file in en_files:
+            with self.subTest(file=file):
+                self.assertNotEqual(expected_by_file[file], build.SITE + "/")
+        # 시트맵의 x-default 도 같은 규칙.
+        import xml.etree.ElementTree as ET
+        ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "x": "http://www.w3.org/1999/xhtml"}
+        for u in ET.parse(ROOT / "sitemap.xml").getroot().findall("s:url", ns):
+            loc = u.find("s:loc", ns).text
+            xd = next(l.get("href") for l in u.findall("x:link", ns) if l.get("hreflang") == "x-default")
+            ko = next(l.get("href") for l in u.findall("x:link", ns) if l.get("hreflang") == "ko")
+            with self.subTest(loc=loc):
+                self.assertEqual(xd, ko)
+
     def test_home_jsonld_parses_and_has_no_store_facts(self):
         import json
         for rel in ("index.html", "en/index.html"):

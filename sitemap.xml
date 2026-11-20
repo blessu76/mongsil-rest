@@ -10,31 +10,31 @@
     <loc>https://mongsil.ipe.rest/about/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/about/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/about/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/about/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/journal/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/journal/dev-start/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/dev-start/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/dev-start/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/dev-start/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/privacy/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/privacy/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/privacy/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/terms/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/terms/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/terms/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/terms/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/en/</loc>
@@ -46,30 +46,30 @@
     <loc>https://mongsil.ipe.rest/en/about/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/about/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/about/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/about/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/en/journal/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/en/journal/dev-start/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/dev-start/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/dev-start/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/dev-start/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/en/privacy/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/privacy/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/privacy/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/en/terms/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/terms/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/terms/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/terms/"/>
   </url>
 </urlset>
