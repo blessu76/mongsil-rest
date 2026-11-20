@@ -2,8 +2,8 @@
 """Build the mongsil.ipe.rest pages (stdlib only, Python 3.8+).
 
 Writes, from the repo root:
-  /               ko home · /about/ · /journal/ · /journal/dev-start/ · /privacy/ · /terms/
-  /en/            en home · /en/about/ · /en/journal/ · /en/journal/dev-start/ · /en/privacy/ · /en/terms/
+  /               ko home · /about/ · /journal/ · /journal/<slug>/ · /privacy/ · /terms/
+  /en/            en home · /en/about/ · /en/journal/ · /en/journal/<slug>/ · /en/privacy/ · /en/terms/
 
 Every page gets the same top menu: 홈 / 소개 / 저널 (Home / About / Journal).
 The footer on every page links to the privacy policy and terms of use (LEGAL below).
@@ -11,7 +11,7 @@ The legal text is the ipe 앱 사이트 기본 문구 (copied from iltonggi-rest
 with the app facts filled in for Mongsil: no server, no account, no ads, no analytics, local/iCloud data,
 Apple in-app purchase). The site has no analytics tag, so the analytics sections are removed.
 
-It also writes robots.txt, sitemap.xml (all 12 pages, hreflang alternates), llms.txt and the 404.html
+It also writes robots.txt, sitemap.xml (every page, hreflang alternates), llms.txt and the 404.html
 (noindex, not in the sitemap). The language switch on each page links to that page's pair (hreflang) URL.
 The home pages (ko · en) carry JSON-LD: WebSite + VideoGame. No release date, price, rating or store link
 is written, because the app is not on the store yet.
@@ -21,8 +21,11 @@ Run:  python3 scripts/build.py          (rewrites the generated pages and the SE
 from pathlib import Path
 import html
 import json
+import sys
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import journal_md  # noqa: E402
 CSS_V = "20261119c"  # bump with any CSS / asset change (cache busting ?v=)
 SITE = "https://mongsil.ipe.rest"
 
@@ -68,13 +71,6 @@ STR = {
         "journal_desc": "몽실이 키우기 개발 소식을 전합니다.",
         "journal_h1": "저널",
         "journal_sub": "몽실이 키우기를 만들며 적는 소식이에요.",
-        "post_title": "개발을 시작했어요",
-        "post_desc": "몽실이 키우기 개발을 시작했어요.",
-        "post_date": "2026년 11월 19일",
-        "post_body": [
-            "몽실이 키우기 개발을 시작했어요.",
-            "지금은 몽실이가 자라는 과정과 돌봄 방식을 다듬고 있어요. 화면에 무엇이 나올지는 차츰 보여 드릴게요.",
-        ],
         "back_journal": "← 저널 목록",
         "footer": "ipe() · 몽실이 키우기",
         "skip": "본문으로 건너뛰기",
@@ -117,13 +113,6 @@ STR = {
         "journal_desc": "Development news from Mongsil.",
         "journal_h1": "Journal",
         "journal_sub": "Notes from making Mongsil.",
-        "post_title": "Development has started",
-        "post_desc": "We have started developing Mongsil.",
-        "post_date": "November 19, 2026",
-        "post_body": [
-            "We have started developing Mongsil.",
-            "For now we are working on how Mongsil grows and how you care for it. We will show more of the screens as they take shape.",
-        ],
         "back_journal": "← Back to journal",
         "footer": "ipe() · Mongsil",
         "skip": "Skip to content",
@@ -402,6 +391,33 @@ def footer(lang):
 """
 
 
+# 저널 글: content/journal/<slug>/{ko,en}.md. date 가 있는 글만 발행된 글이다 — 큐(ops/queue_seed 등)의 글은 date 가 없다.
+POSTS = journal_md.load_posts(ROOT)
+MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August",
+             "September", "October", "November", "December"]
+
+
+def date_label(lang, iso):
+    y, m, d = (int(x) for x in iso.split("-"))
+    return f"{y}년 {m}월 {d}일" if lang == "ko" else f"{MONTHS_EN[m - 1]} {d}, {y}"
+
+
+def post_list(lang):
+    """[(slug, meta)] — 발행된 글을 최신순(날짜·시각)으로."""
+    items = [(slug, pair[lang][0]) for slug, pair in POSTS.items() if pair[lang][0].get("date")]
+    items.sort(key=lambda kv: (kv[1]["date"], kv[1].get("time", "")), reverse=True)
+    return items
+
+
+def latest_line(lang):
+    p = prefix(lang)
+    items = post_list(lang)
+    if not items:
+        return ""
+    slug, meta = items[0]
+    return f'<p><a href="{p}/journal/{slug}/">{esc(meta["title"])}</a> <span class="date">{date_label(lang, meta["date"])}</span></p>'
+
+
 def page_home(lang):
     s = STR[lang]
     p = prefix(lang)
@@ -424,7 +440,7 @@ def page_home(lang):
 </section>
 <section class="block">
   <h2>{s['journal_h2']}</h2>
-  <p><a href="{p}/journal/dev-start/">{s['post_title']}</a> <span class="date">{s['post_date']}</span></p>
+  {latest_line(lang)}
   <p><a class="btn ghost" href="{p}/journal/">{s['journal_more']}</a></p>
 </section>
 </main>
@@ -456,33 +472,35 @@ def page_about(lang):
 def page_journal(lang):
     s = STR[lang]
     p = prefix(lang)
+    items = "".join(
+        f'<li><a href="{p}/journal/{slug}/">{esc(meta["title"])}</a> <span class="date">{date_label(lang, meta["date"])}</span></li>'
+        for slug, meta in post_list(lang)
+    )
     main = f"""<main id="main">
 <article class="doc">
   <h1>{s['journal_h1']}</h1>
   <p class="lead">{s['journal_sub']}</p>
-  <ul class="posts">
-    <li><a href="{p}/journal/dev-start/">{s['post_title']}</a> <span class="date">{s['post_date']}</span></li>
-  </ul>
+  <ul class="posts">{items}</ul>
 </article>
 </main>
 """
     return head(lang, s["journal_title"], s["journal_desc"], f"{p}/journal/") + header(lang, "journal", f"{p}/journal/") + main + footer(lang)
 
 
-def page_post(lang):
+def page_post(lang, slug):
     s = STR[lang]
     p = prefix(lang)
-    body = "".join(f"<p>{esc(x)}</p>" for x in s["post_body"])
+    meta, body = POSTS[slug][lang]
     main = f"""<main id="main">
 <article class="doc">
-  <p class="date">{s['post_date']}</p>
-  <h1>{s['post_title']}</h1>
-  {body}
+  <p class="date">{date_label(lang, meta['date'])}</p>
+  <h1>{esc(meta['title'])}</h1>
+  {journal_md.render(body)}
   <p><a href="{p}/journal/">{s['back_journal']}</a></p>
 </article>
 </main>
 """
-    return head(lang, s["post_title"] + " — " + s["site_title"], s["post_desc"], f"{p}/journal/dev-start/") + header(lang, "journal", f"{p}/journal/dev-start/") + main + footer(lang)
+    return head(lang, meta["title"] + " — " + s["site_title"], meta["desc"], f"{p}/journal/{slug}/") + header(lang, "journal", f"{p}/journal/{slug}/") + main + footer(lang)
 
 
 def legal_body(lang, text):
@@ -571,7 +589,7 @@ def write(rel, text):
 
 
 def public_pages():
-    """(output file, URL path) for the 12 generated pages, ko first then en."""
+    """(output file, URL path) for every generated page: the fixed pages plus one page per journal post, ko first then en."""
     out = []
     for lang in ("ko", "en"):
         p = prefix(lang)
@@ -580,7 +598,9 @@ def public_pages():
             (f"{base}index.html", (p + "/") if p else "/"),
             (f"{base}about/index.html", f"{p}/about/"),
             (f"{base}journal/index.html", f"{p}/journal/"),
-            (f"{base}journal/dev-start/index.html", f"{p}/journal/dev-start/"),
+        ] + [
+            (f"{base}journal/{slug}/index.html", f"{p}/journal/{slug}/") for slug, _ in post_list(lang)
+        ] + [
             (f"{base}privacy/index.html", f"{p}/privacy/"),
             (f"{base}terms/index.html", f"{p}/terms/"),
         ]
@@ -630,7 +650,9 @@ def llms_txt():
         f"- [홈]({SITE}/): 게임 소개",
         f"- [소개]({SITE}/about/): 무엇을 하는지, 광고 없이 만드는 이유",
         f"- [저널]({SITE}/journal/): 개발 소식",
-        f"- [저널: 개발을 시작했어요]({SITE}/journal/dev-start/)",
+    ] + [
+        f"- [저널: {meta['title']}]({SITE}/journal/{slug}/)" for slug, meta in post_list("ko")
+    ] + [
         f"- [개인정보처리방침]({SITE}/privacy/)",
         f"- [이용약관]({SITE}/terms/)",
         "",
@@ -638,7 +660,9 @@ def llms_txt():
         f"- [Home]({SITE}/en/): game overview",
         f"- [About]({SITE}/en/about/): what you do and why it has no ads",
         f"- [Journal]({SITE}/en/journal/): development news",
-        f"- [Journal: Development has started]({SITE}/en/journal/dev-start/)",
+    ] + [
+        f"- [Journal: {meta['title']}]({SITE}/en/journal/{slug}/)" for slug, meta in post_list("en")
+    ] + [
         f"- [Privacy Policy]({SITE}/en/privacy/)",
         f"- [Terms of Use]({SITE}/en/terms/)",
         "",
@@ -652,7 +676,8 @@ def main():
         write(f"{base}index.html", page_home(lang))
         write(f"{base}about/index.html", page_about(lang))
         write(f"{base}journal/index.html", page_journal(lang))
-        write(f"{base}journal/dev-start/index.html", page_post(lang))
+        for slug, _ in post_list(lang):
+            write(f"{base}journal/{slug}/index.html", page_post(lang, slug))
         write(f"{base}privacy/index.html", page_legal(lang, "privacy"))
         write(f"{base}terms/index.html", page_legal(lang, "terms"))
     write("robots.txt", robots_txt())

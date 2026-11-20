@@ -1,0 +1,146 @@
+#!/usr/bin/env python3
+"""큐(~/.ipe/queue/mongsil/NN-slug/{en,ko}.md)의 가장 앞 글 하나를 발행한다.
+
+content/journal/<slug>/{ko,en}.md 로 복사하며 date·time 을 찍고, scripts/build.py → scripts/check.sh → git commit.
+push 는 기본 꺼짐(MONGSIL_PUSH=1 일 때만), commit 뒤 별도 단계로 한다. push 가 실패해도(네트워크 등) 발행은
+성공으로 보고 큐 폴더를 .published/ 로 옮긴다 — 커밋은 클론에 남아 다음 성공 push 때 같이 올라간다.
+
+--dry-run: 아무것도 쓰지 않는다(파일·git·큐 모두). 첫 글·예정 시각·만들 파일만 보여 준다.
+종료 코드: 0 발행(또는 dry-run 성공; push 실패 포함) · 3 큐 비었음(STOCK_ALERT) · 4 작업 트리 불안정 · 5 build/check 실패 · 6 글 형식 오류.
+"""
+import argparse
+import datetime
+import os
+import re
+import shutil
+import subprocess
+import sys
+from zoneinfo import ZoneInfo
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
+import journal_md  # noqa: E402
+
+REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+LANGS = ("ko", "en")  # 원문 2개 언어 — 둘 다 있어야 발행한다
+PUSH_TIMEOUT = 60  # 초. 네트워크가 멎어도 틱이 멈추지 않게 한다.
+
+
+def next_folder(queue):
+    if not os.path.isdir(queue):
+        return None
+    names = sorted(n for n in os.listdir(queue)
+                   if re.match(r"\d+-", n) and os.path.isdir(os.path.join(queue, n)))
+    return names[0] if names else None
+
+
+def stamp(text, date, hhmm):
+    """front matter 에서 date·time 을 지우고, 여는 --- 바로 다음에 새로 넣는다."""
+    head, sep, rest = text.partition("\n---\n")
+    lines = [l for l in head.split("\n") if not l.startswith(("date:", "time:"))]
+    return "\n".join([lines[0], f"date: {date}", f'time: "{hhmm}"'] + lines[1:]) + sep + rest
+
+
+def editions(folder):
+    """발행할 [(lang, text)] — ko·en 둘 다 필수. 형식이 틀리면 ValueError."""
+    out = []
+    for lang in LANGS:
+        with open(os.path.join(folder, lang + ".md"), encoding="utf-8") as f:
+            text = f.read()
+        meta, _ = journal_md.parse(text)
+        for key in ("title", "desc"):
+            if not meta.get(key):
+                raise ValueError(f"{folder}/{lang}.md 에 {key} 가 없다")
+        out.append((lang, text))
+    return out
+
+
+def sh(*cmd, env=None):
+    return subprocess.run(cmd, cwd=REPO, check=True, text=True, capture_output=True, env=env).stdout.strip()
+
+
+def push():
+    """origin main 으로 push. 실패·시간 초과는 로그만 남기고 False — 호출한 쪽은 발행을 실패로 보지 않는다."""
+    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+    try:
+        subprocess.run(["git", "push", "origin", "main"], cwd=REPO, check=True, text=True,
+                       capture_output=True, timeout=PUSH_TIMEOUT, env=env)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"push 실패(발행은 유지, 커밋은 클론에 남음): {(e.stderr or e.stdout or '').strip()}", file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        print(f"push 시간 초과({PUSH_TIMEOUT}초, 발행은 유지, 커밋은 클론에 남음)", file=sys.stderr)
+    except OSError as e:
+        print(f"push 를 실행하지 못함(발행은 유지): {e}", file=sys.stderr)
+    return False
+
+
+def dry_run(name, folder, date, hhmm):
+    slug = name.split("-", 1)[1]
+    eds = editions(folder)
+    when = f"{date} {hhmm} KST" if hhmm else f"{date} 12:00~17:59 KST 사이 (게이트가 그날 시각을 정한다)"
+    print(f"[dry-run] 첫 글: {name} (slug: {slug})")
+    for lang, text in eds:
+        meta, _ = journal_md.parse(text)
+        print(f"[dry-run]   {lang}: {meta['title']}")
+    print(f"[dry-run] 예정 발행: {when}")
+    print(f"[dry-run] 만들 파일(실행 안 함): content/journal/{slug}/ko.md · en.md, journal/{slug}/ · en/journal/{slug}/, "
+          f"목록·sitemap·llms.txt 갱신")
+    print("[dry-run] 아무것도 쓰지 않았다 — git·큐 폴더 그대로")
+    return 0
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--date", help="발행 날짜 YYYY-MM-DD (KST) — 실제 발행에 필수, dry-run 은 생략하면 오늘")
+    ap.add_argument("--time", help="발행 시각 HH:MM (KST) — 실제 발행에 필수, dry-run 은 생략 가능")
+    ap.add_argument("--queue", required=True)
+    ap.add_argument("--dry-run", action="store_true",
+                    help="쓰지 않고 첫 글·예정 시각·만들 파일만 보여 준다(시험용)")
+    a = ap.parse_args()
+    name = next_folder(a.queue)
+    if not name:
+        print("STOCK_ALERT: mongsil 저널 큐가 비었다", file=sys.stderr)
+        return 3
+    folder = os.path.join(a.queue, name)
+    try:
+        editions(folder)
+    except (ValueError, OSError) as e:
+        print(f"글 형식 오류: {e}", file=sys.stderr)
+        return 6
+    if a.dry_run:
+        today = datetime.datetime.now(ZoneInfo("Asia/Seoul")).strftime("%Y-%m-%d")
+        return dry_run(name, folder, a.date or today, a.time)
+    if not (a.date and a.time):
+        ap.error("실제 발행에는 --date 와 --time 이 필요하다")
+
+    if sh("git", "rev-parse", "--abbrev-ref", "HEAD") != "main" or sh("git", "status", "--porcelain"):
+        print("main 브랜치가 아니거나 작업 트리가 깨끗하지 않아 발행하지 않는다", file=sys.stderr)
+        return 4
+    slug = name.split("-", 1)[1]
+    dst = os.path.join(REPO, "content", "journal", slug)
+    os.makedirs(dst, exist_ok=True)
+    for lang, text in editions(folder):
+        with open(os.path.join(dst, lang + ".md"), "w", encoding="utf-8") as f:
+            f.write(stamp(text, a.date, a.time))
+    env = {**os.environ, "MONGSIL_NESTED": "1"}  # check.sh 의 시험이 발행 시험을 또 돌리지 않게 한다
+    try:
+        sh("python3", "scripts/build.py")
+        sh("bash", "scripts/check.sh", env=env)
+        sh("git", "add", "-A")
+        sh("git", "commit", "-m", f"저널: {slug} ({a.date} {a.time} KST)")
+    except subprocess.CalledProcessError as e:
+        print((e.stdout or "") + (e.stderr or ""), file=sys.stderr)
+        sh("git", "reset", "--hard", "HEAD")
+        sh("git", "clean", "-fd", "--", "content/journal", "journal", "en/journal")
+        return 5
+    if os.environ.get("MONGSIL_PUSH") == "1":
+        push()  # 실패해도 발행은 성공 — 아래에서 큐를 옮긴다.
+    done = os.path.join(a.queue, ".published")
+    os.makedirs(done, exist_ok=True)
+    shutil.move(folder, os.path.join(done, name))
+    print(f"published {slug}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,8 +1,14 @@
 """Site checks: the top menu (홈·소개·저널) is on every page, the generated pages are up to date,
 the CSS is cache-busted, the copy avoids forbidden terms, and the privacy / terms pages exist in ko·en
 and are linked from the footer of every page. Run: python3 -m unittest discover -s tests"""
+import importlib.util
+import os
+import random
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -51,7 +57,7 @@ class SiteTest(unittest.TestCase):
                 f"{base}index.html": build.page_home(lang),
                 f"{base}about/index.html": build.page_about(lang),
                 f"{base}journal/index.html": build.page_journal(lang),
-                f"{base}journal/dev-start/index.html": build.page_post(lang),
+                f"{base}journal/dev-start/index.html": build.page_post(lang, "dev-start"),
                 f"{base}privacy/index.html": build.page_legal(lang, "privacy"),
                 f"{base}terms/index.html": build.page_legal(lang, "terms"),
             }
@@ -197,23 +203,24 @@ class SeoTest(unittest.TestCase):
                 self.assertNotIn("noindex", text)
                 self.assertNotIn("nofollow", text)
 
-    def test_sitemap_lists_all_12_pages_with_alternates(self):
+    def test_sitemap_lists_all_pages_with_alternates(self):
         import xml.etree.ElementTree as ET
         ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "x": "http://www.w3.org/1999/xhtml"}
         root_el = ET.parse(ROOT / "sitemap.xml").getroot()
         urls = root_el.findall("s:url", ns)
-        self.assertEqual(len(urls), 12)
+        self.assertEqual(len(urls), len(build.public_pages()))
+        self.assertGreaterEqual(len(urls), 12)  # 고정 쪽 12개 + 저널 글 쪽
         locs = {u.find("s:loc", ns).text for u in urls}
         expected = {build.SITE + path for _, path in build.public_pages()}
         self.assertEqual(locs, expected)
-        self.assertEqual(len(expected), 12)
+        self.assertEqual(len(expected), len(urls))
         for u in urls:
             hreflangs = {l.get("hreflang") for l in u.findall("x:link", ns)}
             with self.subTest(loc=u.find("s:loc", ns).text):
                 self.assertEqual(hreflangs, {"ko", "en", "x-default"})
 
     def test_sitemap_matches_the_page_files(self):
-        # 시트맵의 URL 12개는 실제 생성 파일 12개와 같은 쪽을 가리킨다.
+        # 시트맵의 URL 은 실제 생성 파일과 같은 쪽을 가리킨다(저널 글이 늘면 함께 늘어난다).
         for file, path in build.public_pages():
             with self.subTest(file=file):
                 self.assertTrue((ROOT / file).is_file())
@@ -226,7 +233,7 @@ class SeoTest(unittest.TestCase):
         for file, path in build.public_pages():
             ko_path = path[len("/en"):] if path.startswith("/en") else path
             expected_by_file[file] = build.SITE + ko_path
-        self.assertEqual(len(expected_by_file), 12)
+        self.assertEqual(len(expected_by_file), len(build.public_pages()))
         for file, want in expected_by_file.items():
             with self.subTest(file=file):
                 text = (ROOT / file).read_text(encoding="utf-8")
@@ -346,6 +353,106 @@ class PairTest(unittest.TestCase):
             with self.subTest(page=rel):
                 text = (ROOT / rel).read_text(encoding="utf-8")
                 self.assertIn(f'src="/assets/img/hero.svg?v={build.CSS_V}"', text)
+
+
+
+@unittest.skipIf(os.environ.get("MONGSIL_NESTED"), "발행 스크립트가 check.sh 를 돌리는 중 — 발행 시험은 건너뜀(재귀 방지)")
+class PublisherTest(unittest.TestCase):
+    """ops/publish_next.py 와 ops/journal_gate.py 를 임시 복사본 레포에서 시험한다. 실제 레포·큐는 건드리지 않는다."""
+
+    SLUG = "how-to-care-for-mongsil"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.mkdtemp(prefix="mongsil-pub-")
+        repo = Path(cls.tmp) / "repo"
+        shutil.copytree(ROOT, repo, ignore=shutil.ignore_patterns(".git", "__pycache__", ".published"))
+        env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+        for cmd in (["git", "init", "-q", "-b", "main"], ["git", "config", "user.email", "test@example.invalid"],
+                    ["git", "config", "user.name", "test"], ["git", "add", "-A"],
+                    ["git", "commit", "-q", "-m", "base"]):
+            subprocess.run(cmd, cwd=repo, check=True, env=env, capture_output=True)
+        cls.repo = repo
+        cls.seed = ROOT / "ops" / "queue_seed"
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def fresh_queue(self, name):
+        q = Path(self.tmp) / name
+        shutil.rmtree(q, ignore_errors=True)
+        shutil.copytree(self.seed, q)
+        return q
+
+    def run_publish(self, queue, *extra):
+        env = {k: v for k, v in os.environ.items() if k != "MONGSIL_PUSH"}  # push 는 시험에서 절대 켜지 않는다
+        return subprocess.run(
+            [sys.executable, "ops/publish_next.py", "--date", "2026-11-20", "--time", "14:30",
+             "--queue", str(queue), *extra],
+            cwd=self.repo, text=True, capture_output=True, env=env)
+
+    def commits(self):
+        return int(subprocess.run(["git", "rev-list", "--count", "HEAD"], cwd=self.repo, text=True,
+                                  capture_output=True, check=True).stdout)
+
+    def test_publish_creates_post_list_and_sitemap_entry(self):
+        q = self.fresh_queue("q-publish")
+        before = self.commits()
+        r = self.run_publish(q)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertEqual(self.commits(), before + 1)
+        for rel in (f"content/journal/{self.SLUG}/ko.md", f"content/journal/{self.SLUG}/en.md",
+                    f"journal/{self.SLUG}/index.html", f"en/journal/{self.SLUG}/index.html"):
+            self.assertTrue((self.repo / rel).is_file(), rel)
+        ko_src = (self.repo / f"content/journal/{self.SLUG}/ko.md").read_text(encoding="utf-8")
+        self.assertIn('date: 2026-11-20', ko_src)
+        self.assertIn('time: "14:30"', ko_src)
+        self.assertIn(f"journal/{self.SLUG}/", (self.repo / "journal/index.html").read_text(encoding="utf-8"))
+        self.assertIn(f"en/journal/{self.SLUG}/", (self.repo / "en/journal/index.html").read_text(encoding="utf-8"))
+        self.assertIn(f"journal/{self.SLUG}/", (self.repo / "sitemap.xml").read_text(encoding="utf-8"))
+        self.assertFalse((q / "01-how-to-care-for-mongsil").exists())
+        self.assertTrue((q / ".published" / "01-how-to-care-for-mongsil" / "ko.md").is_file())
+
+    def test_empty_queue_is_noop_with_stock_alert(self):
+        q = Path(self.tmp) / "q-empty"
+        q.mkdir(parents=True, exist_ok=True)
+        before = self.commits()
+        r = self.run_publish(q)
+        self.assertEqual(r.returncode, 3, r.stdout + r.stderr)
+        self.assertIn("STOCK_ALERT", r.stderr)
+        self.assertEqual(self.commits(), before)
+
+    def test_dry_run_writes_nothing(self):
+        q = self.fresh_queue("q-dry")
+        before = self.commits()
+        status_before = subprocess.run(["git", "status", "--porcelain"], cwd=self.repo, text=True,
+                                       capture_output=True).stdout
+        r = self.run_publish(q, "--dry-run")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("[dry-run] 예정 발행: 2026-11-20 14:30 KST", r.stdout)
+        self.assertEqual(self.commits(), before)
+        self.assertEqual(subprocess.run(["git", "status", "--porcelain"], cwd=self.repo, text=True,
+                                        capture_output=True).stdout, status_before)
+        self.assertTrue((q / "01-how-to-care-for-mongsil" / "ko.md").is_file())
+        self.assertFalse((q / ".published").exists())
+
+    def test_gate_picks_times_within_12_to_18(self):
+        spec = importlib.util.spec_from_file_location("journal_gate", ROOT / "ops" / "journal_gate.py")
+        gate = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(gate)
+        rng = random.Random(7)
+        prev = None
+        for _ in range(500):
+            t = gate.pick_time(prev, rng)
+            self.assertTrue(gate.valid_time(t), t)
+            self.assertTrue("12:00" <= t <= "17:59", t)
+            if prev:
+                self.assertNotEqual(t[:2], prev[:2])  # 어제와 다른 시(hour)
+            prev = t
+        self.assertFalse(gate.valid_time("99:99"))
+        self.assertFalse(gate.valid_time("18:00"))
+
 
 
 if __name__ == "__main__":
