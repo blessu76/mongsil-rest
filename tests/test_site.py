@@ -292,5 +292,61 @@ class SeoTest(unittest.TestCase):
         self.assertEqual((ROOT / "llms.txt").read_text(encoding="utf-8"), build.llms_txt())
 
 
+class PairTest(unittest.TestCase):
+    """언어 전환 링크는 쪽별 짝 URL 로 간다(privacy → en/privacy 등), 404 페이지·이미지 캐시버스팅."""
+
+    def _hreflang_pair(self, text):
+        return dict(re.findall(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"', text))
+
+    def test_language_switch_points_to_the_pair_page(self):
+        for rel in PAGES + LEGAL_PAGES:
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8")
+                m = re.search(r'<a class="lang" href="([^"]+)" hreflang="([^"]+)">', text)
+                self.assertIsNotNone(m, "language switch missing")
+                href, target = m.group(1), m.group(2)
+                want_lang = "en" if lang_of(rel) == "ko" else "ko"
+                self.assertEqual(target, want_lang)
+                pair = self._hreflang_pair(text)[want_lang]
+                self.assertEqual(build.SITE + href, pair)
+
+    def test_switch_is_not_fixed_to_the_home_page(self):
+        text = (ROOT / "privacy" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('<a class="lang" href="/en/privacy/"', text)
+        text = (ROOT / "en" / "about" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('<a class="lang" href="/about/"', text)
+
+    def test_404_page_exists_is_noindex_and_not_in_sitemap(self):
+        path = ROOT / "404.html"
+        self.assertTrue(path.is_file(), "404.html missing")
+        text = path.read_text(encoding="utf-8")
+        self.assertIn('<meta name="robots" content="noindex">', text)
+        self.assertNotIn("<link rel=\"canonical\"", text)
+        self.assertNotIn("hreflang", text)
+        self.assertIn('href="/"', text)
+        self.assertIn('href="/en/"', text)
+        self.assertIn('lang="ko"', text)
+        self.assertIn('lang="en"', text)
+        self.assertNotIn("404.html", (ROOT / "sitemap.xml").read_text(encoding="utf-8"))
+        self.assertEqual(text, build.page_404())
+
+    def test_404_page_css_and_icon_are_cache_busted(self):
+        text = (ROOT / "404.html").read_text(encoding="utf-8")
+        self.assertIn(f"/assets/mongsil.css?v={build.CSS_V}", text)
+        self.assertIn(f"/assets/img/icon.svg?v={build.CSS_V}", text)
+
+    def test_icon_and_hero_are_cache_busted_but_og_image_is_not(self):
+        for rel in PAGES + LEGAL_PAGES:
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8")
+                self.assertIn(f'href="/assets/img/icon.svg?v={build.CSS_V}"', text)
+                self.assertIn(f'src="/assets/img/icon.svg?v={build.CSS_V}"', text)
+                self.assertIn('content="https://mongsil.ipe.rest/assets/img/icon.svg">', text)
+        for rel in ("index.html", "en/index.html"):
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8")
+                self.assertIn(f'src="/assets/img/hero.svg?v={build.CSS_V}"', text)
+
+
 if __name__ == "__main__":
     unittest.main()

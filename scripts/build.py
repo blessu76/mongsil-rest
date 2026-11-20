@@ -11,7 +11,8 @@ The legal text is the ipe 앱 사이트 기본 문구 (copied from iltonggi-rest
 with the app facts filled in for Mongsil: no server, no account, no ads, no analytics, local/iCloud data,
 Apple in-app purchase). The site has no analytics tag, so the analytics sections are removed.
 
-It also writes robots.txt, sitemap.xml (all 12 pages, hreflang alternates) and llms.txt.
+It also writes robots.txt, sitemap.xml (all 12 pages, hreflang alternates), llms.txt and the 404.html
+(noindex, not in the sitemap). The language switch on each page links to that page's pair (hreflang) URL.
 The home pages (ko · en) carry JSON-LD: WebSite + VideoGame. No release date, price, rating or store link
 is written, because the app is not on the store yet.
 
@@ -26,8 +27,8 @@ CSS_V = "20261119c"  # bump with any CSS / asset change (cache busting ?v=)
 SITE = "https://mongsil.ipe.rest"
 
 NAV = {
-    "ko": {"home": "홈", "about": "소개", "journal": "저널", "switch": "English", "switch_href": "/en/"},
-    "en": {"home": "Home", "about": "About", "journal": "Journal", "switch": "한국어", "switch_href": "/"},
+    "ko": {"home": "홈", "about": "소개", "journal": "저널", "switch": "English"},
+    "en": {"home": "Home", "about": "About", "journal": "Journal", "switch": "한국어"},
 }
 
 STR = {
@@ -325,7 +326,7 @@ def head(lang, title, desc, path, og_img="/assets/img/icon.svg", extra=""):
 <meta property="og:type" content="website">
 <meta property="og:url" content="{canonical}">
 <meta property="og:image" content="{SITE}{og_img}">
-<link rel="icon" href="/assets/img/icon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/icon.svg?v={CSS_V}" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/mongsil.css?v={CSS_V}">
 {extra}</head>
 """
@@ -362,7 +363,14 @@ def jsonld_home(lang):
     return f'<script type="application/ld+json">\n{data}\n</script>\n'
 
 
-def header(lang, current):
+def switch_href(lang, path):
+    """언어 전환 링크: 이 쪽의 짝 URL(상대 경로). ko 쪽이면 en 짝, en 쪽이면 ko 짝 — 쪽마다 같은 쪽으로 간다."""
+    ko_url, en_url = alternates(path)
+    pair = en_url if lang == "ko" else ko_url
+    return pair[len(SITE):]
+
+
+def header(lang, current, path):
     n = NAV[lang]
     p = prefix(lang)
     items = [
@@ -377,9 +385,9 @@ def header(lang, current):
     return f"""<body>
 <a class="skip" href="#main">{STR[lang]['skip']}</a>
 <header class="top">
-  <a class="brand" href="{p + '/' if p else '/'}"><img src="/assets/img/icon.svg" alt="" width="32" height="32"><span>{STR[lang]['site_title']}</span></a>
+  <a class="brand" href="{p + '/' if p else '/'}"><img src="/assets/img/icon.svg?v={CSS_V}" alt="" width="32" height="32"><span>{STR[lang]['site_title']}</span></a>
   <nav aria-label="{STR[lang]['menu_label']}"><ul class="menu">{links}</ul></nav>
-  <a class="lang" href="{n['switch_href']}" hreflang="{'en' if lang == 'ko' else 'ko'}">{n['switch']}</a>
+  <a class="lang" href="{switch_href(lang, path)}" hreflang="{'en' if lang == 'ko' else 'ko'}">{n['switch']}</a>
 </header>
 """
 
@@ -408,7 +416,7 @@ def page_home(lang):
     <p class="lead">{s['hero_p']}</p>
     <p><a class="btn" href="{p}/about/">{s['about_link']}</a></p>
   </div>
-  <img class="hero-img" src="/assets/img/hero.svg" alt="" width="200" height="200">
+  <img class="hero-img" src="/assets/img/hero.svg?v={CSS_V}" alt="" width="200" height="200">
 </section>
 <section class="block">
   <h2>{s['points_h2']}</h2>
@@ -421,7 +429,8 @@ def page_home(lang):
 </section>
 </main>
 """
-    return head(lang, s["home_title"], s["home_desc"], (p + "/") if p else "/", extra=jsonld_home(lang)) + header(lang, "home") + main + footer(lang)
+    path = (p + "/") if p else "/"
+    return head(lang, s["home_title"], s["home_desc"], path, extra=jsonld_home(lang)) + header(lang, "home", path) + main + footer(lang)
 
 
 def page_about(lang):
@@ -441,7 +450,7 @@ def page_about(lang):
 </article>
 </main>
 """
-    return head(lang, s["about_title"], s["about_desc"], f"{p}/about/") + header(lang, "about") + main + footer(lang)
+    return head(lang, s["about_title"], s["about_desc"], f"{p}/about/") + header(lang, "about", f"{p}/about/") + main + footer(lang)
 
 
 def page_journal(lang):
@@ -457,7 +466,7 @@ def page_journal(lang):
 </article>
 </main>
 """
-    return head(lang, s["journal_title"], s["journal_desc"], f"{p}/journal/") + header(lang, "journal") + main + footer(lang)
+    return head(lang, s["journal_title"], s["journal_desc"], f"{p}/journal/") + header(lang, "journal", f"{p}/journal/") + main + footer(lang)
 
 
 def page_post(lang):
@@ -473,7 +482,7 @@ def page_post(lang):
 </article>
 </main>
 """
-    return head(lang, s["post_title"] + " — " + s["site_title"], s["post_desc"], f"{p}/journal/dev-start/") + header(lang, "journal") + main + footer(lang)
+    return head(lang, s["post_title"] + " — " + s["site_title"], s["post_desc"], f"{p}/journal/dev-start/") + header(lang, "journal", f"{p}/journal/dev-start/") + main + footer(lang)
 
 
 def legal_body(lang, text):
@@ -522,7 +531,37 @@ def page_legal(lang, kind):
 </main>
 """
     path = f"{p}/{kind}/"
-    return head(lang, f"{d['title']} — {s['site_title']}", d["desc"], path) + header(lang, None) + main + footer(lang)
+    return head(lang, f"{d['title']} — {s['site_title']}", d["desc"], path) + header(lang, None, path) + main + footer(lang)
+
+
+def page_404():
+    """사이트 루트 404.html (GitHub Pages 가 쓴다). noindex, canonical·hreflang 없음, sitemap 에 넣지 않는다.
+    한국어·영어 짧은 안내와 홈 링크 두 개. 헤더 모양은 다른 쪽과 같다(브랜드 링크만)."""
+    return f"""<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>페이지를 찾을 수 없어요 — 몽실이 키우기</title>
+<meta name="description" content="몽실이 키우기 페이지를 찾을 수 없어요. 홈으로 돌아가 주세요. · Page not found. Go back to the home page.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/img/icon.svg?v={CSS_V}" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/mongsil.css?v={CSS_V}">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/"><img src="/assets/img/icon.svg?v={CSS_V}" alt="" width="32" height="32"><span>{STR['ko']['site_title']}</span></a>
+</header>
+<main id="main">
+<article class="doc">
+  <h1>페이지를 찾을 수 없어요 · Page not found</h1>
+  <p lang="ko">주소가 바뀌었거나 없는 페이지예요. <a class="btn" href="/">홈으로 가기</a></p>
+  <p lang="en">This page doesn't exist or has moved. <a class="btn" href="/en/">Go to home</a></p>
+</article>
+</main>
+</body>
+</html>
+"""
 
 
 def write(rel, text):
@@ -619,6 +658,7 @@ def main():
     write("robots.txt", robots_txt())
     write("sitemap.xml", sitemap_xml())
     write("llms.txt", llms_txt())
+    write("404.html", page_404())
 
 
 if __name__ == "__main__":
