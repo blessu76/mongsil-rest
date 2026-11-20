@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """큐(~/.ipe/queue/mongsil/NN-slug/{en,ko}.md)의 가장 앞 글 하나를 발행한다.
 
-content/journal/<slug>/{ko,en}.md 로 복사하며 date·time 을 찍고, scripts/build.py → scripts/check.sh → git commit.
-push 는 기본 꺼짐(MONGSIL_PUSH=1 일 때만), commit 뒤 별도 단계로 한다. push 가 실패해도(네트워크 등) 발행은
-성공으로 보고 큐 폴더를 .published/ 로 옮긴다 — 커밋은 클론에 남아 다음 성공 push 때 같이 올라간다.
+순서: 작업 트리 확인 → git pull --ff-only origin main (실패하면 쓰지도 커밋하지도 않는다) → content/journal/<slug>/{ko,en}.md 로
+복사하며 date·time(슬롯 시각) 을 찍고 → scripts/build.py → scripts/check.sh → git commit.
+push 는 기본 꺼짐(MONGSIL_PUSH=1 일 때만), commit 뒤 별도 단계로 한다. push 가 거절되거나 실패해도(non-fast-forward·네트워크 등)
+발행은 성공으로 보고 큐 폴더를 .published/ 로 옮긴다 — 커밋은 클론에 남고, 로그에 PUSH 거절이 남는다.
 
 --dry-run: 아무것도 쓰지 않는다(파일·git·큐 모두). 첫 글·예정 시각·만들 파일만 보여 준다.
-종료 코드: 0 발행(또는 dry-run 성공; push 실패 포함) · 3 큐 비었음(STOCK_ALERT) · 4 작업 트리 불안정 · 5 build/check 실패 · 6 글 형식 오류.
+종료 코드: 0 발행(또는 dry-run 성공; push 거절·실패 포함) · 3 큐 비었음(STOCK_ALERT) · 4 작업 트리 불안정 ·
+5 build/check 실패 · 6 글 형식 오류 · 7 pull --ff-only 실패(커밋 없음, 큐 그대로).
 """
 import argparse
 import datetime
@@ -58,26 +60,45 @@ def sh(*cmd, env=None):
     return subprocess.run(cmd, cwd=REPO, check=True, text=True, capture_output=True, env=env).stdout.strip()
 
 
+def pull():
+    """발행 전에 origin main 을 fast-forward 로만 맞춘다. 되지 않으면(갈라짐·네트워크·시간 초과) False — 호출한 쪽은 발행하지 않는다."""
+    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+    try:
+        subprocess.run(["git", "pull", "--ff-only", "origin", "main"], cwd=REPO, check=True, text=True,
+                       capture_output=True, timeout=PUSH_TIMEOUT, env=env)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"PULL 실패(git pull --ff-only origin main 불가 — 발행·커밋하지 않음, 큐 그대로): "
+              f"{(e.stderr or e.stdout or '').strip()}", file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        print(f"PULL 시간 초과({PUSH_TIMEOUT}초 — 발행·커밋하지 않음, 큐 그대로)", file=sys.stderr)
+    except OSError as e:
+        print(f"PULL 을 실행하지 못함(발행·커밋하지 않음, 큐 그대로): {e}", file=sys.stderr)
+    return False
+
+
 def push():
-    """origin main 으로 push. 실패·시간 초과는 로그만 남기고 False — 호출한 쪽은 발행을 실패로 보지 않는다."""
+    """origin main 으로 push. 거절·실패·시간 초과는 로그(stderr)에 분명히 남기고 False — 호출한 쪽은 발행을 실패로 보지 않는다."""
     env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
     try:
         subprocess.run(["git", "push", "origin", "main"], cwd=REPO, check=True, text=True,
                        capture_output=True, timeout=PUSH_TIMEOUT, env=env)
+        print("PUSH 완료: origin main")
         return True
     except subprocess.CalledProcessError as e:
-        print(f"push 실패(발행은 유지, 커밋은 클론에 남음): {(e.stderr or e.stdout or '').strip()}", file=sys.stderr)
+        print(f"PUSH 거절·실패(발행은 유지, 커밋은 클론에 남음 — origin 이 앞서 있으면 non-fast-forward 로 거절됨): "
+              f"{(e.stderr or e.stdout or '').strip()}", file=sys.stderr)
     except subprocess.TimeoutExpired:
-        print(f"push 시간 초과({PUSH_TIMEOUT}초, 발행은 유지, 커밋은 클론에 남음)", file=sys.stderr)
+        print(f"PUSH 시간 초과({PUSH_TIMEOUT}초, 발행은 유지, 커밋은 클론에 남음)", file=sys.stderr)
     except OSError as e:
-        print(f"push 를 실행하지 못함(발행은 유지): {e}", file=sys.stderr)
+        print(f"PUSH 를 실행하지 못함(발행은 유지, 커밋은 클론에 남음): {e}", file=sys.stderr)
     return False
 
 
 def dry_run(name, folder, date, hhmm):
     slug = name.split("-", 1)[1]
     eds = editions(folder)
-    when = f"{date} {hhmm} KST" if hhmm else f"{date} 12:00~17:59 KST 사이 (게이트가 그날 시각을 정한다)"
+    when = f"{date} {hhmm} KST" if hhmm else f"{date} 12:00~17:44 KST 사이 (게이트가 그날 시각을 정한다)"
     print(f"[dry-run] 첫 글: {name} (slug: {slug})")
     for lang, text in eds:
         meta, _ = journal_md.parse(text)
@@ -116,6 +137,9 @@ def main():
     if sh("git", "rev-parse", "--abbrev-ref", "HEAD") != "main" or sh("git", "status", "--porcelain"):
         print("main 브랜치가 아니거나 작업 트리가 깨끗하지 않아 발행하지 않는다", file=sys.stderr)
         return 4
+    if not pull():
+        print("STOP: origin/main 을 ff-only 로 맞추지 못해 발행하지 않는다(커밋 없음, 큐 그대로)", file=sys.stderr)
+        return 7
     slug = name.split("-", 1)[1]
     dst = os.path.join(REPO, "content", "journal", slug)
     os.makedirs(dst, exist_ok=True)

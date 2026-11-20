@@ -3,9 +3,12 @@
 
 상태: ~/.ipe/queue/mongsil/slot.json = {"date","time","prev_date","prev_time","published","next_date","next_time"}
 (IPE_QUEUE_DIR 로 큐 위치를 바꿀 수 있다 — 시험용)
-- 오늘 날짜가 아니면 12:00~17:59 중 어제 시각의 '시'와 다른 시각을 새로 뽑는다(이전 값은 prev_* 로).
+- 슬롯 시각은 12:00~17:44 만 뽑는다. 발행 글에 찍히는 시각도 틱 시각이 아니라 이 슬롯 시각이라,
+  15분 틱이 올림해도 글이 18:00 으로 찍히는 일이 없다.
+- 오늘 날짜가 아니면 12:00~17:44 중 어제 시각의 '시'와 다른 시각을 새로 뽑는다(이전 값은 prev_* 로).
   단 발행 때 미리 뽑아 둔 next_date(== 오늘)·next_time 이 유효하면 그것을 쓴다(손상된 값은 버리고 새로 뽑는다).
-- 지금 >= time 이고 published=false 면 publish_next.py 를 돌리고, 성공하면 published=true 를 먼저 저장한다.
+- 지금 >= time 이고 published=false 면 publish_next.py --time <슬롯 시각> 을 돌리고, 성공하면 published=true 를 먼저 저장한다.
+  실패하면 published=false 로 남아 그날 다음 틱에 다시 시도한다.
   next_date·next_time(내일 시각)은 그 뒤 최선 노력으로 적는다 — 실패해도 발행 결과는 그대로다.
   발행이 실패하면 next_* 는 건드리지 않는다.
 """
@@ -22,22 +25,25 @@ from zoneinfo import ZoneInfo
 KST = ZoneInfo("Asia/Seoul")
 HERE = os.path.dirname(os.path.abspath(__file__))
 QUEUE = os.environ.get("IPE_QUEUE_DIR") or os.path.expanduser("~/.ipe/queue/mongsil")
-HOURS = range(12, 18)  # 12:00 ~ 17:59
+HOURS = range(12, 18)  # 12:00 ~ 17:44 (17시는 0~44분만)
+LATEST = "17:44"  # 슬롯·찍히는 시각의 상한 — 18:00 이 되지 않게 한다
 
 
 def pick_time(prev_time, rng=random):
-    """12:00~17:59 중 prev_time 의 시(hour)와 다른 시각 'HH:MM'."""
+    """12:00~17:44 중 prev_time 의 시(hour)와 다른 시각 'HH:MM'."""
     prev_hour = int(prev_time.split(":")[0]) if prev_time else None
     hours = [h for h in HOURS if h != prev_hour]
-    return f"{rng.choice(hours):02d}:{rng.randrange(60):02d}"
+    h = rng.choice(hours)
+    m = rng.randrange(60) if h < 17 else rng.randrange(45)  # 17시는 17:00~17:44
+    return f"{h:02d}:{m:02d}"
 
 
 def valid_time(t):
-    """'HH:MM'(두 자리) 이고 시가 12~17 인 값만 참."""
+    """'HH:MM'(두 자리) 이고 12:00~17:44 사이인 값만 참."""
     if not isinstance(t, str) or not re.fullmatch(r"\d{2}:\d{2}", t):
         return False
     h, m = int(t[:2]), int(t[3:])
-    return h in HOURS and m < 60
+    return h in HOURS and m < 60 and "12:00" <= t <= LATEST
 
 
 def roll(slot, today, rng=random):
@@ -96,7 +102,8 @@ def run(now, queue=QUEUE, rng=random, publish=None):
             save(slot_path, slot)
         if not due(slot, now.strftime("%H:%M")):
             return "skip" if slot["published"] else "wait"
-        ok = (publish or default_publish)(today, now.strftime("%H:%M"), queue)
+        # 글에 찍는 시각은 틱 시각(now)이 아니라 슬롯 시각이다 — 15분 틱의 올림으로 18:00 이 찍히지 않게.
+        ok = (publish or default_publish)(today, slot["time"], queue)
         if ok:
             # published=true 를 먼저 디스크에 남긴다 — 이후 단계가 실패해도 다음 틱에 같은 날 재발행되지 않는다.
             slot["published"] = True

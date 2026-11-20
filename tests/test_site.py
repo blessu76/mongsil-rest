@@ -10,20 +10,20 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import build  # noqa: E402
 
-PAGES = [
-    "index.html", "about/index.html", "journal/index.html", "journal/dev-start/index.html",
-    "en/index.html", "en/about/index.html", "en/journal/index.html", "en/journal/dev-start/index.html",
-]
 # 약관·개인정보 페이지는 법적 문구라 결제·서버 같은 말을 쓴다 — 금칙어 검사에서 뺀다(메뉴·캐시버스팅·생성본 검사는 같이 본다).
 LEGAL_PAGES = [
     "privacy/index.html", "terms/index.html", "en/privacy/index.html", "en/terms/index.html",
 ]
+# 금칙어 검사 대상 = 생성되는 모든 쪽(고정 쪽 + 발행된 저널 글 쪽) — 글이 늘어도 자동으로 따라 들어간다.
+PAGES = [file for file, _ in build.public_pages() if file not in LEGAL_PAGES]
 MENU = {
     "ko": ["홈", "소개", "저널"],
     "en": ["Home", "About", "Journal"],
@@ -358,101 +358,243 @@ class PairTest(unittest.TestCase):
 
 @unittest.skipIf(os.environ.get("MONGSIL_NESTED"), "발행 스크립트가 check.sh 를 돌리는 중 — 발행 시험은 건너뜀(재귀 방지)")
 class PublisherTest(unittest.TestCase):
-    """ops/publish_next.py 와 ops/journal_gate.py 를 임시 복사본 레포에서 시험한다. 실제 레포·큐는 건드리지 않는다."""
+    """ops/publish_next.py 를 시험한다. 쪽마다 임시 레포 + 임시 bare origin 을 새로 만든다.
+    실제 레포·큐·네트워크는 건드리지 않고, push 는 MONGSIL_PUSH=1 일 때만 임시 origin 으로 간다."""
 
     SLUG = "how-to-care-for-mongsil"
+    DATE, TIME = "2026-11-20", "14:30"
 
-    @classmethod
-    def setUpClass(cls):
-        cls.tmp = tempfile.mkdtemp(prefix="mongsil-pub-")
-        repo = Path(cls.tmp) / "repo"
-        shutil.copytree(ROOT, repo, ignore=shutil.ignore_patterns(".git", "__pycache__", ".published"))
-        env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
-        for cmd in (["git", "init", "-q", "-b", "main"], ["git", "config", "user.email", "test@example.invalid"],
-                    ["git", "config", "user.name", "test"], ["git", "add", "-A"],
-                    ["git", "commit", "-q", "-m", "base"]):
-            subprocess.run(cmd, cwd=repo, check=True, env=env, capture_output=True)
-        cls.repo = repo
-        cls.seed = ROOT / "ops" / "queue_seed"
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp(prefix="mongsil-pub-"))
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+        self.origin = self.tmp / "origin.git"
+        self.repo = self.tmp / "repo"
+        self.git(self.tmp, "init", "-q", "--bare", "-b", "main", str(self.origin))
+        shutil.copytree(ROOT, self.repo, ignore=shutil.ignore_patterns(".git", "__pycache__", ".published"))
+        self.git(self.repo, "init", "-q", "-b", "main")
+        self.git(self.repo, "config", "user.email", "test@example.invalid")
+        self.git(self.repo, "config", "user.name", "test")
+        self.git(self.repo, "add", "-A")
+        self.git(self.repo, "commit", "-q", "-m", "base")
+        self.git(self.repo, "remote", "add", "origin", str(self.origin))
+        self.git(self.repo, "push", "-q", "origin", "main")
 
-    @classmethod
-    def tearDownClass(cls):
-        shutil.rmtree(cls.tmp, ignore_errors=True)
+    @staticmethod
+    def git(cwd, *args):
+        return subprocess.run(["git", *args], cwd=cwd, text=True, capture_output=True, check=True,
+                              env={**os.environ, "GIT_TERMINAL_PROMPT": "0"}).stdout.strip()
 
-    def fresh_queue(self, name):
-        q = Path(self.tmp) / name
-        shutil.rmtree(q, ignore_errors=True)
-        shutil.copytree(self.seed, q)
+    def fresh_queue(self, name="q"):
+        q = self.tmp / name
+        shutil.copytree(ROOT / "ops" / "queue_seed", q)
         return q
 
-    def run_publish(self, queue, *extra):
-        env = {k: v for k, v in os.environ.items() if k != "MONGSIL_PUSH"}  # push 는 시험에서 절대 켜지 않는다
+    def publish(self, queue, *extra, push=None):
+        env = {k: v for k, v in os.environ.items() if k != "MONGSIL_PUSH"}
+        if push is not None:
+            env["MONGSIL_PUSH"] = push
         return subprocess.run(
-            [sys.executable, "ops/publish_next.py", "--date", "2026-11-20", "--time", "14:30",
+            [sys.executable, "ops/publish_next.py", "--date", self.DATE, "--time", self.TIME,
              "--queue", str(queue), *extra],
             cwd=self.repo, text=True, capture_output=True, env=env)
 
     def commits(self):
-        return int(subprocess.run(["git", "rev-list", "--count", "HEAD"], cwd=self.repo, text=True,
-                                  capture_output=True, check=True).stdout)
+        return int(self.git(self.repo, "rev-list", "--count", "HEAD"))
+
+    def origin_main(self):
+        return self.git(self.origin, "rev-parse", "main")
+
+    def status(self):
+        return self.git(self.repo, "status", "--porcelain")
 
     def test_publish_creates_post_list_and_sitemap_entry(self):
-        q = self.fresh_queue("q-publish")
+        q = self.fresh_queue()
         before = self.commits()
-        r = self.run_publish(q)
+        r = self.publish(q)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertEqual(self.commits(), before + 1)
         for rel in (f"content/journal/{self.SLUG}/ko.md", f"content/journal/{self.SLUG}/en.md",
                     f"journal/{self.SLUG}/index.html", f"en/journal/{self.SLUG}/index.html"):
             self.assertTrue((self.repo / rel).is_file(), rel)
         ko_src = (self.repo / f"content/journal/{self.SLUG}/ko.md").read_text(encoding="utf-8")
-        self.assertIn('date: 2026-11-20', ko_src)
+        self.assertIn("date: 2026-11-20", ko_src)
         self.assertIn('time: "14:30"', ko_src)
         self.assertIn(f"journal/{self.SLUG}/", (self.repo / "journal/index.html").read_text(encoding="utf-8"))
         self.assertIn(f"en/journal/{self.SLUG}/", (self.repo / "en/journal/index.html").read_text(encoding="utf-8"))
         self.assertIn(f"journal/{self.SLUG}/", (self.repo / "sitemap.xml").read_text(encoding="utf-8"))
         self.assertFalse((q / "01-how-to-care-for-mongsil").exists())
         self.assertTrue((q / ".published" / "01-how-to-care-for-mongsil" / "ko.md").is_file())
+        self.assertEqual(self.status(), "")
 
     def test_empty_queue_is_noop_with_stock_alert(self):
-        q = Path(self.tmp) / "q-empty"
-        q.mkdir(parents=True, exist_ok=True)
+        q = self.tmp / "q-empty"
+        q.mkdir()
         before = self.commits()
-        r = self.run_publish(q)
+        r = self.publish(q)
         self.assertEqual(r.returncode, 3, r.stdout + r.stderr)
         self.assertIn("STOCK_ALERT", r.stderr)
         self.assertEqual(self.commits(), before)
 
     def test_dry_run_writes_nothing(self):
-        q = self.fresh_queue("q-dry")
+        q = self.fresh_queue()
         before = self.commits()
-        status_before = subprocess.run(["git", "status", "--porcelain"], cwd=self.repo, text=True,
-                                       capture_output=True).stdout
-        r = self.run_publish(q, "--dry-run")
+        r = self.publish(q, "--dry-run")
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertIn("[dry-run] 예정 발행: 2026-11-20 14:30 KST", r.stdout)
         self.assertEqual(self.commits(), before)
-        self.assertEqual(subprocess.run(["git", "status", "--porcelain"], cwd=self.repo, text=True,
-                                        capture_output=True).stdout, status_before)
+        self.assertEqual(self.status(), "")
         self.assertTrue((q / "01-how-to-care-for-mongsil" / "ko.md").is_file())
         self.assertFalse((q / ".published").exists())
 
-    def test_gate_picks_times_within_12_to_18(self):
-        spec = importlib.util.spec_from_file_location("journal_gate", ROOT / "ops" / "journal_gate.py")
-        gate = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(gate)
+    def test_dirty_tree_exits_4_and_keeps_queue(self):
+        q = self.fresh_queue()
+        (self.repo / "stray.txt").write_text("x\n", encoding="utf-8")
+        before = self.commits()
+        r = self.publish(q)
+        self.assertEqual(r.returncode, 4, r.stdout + r.stderr)
+        self.assertEqual(self.commits(), before)
+        self.assertTrue((q / "01-how-to-care-for-mongsil").is_dir())
+        self.assertFalse((q / ".published").exists())
+        self.assertFalse((self.repo / "content" / "journal" / self.SLUG).exists())
+
+    def test_check_failure_exits_5_and_commits_nothing(self):
+        # 금칙어(Firebase)를 넣으면 check.sh 의 금칙어 시험이 새 저널 쪽에서 실패해야 한다.
+        q = self.fresh_queue()
+        en = q / "01-how-to-care-for-mongsil" / "en.md"
+        en.write_text(en.read_text(encoding="utf-8") + "\nWe use Firebase here.\n", encoding="utf-8")
+        before = self.commits()
+        r = self.publish(q)
+        self.assertEqual(r.returncode, 5, r.stdout + r.stderr)
+        self.assertEqual(self.commits(), before)
+        self.assertEqual(self.status(), "")
+        self.assertFalse((self.repo / "content" / "journal" / self.SLUG).exists())
+        self.assertFalse((self.repo / "journal" / self.SLUG).exists())
+        self.assertTrue((q / "01-how-to-care-for-mongsil").is_dir())
+        self.assertFalse((q / ".published").exists())
+
+    def test_pull_failure_exits_7_and_commits_nothing(self):
+        # 로컬만 앞서고 origin 도 따로 앞선 상태(갈라짐) → pull --ff-only 가 실패해야 한다.
+        self.git(self.repo, "commit", "-q", "--allow-empty", "-m", "local only")
+        other = self.tmp / "other"
+        self.git(self.tmp, "clone", "-q", str(self.origin), str(other))
+        self.git(other, "config", "user.email", "test@example.invalid")
+        self.git(other, "config", "user.name", "test")
+        (other / "remote.txt").write_text("remote\n", encoding="utf-8")
+        self.git(other, "add", "-A")
+        self.git(other, "commit", "-q", "-m", "remote only")
+        self.git(other, "push", "-q", "origin", "main")
+        q = self.fresh_queue()
+        before = self.commits()
+        r = self.publish(q)
+        self.assertEqual(r.returncode, 7, r.stdout + r.stderr)
+        self.assertEqual(self.commits(), before)
+        self.assertTrue((q / "01-how-to-care-for-mongsil").is_dir())
+        self.assertFalse((self.repo / "content" / "journal" / self.SLUG).exists())
+
+    def test_no_push_when_env_unset(self):
+        q = self.fresh_queue()
+        base = self.origin_main()
+        r = self.publish(q)  # MONGSIL_PUSH 를 빼고 돌린다
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertEqual(self.origin_main(), base)
+        self.assertNotIn("PUSH 완료", r.stdout)
+        self.assertNotIn("PUSH", r.stderr)
+
+    def test_push_to_origin_when_enabled(self):
+        q = self.fresh_queue()
+        r = self.publish(q, push="1")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("PUSH 완료", r.stdout)
+        self.assertEqual(self.origin_main(), self.git(self.repo, "rev-parse", "HEAD"))
+
+    def test_push_rejection_keeps_the_publish(self):
+        hook = self.origin / "hooks" / "pre-receive"
+        hook.write_text("#!/bin/sh\necho rejected-by-test >&2\nexit 1\n", encoding="utf-8")
+        hook.chmod(0o755)
+        q = self.fresh_queue()
+        base = self.origin_main()
+        before = self.commits()
+        r = self.publish(q, push="1")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("PUSH 거절", r.stderr)
+        self.assertEqual(self.origin_main(), base)
+        self.assertEqual(self.commits(), before + 1)
+        self.assertTrue((q / ".published" / "01-how-to-care-for-mongsil").is_dir())
+        self.assertFalse((q / "01-how-to-care-for-mongsil").exists())
+
+
+def load_gate():
+    spec = importlib.util.spec_from_file_location("journal_gate", ROOT / "ops" / "journal_gate.py")
+    gate = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gate)
+    return gate
+
+
+class GateTest(unittest.TestCase):
+    """ops/journal_gate.py: 슬롯 시각 범위, 하루 한 번, 실패하면 다음 틱에 재시도.
+    임시 큐 폴더와 가짜 발행기만 쓴다(실제 발행·git·~/.ipe 는 건드리지 않는다)."""
+
+    KST = ZoneInfo("Asia/Seoul")
+
+    def setUp(self):
+        self.gate = load_gate()
+        self.queue = tempfile.mkdtemp(prefix="mongsil-gate-")
+        self.addCleanup(shutil.rmtree, self.queue, True)
+        self.slot_path = os.path.join(self.queue, "slot.json")
+        self.calls = []
+
+    def at(self, hhmm):
+        h, m = map(int, hhmm.split(":"))
+        return datetime(2026, 11, 20, h, m, tzinfo=self.KST)
+
+    def seed_slot(self, time):
+        self.gate.save(self.slot_path, {"date": "2026-11-20", "time": time,
+                                        "prev_date": None, "prev_time": None, "published": False})
+
+    def tick(self, hhmm, results):
+        results = list(results)
+
+        def fake(date, hhmm_slot, queue):
+            self.calls.append((date, hhmm_slot))
+            return results.pop(0) if results else True
+
+        return self.gate.run(self.at(hhmm), self.queue, rng=random.Random(1), publish=fake)
+
+    def slot(self):
+        return self.gate.load(self.slot_path)
+
+    def test_picks_times_within_12_00_to_17_44(self):
         rng = random.Random(7)
         prev = None
         for _ in range(500):
-            t = gate.pick_time(prev, rng)
-            self.assertTrue(gate.valid_time(t), t)
-            self.assertTrue("12:00" <= t <= "17:59", t)
+            t = self.gate.pick_time(prev, rng)
+            self.assertTrue(self.gate.valid_time(t), t)
+            self.assertTrue("12:00" <= t <= "17:44", t)
             if prev:
                 self.assertNotEqual(t[:2], prev[:2])  # 어제와 다른 시(hour)
             prev = t
-        self.assertFalse(gate.valid_time("99:99"))
-        self.assertFalse(gate.valid_time("18:00"))
 
+    def test_valid_time_bounds(self):
+        for t in ("12:00", "17:44"):
+            self.assertTrue(self.gate.valid_time(t), t)
+        for t in ("11:59", "17:45", "17:59", "18:00", "18:15", "99:99", "9:05", "12:60"):
+            self.assertFalse(self.gate.valid_time(t), t)
+
+    def test_waits_until_slot_time(self):
+        self.seed_slot("12:30")
+        self.assertEqual(self.tick("12:00", []), "wait")
+        self.assertEqual(self.calls, [])
+
+    def test_failed_publish_is_retried_on_a_later_tick_and_only_once_a_day(self):
+        self.seed_slot("12:00")
+        self.assertEqual(self.tick("12:00", [False]), "failed")
+        self.assertFalse(self.slot()["published"])
+        self.assertEqual(self.tick("12:15", [True]), "published")
+        self.assertTrue(self.slot()["published"])
+        self.assertEqual(self.tick("12:30", []), "skip")
+        self.assertEqual(self.tick("13:00", []), "skip")
+        # 두 번 다 같은 슬롯 시각(12:00)으로 발행을 부른다 — 틱 시각(12:15)으로 찍히지 않는다.
+        self.assertEqual(self.calls, [("2026-11-20", "12:00"), ("2026-11-20", "12:00")])
 
 
 if __name__ == "__main__":
