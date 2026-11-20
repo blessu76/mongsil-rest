@@ -275,9 +275,13 @@ class SeoTest(unittest.TestCase):
     def test_llms_txt_describes_game_and_links_pages(self):
         text = (ROOT / "llms.txt").read_text(encoding="utf-8")
         self.assertTrue(text.startswith("# "))
-        for word in ("몽실이 키우기", "Mongsil", "iOS", "광고 없음", "12개 언어"):
+        for word in ("몽실이 키우기", "Mongsil", "iOS", "광고 없음"):
             with self.subTest(word=word):
                 self.assertIn(word, text)
+        # 언어 수 문구는 글자 그대로 고정하지 않는다: 「N개 언어」가 있고 N 은 실제 구현 언어 수(STR)보다 작지 않다.
+        counts = [int(n) for n in re.findall(r"(\d+)개 언어", text)]
+        self.assertEqual(len(counts), 1)
+        self.assertGreaterEqual(counts[0], len(build.STR))
         for _, path in build.public_pages():
             with self.subTest(path=path):
                 self.assertIn(build.SITE + path, text)
