@@ -19,6 +19,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
   </url>
   <url>
+    <loc>https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/how-to-care-for-mongsil/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/"/>
+  </url>
+  <url>
     <loc>https://mongsil.ipe.rest/journal/dev-start/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/dev-start/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/dev-start/"/>
@@ -53,6 +59,12 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
+  </url>
+  <url>
+    <loc>https://mongsil.ipe.rest/en/journal/how-to-care-for-mongsil/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/how-to-care-for-mongsil/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/en/journal/dev-start/</loc>
