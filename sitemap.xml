@@ -19,6 +19,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
   </url>
   <url>
+    <loc>https://mongsil.ipe.rest/journal/sulking-has-no-penalty/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/sulking-has-no-penalty/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/sulking-has-no-penalty/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/sulking-has-no-penalty/"/>
+  </url>
+  <url>
     <loc>https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/how-to-care-for-mongsil/"/>
@@ -59,6 +65,12 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
+  </url>
+  <url>
+    <loc>https://mongsil.ipe.rest/en/journal/sulking-has-no-penalty/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/sulking-has-no-penalty/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/sulking-has-no-penalty/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/sulking-has-no-penalty/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/en/journal/how-to-care-for-mongsil/</loc>
