@@ -19,6 +19,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
   </url>
   <url>
+    <loc>https://mongsil.ipe.rest/journal/the-days-you-are-away/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/the-days-you-are-away/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/the-days-you-are-away/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/the-days-you-are-away/"/>
+  </url>
+  <url>
     <loc>https://mongsil.ipe.rest/journal/sulking-has-no-penalty/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/sulking-has-no-penalty/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/sulking-has-no-penalty/"/>
@@ -65,6 +71,12 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
+  </url>
+  <url>
+    <loc>https://mongsil.ipe.rest/en/journal/the-days-you-are-away/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/the-days-you-are-away/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/the-days-you-are-away/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/the-days-you-are-away/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/en/journal/sulking-has-no-penalty/</loc>
