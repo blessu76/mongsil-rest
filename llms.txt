@@ -13,6 +13,7 @@ Mongsil (몽실이 키우기) is a Tamagotchi-style pet care game where your pet
 - [홈](https://mongsil.ipe.rest/): 게임 소개
 - [소개](https://mongsil.ipe.rest/about/): 무엇을 하는지, 광고 없이 만드는 이유
 - [저널](https://mongsil.ipe.rest/journal/): 개발 소식
+- [저널: 몽실이는 기기 안에 살아요](https://mongsil.ipe.rest/journal/mongsil-lives-on-your-device/)
 - [저널: 비워 둔 날에도 몽실이는 떠나지 않아요](https://mongsil.ipe.rest/journal/the-days-you-are-away/)
 - [저널: 삐쳐도 벌은 없어요](https://mongsil.ipe.rest/journal/sulking-has-no-penalty/)
 - [저널: 몽실이를 돌보는 방법](https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/)
@@ -24,6 +25,7 @@ Mongsil (몽실이 키우기) is a Tamagotchi-style pet care game where your pet
 - [Home](https://mongsil.ipe.rest/en/): game overview
 - [About](https://mongsil.ipe.rest/en/about/): what you do and why it has no ads
 - [Journal](https://mongsil.ipe.rest/en/journal/): development news
+- [Journal: Mongsil lives on your device](https://mongsil.ipe.rest/en/journal/mongsil-lives-on-your-device/)
 - [Journal: Mongsil stays even when you are away](https://mongsil.ipe.rest/en/journal/the-days-you-are-away/)
 - [Journal: Sulking has no penalty](https://mongsil.ipe.rest/en/journal/sulking-has-no-penalty/)
 - [Journal: How to look after Mongsil](https://mongsil.ipe.rest/en/journal/how-to-care-for-mongsil/)
