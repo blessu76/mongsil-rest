@@ -19,6 +19,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
   </url>
   <url>
+    <loc>https://mongsil.ipe.rest/journal/bedtime-stories-and-dream-diary/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/bedtime-stories-and-dream-diary/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/bedtime-stories-and-dream-diary/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/bedtime-stories-and-dream-diary/"/>
+  </url>
+  <url>
     <loc>https://mongsil.ipe.rest/journal/mongsil-lives-on-your-device/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/mongsil-lives-on-your-device/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/mongsil-lives-on-your-device/"/>
@@ -77,6 +83,12 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
+  </url>
+  <url>
+    <loc>https://mongsil.ipe.rest/en/journal/bedtime-stories-and-dream-diary/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/bedtime-stories-and-dream-diary/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/bedtime-stories-and-dream-diary/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/bedtime-stories-and-dream-diary/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/en/journal/mongsil-lives-on-your-device/</loc>
