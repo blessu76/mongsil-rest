@@ -1,40 +1,118 @@
 # 몽실이 키우기 (Mongsil)
 
-> 몽실이 키우기(Mongsil)는 죽지 않는 다마고치류 펫 돌봄 게임입니다. 밥을 주고, 씻기고, 함께 놀고, 재워 주면 몽실이가 자랍니다. 며칠 비워 두어도 몽실이는 떠나지 않습니다.
+> 몽실이 키우기(Mongsil)는 죽지 않는 다마고치류 펫 돌봄 게임입니다.
 
 - 플랫폼: iOS 앱 (출시 준비 중)
 - 만든 곳: ipe() (ipe Studio, 개인 개발자 Davy Kim)
-- 광고 없음 · 서버·계정 없음 · 진행 데이터는 기기 안에 저장 (iCloud 를 켠 경우 본인 iCloud 로 동기화)
-- 언어: 12개 언어 지원 예정 (한국어·영어 먼저)
+- 광고 없음 · 자체 서버와 별도 계정 없음 · 기기 저장 및 선택적 iCloud 동기화
+- 언어: 12개 언어
 
-Mongsil (몽실이 키우기) is a Tamagotchi-style pet care game where your pet never dies. Feed, wash, play and put it to bed, and it grows. Leave it alone for days and it stays. iOS app, in preparation. No ads, no server, no account.
+## English
 
-## 한국어 페이지
-- [홈](https://mongsil.ipe.rest/): 게임 소개
-- [소개](https://mongsil.ipe.rest/about/): 무엇을 하는지, 광고 없이 만드는 이유
-- [저널](https://mongsil.ipe.rest/journal/): 개발 소식
-- [저널: 가까워질수록 작은 선물이 와요](https://mongsil.ipe.rest/journal/bond-and-little-gifts/)
-- [저널: 오늘 할 일은 세 칸뿐이에요](https://mongsil.ipe.rest/journal/three-things-for-today/)
-- [저널: 동화를 읽어 주면 꿈 일기가 생겨요](https://mongsil.ipe.rest/journal/bedtime-stories-and-dream-diary/)
-- [저널: 몽실이는 기기 안에 살아요](https://mongsil.ipe.rest/journal/mongsil-lives-on-your-device/)
-- [저널: 비워 둔 날에도 몽실이는 떠나지 않아요](https://mongsil.ipe.rest/journal/the-days-you-are-away/)
-- [저널: 삐쳐도 벌은 없어요](https://mongsil.ipe.rest/journal/sulking-has-no-penalty/)
-- [저널: 몽실이를 돌보는 방법](https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/)
-- [저널: 개발을 시작했어요](https://mongsil.ipe.rest/journal/dev-start/)
-- [개인정보처리방침](https://mongsil.ipe.rest/privacy/)
-- [이용약관](https://mongsil.ipe.rest/terms/)
-
-## English pages
-- [Home](https://mongsil.ipe.rest/en/): game overview
-- [About](https://mongsil.ipe.rest/en/about/): what you do and why it has no ads
-- [Journal](https://mongsil.ipe.rest/en/journal/): development news
-- [Journal: Little gifts as you grow closer](https://mongsil.ipe.rest/en/journal/bond-and-little-gifts/)
-- [Journal: Just three things for today](https://mongsil.ipe.rest/en/journal/three-things-for-today/)
-- [Journal: Bedtime stories make a dream diary](https://mongsil.ipe.rest/en/journal/bedtime-stories-and-dream-diary/)
-- [Journal: Mongsil lives on your device](https://mongsil.ipe.rest/en/journal/mongsil-lives-on-your-device/)
-- [Journal: Mongsil stays even when you are away](https://mongsil.ipe.rest/en/journal/the-days-you-are-away/)
-- [Journal: Sulking has no penalty](https://mongsil.ipe.rest/en/journal/sulking-has-no-penalty/)
-- [Journal: How to look after Mongsil](https://mongsil.ipe.rest/en/journal/how-to-care-for-mongsil/)
-- [Journal: Development has started](https://mongsil.ipe.rest/en/journal/dev-start/)
+- [Mongsil](https://mongsil.ipe.rest/en/)
+- [About](https://mongsil.ipe.rest/en/about/)
+- [Journal](https://mongsil.ipe.rest/en/journal/)
 - [Privacy Policy](https://mongsil.ipe.rest/en/privacy/)
 - [Terms of Use](https://mongsil.ipe.rest/en/terms/)
+- [Just three things for today](https://mongsil.ipe.rest/en/journal/three-things-for-today/)
+- [Bedtime stories make a dream diary](https://mongsil.ipe.rest/en/journal/bedtime-stories-and-dream-diary/)
+- [Mongsil lives on your device](https://mongsil.ipe.rest/en/journal/mongsil-lives-on-your-device/)
+- [Mongsil stays even when you are away](https://mongsil.ipe.rest/en/journal/the-days-you-are-away/)
+- [Sulking has no penalty](https://mongsil.ipe.rest/en/journal/sulking-has-no-penalty/)
+- [How to look after Mongsil](https://mongsil.ipe.rest/en/journal/how-to-care-for-mongsil/)
+- [Development has started](https://mongsil.ipe.rest/en/journal/dev-start/)
+
+## 한국어
+
+- [몽실이 키우기](https://mongsil.ipe.rest/)
+- [소개](https://mongsil.ipe.rest/about/)
+- [저널](https://mongsil.ipe.rest/journal/)
+- [개인정보처리방침](https://mongsil.ipe.rest/privacy/)
+- [이용약관](https://mongsil.ipe.rest/terms/)
+- [오늘 할 일은 세 칸뿐이에요](https://mongsil.ipe.rest/journal/three-things-for-today/)
+- [동화를 읽어 주면 꿈 일기가 생겨요](https://mongsil.ipe.rest/journal/bedtime-stories-and-dream-diary/)
+- [몽실이는 기기 안에 살아요](https://mongsil.ipe.rest/journal/mongsil-lives-on-your-device/)
+- [비워 둔 날에도 몽실이는 떠나지 않아요](https://mongsil.ipe.rest/journal/the-days-you-are-away/)
+- [삐쳐도 벌은 없어요](https://mongsil.ipe.rest/journal/sulking-has-no-penalty/)
+- [몽실이를 돌보는 방법](https://mongsil.ipe.rest/journal/how-to-care-for-mongsil/)
+- [개발을 시작했어요](https://mongsil.ipe.rest/journal/dev-start/)
+
+## 日本語
+
+- [Mongsil](https://mongsil.ipe.rest/ja/)
+- [ゲーム紹介](https://mongsil.ipe.rest/ja/about/)
+- [ジャーナル](https://mongsil.ipe.rest/ja/journal/)
+- [プライバシーポリシー](https://mongsil.ipe.rest/ja/privacy/)
+- [利用規約](https://mongsil.ipe.rest/ja/terms/)
+
+## 繁體中文
+
+- [Mongsil](https://mongsil.ipe.rest/zh-Hant/)
+- [遊戲介紹](https://mongsil.ipe.rest/zh-Hant/about/)
+- [開發誌](https://mongsil.ipe.rest/zh-Hant/journal/)
+- [隱私權政策](https://mongsil.ipe.rest/zh-Hant/privacy/)
+- [使用條款](https://mongsil.ipe.rest/zh-Hant/terms/)
+
+## Español
+
+- [Mongsil](https://mongsil.ipe.rest/es/)
+- [El juego](https://mongsil.ipe.rest/es/about/)
+- [Diario](https://mongsil.ipe.rest/es/journal/)
+- [Política de privacidad](https://mongsil.ipe.rest/es/privacy/)
+- [Términos de uso](https://mongsil.ipe.rest/es/terms/)
+
+## Português (Brasil)
+
+- [Mongsil](https://mongsil.ipe.rest/pt-BR/)
+- [Sobre o jogo](https://mongsil.ipe.rest/pt-BR/about/)
+- [Diário](https://mongsil.ipe.rest/pt-BR/journal/)
+- [Política de privacidade](https://mongsil.ipe.rest/pt-BR/privacy/)
+- [Termos de uso](https://mongsil.ipe.rest/pt-BR/terms/)
+
+## Français
+
+- [Mongsil](https://mongsil.ipe.rest/fr/)
+- [Le jeu](https://mongsil.ipe.rest/fr/about/)
+- [Journal](https://mongsil.ipe.rest/fr/journal/)
+- [Politique de confidentialité](https://mongsil.ipe.rest/fr/privacy/)
+- [Conditions d’utilisation](https://mongsil.ipe.rest/fr/terms/)
+
+## Deutsch
+
+- [Mongsil](https://mongsil.ipe.rest/de/)
+- [Das Spiel](https://mongsil.ipe.rest/de/about/)
+- [Tagebuch](https://mongsil.ipe.rest/de/journal/)
+- [Datenschutzerklärung](https://mongsil.ipe.rest/de/privacy/)
+- [Nutzungsbedingungen](https://mongsil.ipe.rest/de/terms/)
+
+## Bahasa Indonesia
+
+- [Mongsil](https://mongsil.ipe.rest/id/)
+- [Tentang gim](https://mongsil.ipe.rest/id/about/)
+- [Jurnal](https://mongsil.ipe.rest/id/journal/)
+- [Kebijakan Privasi](https://mongsil.ipe.rest/id/privacy/)
+- [Ketentuan Penggunaan](https://mongsil.ipe.rest/id/terms/)
+
+## ไทย
+
+- [Mongsil](https://mongsil.ipe.rest/th/)
+- [เกี่ยวกับเกม](https://mongsil.ipe.rest/th/about/)
+- [บันทึก](https://mongsil.ipe.rest/th/journal/)
+- [นโยบายความเป็นส่วนตัว](https://mongsil.ipe.rest/th/privacy/)
+- [ข้อกำหนดการใช้งาน](https://mongsil.ipe.rest/th/terms/)
+
+## Tiếng Việt
+
+- [Mongsil](https://mongsil.ipe.rest/vi/)
+- [Giới thiệu](https://mongsil.ipe.rest/vi/about/)
+- [Nhật ký](https://mongsil.ipe.rest/vi/journal/)
+- [Chính sách quyền riêng tư](https://mongsil.ipe.rest/vi/privacy/)
+- [Điều khoản sử dụng](https://mongsil.ipe.rest/vi/terms/)
+
+## Türkçe
+
+- [Mongsil](https://mongsil.ipe.rest/tr/)
+- [Oyun hakkında](https://mongsil.ipe.rest/tr/about/)
+- [Günlük](https://mongsil.ipe.rest/tr/journal/)
+- [Gizlilik Politikası](https://mongsil.ipe.rest/tr/privacy/)
+- [Kullanım Koşulları](https://mongsil.ipe.rest/tr/terms/)

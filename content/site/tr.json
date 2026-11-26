@@ -1,0 +1,187 @@
+{
+  "nav": {
+    "home": "Ana sayfa",
+    "about": "Oyun hakkında",
+    "journal": "Günlük"
+  },
+  "site": {
+    "site_title": "Mongsil",
+    "home_title": "Mongsil — Evcil hayvanının hiç ölmediği bakım oyunu",
+    "home_desc": "Mongsil, Tamagotchi tarzı bir evcil hayvan bakım oyunu. Evcil hayvanın hiç ölmez.",
+    "hero_h1": "Mongsil ile sakin sakin ilgilen",
+    "hero_p": "Mongsil’i besle, yıka, onunla oyna ve uyut. Zamanla büyür ve birkaç gün uğramasan bile seni bekler.",
+    "hero_soon": "Çok yakında",
+    "points_h2": "Nasıl bir oyun?",
+    "points": [
+      [
+        "Hep yanında",
+        "Mongsil’in bir ihtiyacı karşılanmazsa yalnızca uykuya dalar. Ceza, uyarı ya da geri sayım yok."
+      ],
+      [
+        "Her ilginin bir izi var",
+        "Mongsil’e nasıl baktığın onun kişiliğini ve görünümünü şekillendirir."
+      ],
+      [
+        "Kendi hızında",
+        "Günde birkaç dakika yeter. Sekiz saat ara versen de bir şey kaybetmezsin."
+      ]
+    ],
+    "about_link": "Oyun hakkında daha fazla bilgi",
+    "journal_h2": "Son haberler",
+    "journal_more": "Tüm günlük yazılarını gör",
+    "about_title": "Oyun hakkında — Mongsil",
+    "about_desc": "Mongsil’in nasıl oynandığını ve neden yapıldığını öğren.",
+    "about_h1": "Oyun hakkında",
+    "about_p": "Mongsil, ipe() tarafından geliştirilen bir evcil hayvan bakım oyunu. Bir Tamagotchi’deki gibi evcil hayvanınla ilgilenirsin. Evcil hayvanın hiç ölmez ve bir gün uğramazsan ceza almazsın.",
+    "about_h2a": "Neler yapabilirsin?",
+    "about_list": [
+      "Mongsil’i besle, yıka, onunla oyna, uyut, ışığı aç ve onu okşa.",
+      "Mongsil yumurtadan çıkar, bebek, çocuk ve yetişkin olur.",
+      "Bakım kayıtların Mongsil’in kişiliğini ve görünümünü şekillendirir.",
+      "Gelişimini tamamlayan Mongsil koleksiyonunda kalır."
+    ],
+    "about_h2b": "Reklamsız",
+    "about_p2": "Mongsil’de reklam, oyuna ait sunucu veya ayrı hesap yoktur. İlerlemen cihazına kaydedilir. iOS’ta iCloud’u açarsan aynı Apple Hesabını kullanan cihazlarda devam edebilirsin. Ücretli öğeler isteğe bağlıdır ve uygulama içinden satın alınabilir.",
+    "about_h2c": "Diller",
+    "about_p3": "Bu site, uygulamayla aynı 12 dilde sunulur.",
+    "journal_title": "Günlük — Mongsil",
+    "journal_desc": "Mongsil’in geliştirilmesinden haberler.",
+    "journal_h1": "Günlük",
+    "journal_sub": "Mongsil’i yaparken tuttuğumuz notlar.",
+    "back_journal": "← Günlüğe dön",
+    "footer": "ipe() · Mongsil",
+    "skip": "İçeriğe geç",
+    "menu_label": "Ana menü",
+    "original": "İngilizce özgün metin"
+  },
+  "legal": {
+    "privacy_link": "Gizlilik Politikası",
+    "terms_link": "Kullanım Koşulları",
+    "legal_aria": "Yasal bilgiler",
+    "back_home": "Ana sayfa",
+    "privacy": {
+      "title": "Gizlilik Politikası",
+      "desc": "Uygulama kişisel veri toplamaz. İlerlemen cihazında veya kendi iCloud alanında saklanır.",
+      "callout_label": "Özet",
+      "callout": "Mongsil kişisel veri toplamaz. Oyuna ait sunucu, hesap, reklam veya analiz aracı yoktur.",
+      "sections": [
+        [
+          "1. Toplanan bilgiler",
+          [
+            "Mongsil (“Uygulama”), bağımsız geliştirici Davy Kim (ipe Studio) tarafından işletilen bir mobil oyundur. Uygulama hesap ya da oturum açma gerektirmez ve ad, e-posta, iletişim bilgileri, konum veya başka bir kişisel veri toplamaz. Yalnızca cihazlara ait jeton kayıtlarını ayırt etmek için her cihaza rastgele kimlik oluşturur. iCloud’u etkinleştirirsen bu kimlik ilerleme verilerinle kendi iCloud alanına eşzamanlanabilir. Kimlik ipe’ye gönderilmez. Bakım kayıtların, ayarların ve koleksiyonun cihazında saklanır ve yalnızca iCloud etkinse eşzamanlanır. ipe bu verileri almaz. Uygulamayı silmek cihazındaki uygulama verilerini de siler.",
+            "Uygulamada reklam, analiz veya izleme SDK’sı bulunmaz."
+          ]
+        ],
+        [
+          "2. Cihazda saklama ve iCloud",
+          [
+            "Mevcut iOS sürümünde ilerleme cihazında saklanır. iPhone’da iCloud’u etkinleştirirsen Apple’ın iCloud hizmeti ilerlemeni aynı Apple Hesabıyla giriş yapılmış cihazlar arasında eşzamanlar. ipe’nin oyuna ait sunucusu yoktur ve ipe bu verileri almaz.",
+            "Uygulamayı başka platformlarda yayımlarsak bu politikayı güncelleriz."
+          ]
+        ],
+        [
+          "3. Web sitesi",
+          [
+            "mongsil.ipe.rest ziyaret istatistiği toplayan bir analiz aracı kullanmaz. Site GitHub Pages üzerinde barındırılır. IP adresleri ve diğer erişim kayıtları GitHub sunucusunun günlüklerinde tutulabilir. Bu kayıtları toplamaz veya kullanmayız. Kayıtlar için GitHub’ın politikaları geçerlidir."
+          ]
+        ],
+        [
+          "4. Ödemeler",
+          [
+            "Ücretli öğeler yalnızca App Store’daki Apple uygulama içi satın alma sistemi üzerinden satılır. Kart numarası veya ödeme yöntemi gibi bilgileri Apple işler. Mongsil ve ipe bu bilgileri almaz veya saklamaz. Satın alma doğrulama ve geri yükleme işlemleri Apple mağaza kayıtlarına dayanır."
+          ]
+        ],
+        [
+          "5. Üçüncü taraflar",
+          [
+            "Uygulama kişisel veri toplamaz, dolayısıyla üçüncü taraflara verdiği veya sattığı kişisel veri yoktur. Uygulama Apple App Store üzerinden dağıtılır. Apple, indirme ve ödeme bilgilerini kendi gizlilik politikasına göre işler."
+          ]
+        ],
+        [
+          "6. Sorular ve hakların",
+          [
+            "Kişisel verilerine erişme, verilerini düzeltme, silme ya da işlemeyi durdurma talebinde bulunmak veya bir soru sormak için {mail} adresine yaz. Uygulama kişisel veri saklamadığından hakkında işlem yapabileceğimiz veri bulunmayabilir."
+          ]
+        ],
+        [
+          "7. Çocuklar",
+          [
+            "Uygulama 14 yaşın ya da bölgendeki asgari yaşın altındaki çocuklara yönelik değildir ve hiçbir kullanıcıdan kişisel veri toplamaz."
+          ]
+        ],
+        [
+          "8. Gizlilikten sorumlu kişi",
+          [
+            "Ad Davy Kim (ipe Studio) · İletişim {mail}"
+          ]
+        ],
+        [
+          "9. Güney Kore’de başvuru yolları",
+          [
+            "- Kişisel Bilgi Uyuşmazlıkları Arabuluculuk Komitesi 1833-6972 · kopico.go.kr",
+            "- Kişisel Bilgi İhlali Bildirim Merkezi 118 · privacy.kisa.or.kr",
+            "- Yüksek Savcılık Siber Suç Birimi 1301 · Ulusal Polis Teşkilatı Siber Suç Bürosu 182"
+          ]
+        ],
+        [
+          "10. Değişiklikler",
+          [
+            "İleride sunucu, hesap, reklam veya analiz eklenmesiyle toplanan veriler değişirse önce bu politikayı ve yürürlük tarihini güncelleriz."
+          ]
+        ]
+      ]
+    },
+    "terms": {
+      "title": "Kullanım Koşulları",
+      "desc": "Mongsil’in kullanım koşulları.",
+      "sections": [
+        [
+          "1. Amaç",
+          [
+            "Bu koşullar, Davy Kim (ipe Studio) tarafından sunulan Mongsil (“Uygulama”) adlı mobil oyunun kullanımını düzenler."
+          ]
+        ],
+        [
+          "2. Lisans",
+          [
+            "Uygulamayı kişisel ve ticari olmayan amaçlarla cihazına yükleyip kullanabilirsin. İzin almadan kaynak kodunu, görselleri, sesleri veya diğer içerikleri kopyalayamaz, dağıtamaz, tersine mühendisliğe tabi tutamaz veya ticari amaçla kullanamazsın."
+          ]
+        ],
+        [
+          "3. Hizmetin niteliği",
+          [
+            "Uygulama internet bağlantısı olmadan çalışır. Mevcut iOS sürümünde oyun verileri cihazında saklanır ve yalnızca iCloud’u etkinleştirirsen kendi iCloud alanına eşzamanlanır. Cihaz değiştirme, Uygulamayı silme veya cihazı sıfırlama durumunda veriler kaybolabilir ve verileri geri getiremeyebiliriz."
+          ]
+        ],
+        [
+          "4. Ücretli öğeler",
+          [
+            "Ücretli öğeler Apple’ın uygulama içi satın alma sistemiyle alınır. Ödeme, iade ve iptal Apple’ın politika ve işlemlerine tabidir. Satın aldıklarını aynı Apple Hesabıyla geri yükleyebilirsin."
+          ]
+        ],
+        [
+          "5. Değişiklikler ve durdurma",
+          [
+            "Uygulamanın özelliklerini iyileştirebilir veya değiştirebilir ya da Uygulamayı sunmayı durdurabiliriz. Önemli değişiklikler App Store açıklamasında veya bu sitede duyurulur."
+          ]
+        ],
+        [
+          "6. Sorumluluk sınırı",
+          [
+            "Uygulama mevcut hâliyle sunulur. Yasaların izin verdiği ölçüde, Uygulamanın kullanımından doğan dolaylı veya arızi zararlardan sorumlu değiliz."
+          ]
+        ],
+        [
+          "7. Geçerli hukuk ve iletişim",
+          [
+            "Bu koşullar Kore Cumhuriyeti hukukuna tabidir. İletişim {mail}"
+          ]
+        ]
+      ]
+    }
+  },
+  "effective": {
+    "date": "19 Kasım 2026",
+    "format": "Yürürlük tarihi {date} · İşleten {operator}"
+  }
+}

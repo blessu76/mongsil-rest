@@ -1,0 +1,5 @@
+# 비공개 ipe_web_kit의 태그·커밋·파일 목록 해시를 고정한다.
+# 로컬 설치: python3 scripts/kit_lock.py sync --kit ~/Developer/ipe_web_kit
+tag=v0.9.3
+commit=3bedbb9b7f3f312c9c696ab6f906c15f405d6954
+manifest_sha256=6e51ea6e6977560d57fabee2c8e9cbdbb335ef1d475b85967df10fd1e32631a7

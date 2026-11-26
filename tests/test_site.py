@@ -1,6 +1,4 @@
-"""Site checks: the top menu (홈·소개·저널) is on every page, the generated pages are up to date,
-the CSS is cache-busted, the copy avoids forbidden terms, and the privacy / terms pages exist in ko·en
-and are linked from the footer of every page. Run: python3 -m unittest discover -s tests"""
+"""몽실이 웹 생성본·언어 링크·저널 발행을 검증한다."""
 import importlib.util
 import os
 import random
@@ -19,26 +17,20 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import build  # noqa: E402
 
-# 약관·개인정보 페이지는 법적 문구라 결제·서버 같은 말을 쓴다 — 금칙어 검사에서 뺀다(메뉴·캐시버스팅·생성본 검사는 같이 본다).
-LEGAL_PAGES = [
-    "privacy/index.html", "terms/index.html", "en/privacy/index.html", "en/terms/index.html",
-]
-# 금칙어 검사 대상 = 생성되는 모든 쪽(고정 쪽 + 발행된 저널 글 쪽) — 글이 늘어도 자동으로 따라 들어간다.
-PAGES = [file for file, _ in build.public_pages() if file not in LEGAL_PAGES]
-MENU = {
-    "ko": ["홈", "소개", "저널"],
-    "en": ["Home", "About", "Journal"],
-}
-FORBIDDEN = ["릴리즈", "릴리스", "release notes", "서버", "결제", "몽글몽", "몽실몽", "구매", "IAP", "Firebase"]
+ALL_PAGES = dict(build.public_pages())
+LEGAL_PAGES = [file for file, url in ALL_PAGES.items() if build.base_path(url) in {"/privacy/", "/terms/"}]
+PAGES = [file for file in ALL_PAGES if file not in LEGAL_PAGES]
+EXPECTED_LANGUAGES = {"en", "ko", "ja", "zh-Hant", "es", "pt-BR", "fr", "de", "id", "th", "vi", "tr"}
+FORBIDDEN = ["릴리즈", "릴리스", "release notes", "몽글몽", "몽실몽", "Firebase"]
 ANALYTICS = ["googletagmanager", "gtag(", "gtag/js", "google-analytics", "ga-tag"]  # tags, not the word (the policy says "no analytics")
 
 
 def lang_of(rel):
-    return "en" if rel.startswith("en/") else "ko"
+    return build.path_language(ALL_PAGES[rel])
 
 
 def prefix_of(rel):
-    return "/en" if rel.startswith("en/") else ""
+    return build.prefix(lang_of(rel))
 
 
 class SiteTest(unittest.TestCase):
@@ -49,23 +41,14 @@ class SiteTest(unittest.TestCase):
                 nav = re.search(r'<nav aria-label="[^"]*"><ul class="menu">(.*?)</ul></nav>', text, re.S)
                 self.assertIsNotNone(nav, "menu missing")
                 labels = re.findall(r"<a href=\"[^\"]*\"[^>]*>([^<]+)</a>", nav.group(1))
-                self.assertEqual(labels, MENU[lang_of(rel)])
+                self.assertEqual(labels, [build.esc(label) for label in build.NAV[lang_of(rel)].values()])
 
     def test_pages_are_up_to_date_with_build(self):
-        for lang in ("ko", "en"):
-            base = "" if lang == "ko" else "en/"
-            expect = {
-                f"{base}index.html": build.page_home(lang),
-                f"{base}about/index.html": build.page_about(lang),
-                f"{base}journal/index.html": build.page_journal(lang),
-                f"{base}journal/dev-start/index.html": build.page_post(lang, "dev-start"),
-                f"{base}privacy/index.html": build.page_legal(lang, "privacy"),
-                f"{base}terms/index.html": build.page_legal(lang, "terms"),
-            }
-            for rel, text in expect.items():
-                with self.subTest(page=rel):
-                    self.assertEqual((ROOT / rel).read_text(encoding="utf-8"), text,
-                                     "run python3 scripts/build.py")
+        for url, render in build.renderers():
+            rel = build.output_path(url)
+            with self.subTest(page=rel):
+                self.assertEqual((ROOT / rel).read_text(encoding="utf-8"), render(),
+                                 "run python3 scripts/build.py")
 
     def test_css_is_cache_busted(self):
         for rel in PAGES + LEGAL_PAGES:
@@ -83,7 +66,8 @@ class SiteTest(unittest.TestCase):
                 with self.subTest(page=rel, word=word):
                     self.assertNotIn(word.lower(), text)
 
-    def test_legal_pages_exist_in_ko_and_en(self):
+    def test_legal_pages_exist_in_twelve_languages(self):
+        self.assertEqual(len(LEGAL_PAGES), 2 * len(EXPECTED_LANGUAGES))
         for rel in LEGAL_PAGES:
             with self.subTest(page=rel):
                 self.assertTrue((ROOT / rel).is_file(), "page missing")
@@ -109,12 +93,14 @@ class SiteTest(unittest.TestCase):
                 self.assertIn(f'href="{p}/privacy/"', foot.group(1))
                 self.assertIn(f'href="{p}/terms/"', foot.group(1))
 
-    def test_legal_ko_en_have_same_number_of_sections(self):
-        for kind in ("privacy", "terms"):
-            ko = (ROOT / kind / "index.html").read_text(encoding="utf-8")
-            en = (ROOT / "en" / kind / "index.html").read_text(encoding="utf-8")
-            with self.subTest(kind=kind):
-                self.assertEqual(len(re.findall(r"<h2>", ko)), len(re.findall(r"<h2>", en)))
+    def test_legal_editions_have_the_same_sections_and_payment_facts(self):
+        for rel in LEGAL_PAGES:
+            kind = build.base_path(ALL_PAGES[rel]).strip("/")
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8")
+                self.assertEqual(text.count("<h2>"), 10 if kind == "privacy" else 7)
+                self.assertIn("iCloud", text)
+                self.assertIn("Apple", text)
 
     def test_legal_canonical_and_hreflang_pair_up(self):
         for kind in ("privacy", "terms"):
@@ -228,15 +214,19 @@ class SeoTest(unittest.TestCase):
         root_el = ET.parse(ROOT / "sitemap.xml").getroot()
         urls = root_el.findall("s:url", ns)
         self.assertEqual(len(urls), len(build.public_pages()))
-        self.assertGreaterEqual(len(urls), 12)  # 고정 쪽 12개 + 저널 글 쪽
+        self.assertGreaterEqual(len(urls), 5 * len(EXPECTED_LANGUAGES))
         locs = {u.find("s:loc", ns).text for u in urls}
         expected = {build.SITE + path for _, path in build.public_pages()}
         self.assertEqual(locs, expected)
         self.assertEqual(len(expected), len(urls))
         for u in urls:
-            hreflangs = {l.get("hreflang") for l in u.findall("x:link", ns)}
-            with self.subTest(loc=u.find("s:loc", ns).text):
-                self.assertEqual(hreflangs, {"ko", "en", "x-default"})
+            loc = u.find("s:loc", ns).text
+            links = {l.get("hreflang"): l.get("href") for l in u.findall("x:link", ns)}
+            page = (ROOT / build.output_path(loc[len(build.SITE):])).read_text(encoding="utf-8")
+            hreflangs = dict(re.findall(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">', page))
+            with self.subTest(loc=loc):
+                self.assertEqual(links, hreflangs)
+                self.assertTrue(set(links.values()) <= locs)
 
     def test_sitemap_matches_the_page_files(self):
         # 시트맵의 URL 은 실제 생성 파일과 같은 쪽을 가리킨다(저널 글이 늘면 함께 늘어난다).
@@ -250,7 +240,7 @@ class SeoTest(unittest.TestCase):
         # x-default 은 쪽마다 그 쪽의 ko 판 URL 이다(예: /en/privacy/ → /privacy/). 홈 하나로 고정하지 않는다.
         expected_by_file = {}
         for file, path in build.public_pages():
-            ko_path = path[len("/en"):] if path.startswith("/en") else path
+            ko_path = build.base_path(path)
             expected_by_file[file] = build.SITE + ko_path
         self.assertEqual(len(expected_by_file), len(build.public_pages()))
         for file, want in expected_by_file.items():
@@ -276,7 +266,7 @@ class SeoTest(unittest.TestCase):
 
     def test_home_jsonld_parses_and_has_no_store_facts(self):
         import json
-        for rel in ("index.html", "en/index.html"):
+        for rel in (build.output_path(build.prefix(lang) + "/") for lang in EXPECTED_LANGUAGES):
             with self.subTest(page=rel):
                 text = (ROOT / rel).read_text(encoding="utf-8")
                 blocks = re.findall(r'<script type="application/ld\+json">\n(.*?)\n</script>', text, re.S)
@@ -324,23 +314,19 @@ class PairTest(unittest.TestCase):
     def _hreflang_pair(self, text):
         return dict(re.findall(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"', text))
 
-    def test_language_switch_points_to_the_pair_page(self):
-        for rel in PAGES + LEGAL_PAGES:
+    def test_language_switch_points_to_the_same_page(self):
+        for rel, url in ALL_PAGES.items():
             with self.subTest(page=rel):
                 text = (ROOT / rel).read_text(encoding="utf-8")
-                m = re.search(r'<a class="lang" href="([^"]+)" hreflang="([^"]+)">', text)
-                self.assertIsNotNone(m, "language switch missing")
-                href, target = m.group(1), m.group(2)
-                want_lang = "en" if lang_of(rel) == "ko" else "ko"
-                self.assertEqual(target, want_lang)
-                pair = self._hreflang_pair(text)[want_lang]
-                self.assertEqual(build.SITE + href, pair)
-
-    def test_switch_is_not_fixed_to_the_home_page(self):
-        text = (ROOT / "privacy" / "index.html").read_text(encoding="utf-8")
-        self.assertIn('<a class="lang" href="/en/privacy/"', text)
-        text = (ROOT / "en" / "about" / "index.html").read_text(encoding="utf-8")
-        self.assertIn('<a class="lang" href="/about/"', text)
+                options = re.findall(r'<option value="([^"]+)" lang="([^"]+)"( selected)?>', text)
+                links = {lang: build.SITE + href for href, lang, _ in options}
+                self.assertEqual(links, {k: v for k, v in self._hreflang_pair(text).items() if k != "x-default"})
+                self.assertEqual([lang for _, lang, selected in options if selected], [lang_of(rel)])
+                if build.base_path(url) in {"/", "/about/", "/privacy/", "/terms/", "/journal/"}:
+                    self.assertEqual(set(links), EXPECTED_LANGUAGES)
+                for href, lang, _ in options:
+                    self.assertEqual(build.base_path(href), build.base_path(url))
+                    self.assertEqual(build.path_language(href), lang)
 
     def test_404_page_exists_is_noindex_and_not_in_sitemap(self):
         path = ROOT / "404.html"
@@ -368,7 +354,7 @@ class PairTest(unittest.TestCase):
                 self.assertIn(f'href="/assets/img/icon.svg?v={build.CSS_V}"', text)
                 self.assertIn(f'src="/assets/img/icon.svg?v={build.CSS_V}"', text)
                 self.assertIn('<meta property="og:image" content="https://mongsil.ipe.rest/assets/img/og-share.png">', text)
-        for rel in ("index.html", "en/index.html"):
+        for rel in (build.output_path(build.prefix(lang) + "/") for lang in EXPECTED_LANGUAGES):
             with self.subTest(page=rel):
                 text = (ROOT / rel).read_text(encoding="utf-8")
                 self.assertIn(f'src="/assets/img/hero.svg?v={build.CSS_V}"', text)
@@ -410,6 +396,14 @@ class PublisherTest(unittest.TestCase):
         # The seed has already been published on the real site. Test a new URL.
         (q / "01-how-to-care-for-mongsil").rename(q / self.QUEUE_ITEM)
         return q
+
+    def add_reviewed_test_editions(self, folder):
+        for lang in EXPECTED_LANGUAGES:
+            path = folder / f"{lang}.md"
+            placeholder = f"---\ntitle: Test {lang}\ndesc: Test description\n---\n\nTest content.\n"
+            text = path.read_text(encoding="utf-8") if path.is_file() else placeholder
+            text = text.replace("---\n", "---\ncopy_review: iris\ncopy_review_date: 2026-11-19\n", 1)
+            path.write_text(text, encoding="utf-8")
 
     def publish(self, queue, *extra, push=None):
         env = {k: v for k, v in os.environ.items() if k != "MONGSIL_PUSH"}
@@ -457,6 +451,31 @@ class PublisherTest(unittest.TestCase):
         self.assertIn("STOCK_ALERT", r.stderr)
         self.assertEqual(self.commits(), before)
 
+    def test_reviewed_post_publishes_every_edition_with_alternates(self):
+        q = self.fresh_queue()
+        self.add_reviewed_test_editions(q / self.QUEUE_ITEM)
+        r = self.publish(q)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        for lang in EXPECTED_LANGUAGES:
+            path = build.prefix(lang) + "/journal/" + self.SLUG + "/"
+            html = (self.repo / build.output_path(path)).read_text(encoding="utf-8")
+            self.assertIn(f'<html lang="{lang}">', html)
+            self.assertEqual(html.count('<link rel="alternate"'), 13)
+            self.assertIn(path, (self.repo / "sitemap.xml").read_text(encoding="utf-8"))
+        self.assertEqual(self.status(), "")
+
+    def test_incomplete_translation_stays_in_queue(self):
+        q = self.fresh_queue()
+        self.add_reviewed_test_editions(q / self.QUEUE_ITEM)
+        (q / self.QUEUE_ITEM / "ja.md").unlink()
+        before = self.commits()
+        r = self.publish(q)
+        self.assertEqual(r.returncode, 6, r.stdout + r.stderr)
+        self.assertIn("언어판 없음: ja", r.stderr)
+        self.assertTrue((q / self.QUEUE_ITEM).is_dir())
+        self.assertEqual(self.commits(), before)
+        self.assertEqual(self.status(), "")
+
     def test_dry_run_writes_nothing(self):
         q = self.fresh_queue()
         before = self.commits()
@@ -482,8 +501,9 @@ class PublisherTest(unittest.TestCase):
     def test_check_failure_exits_5_and_commits_nothing(self):
         # 금칙어(Firebase)를 넣으면 check.sh 의 금칙어 시험이 새 저널 쪽에서 실패해야 한다.
         q = self.fresh_queue()
-        en = q / self.QUEUE_ITEM / "en.md"
-        en.write_text(en.read_text(encoding="utf-8") + "\nWe use Firebase here.\n", encoding="utf-8")
+        self.add_reviewed_test_editions(q / self.QUEUE_ITEM)
+        fr = q / self.QUEUE_ITEM / "fr.md"
+        fr.write_text(fr.read_text(encoding="utf-8") + "\nWe use Firebase here.\n", encoding="utf-8")
         before = self.commits()
         r = self.publish(q)
         self.assertEqual(r.returncode, 5, r.stdout + r.stderr)
@@ -491,6 +511,7 @@ class PublisherTest(unittest.TestCase):
         self.assertEqual(self.status(), "")
         self.assertFalse((self.repo / "content" / "journal" / self.SLUG).exists())
         self.assertFalse((self.repo / "journal" / self.SLUG).exists())
+        self.assertFalse((self.repo / "fr" / "journal" / self.SLUG).exists())
         self.assertTrue((q / self.QUEUE_ITEM).is_dir())
         self.assertFalse((q / ".published").exists())
 

@@ -1,0 +1,187 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "journal": "Journal"
+  },
+  "site": {
+    "site_title": "Mongsil",
+    "home_title": "Mongsil — a pet care game where nobody dies",
+    "home_desc": "Mongsil is a Tamagotchi-style pet care game where your pet never dies. Take your time.",
+    "hero_h1": "Take care of Mongsil, slowly",
+    "hero_p": "Mongsil is a pet care game where your pet never dies. Feed, wash, play and put Mongsil to bed, and it grows little by little. Leave it alone for a few days and Mongsil will still be there.",
+    "hero_soon": "Coming soon",
+    "points_h2": "What it is",
+    "points": [
+      [
+        "Care without death",
+        "If a need goes unmet, Mongsil just falls asleep. No punishments, no warnings, no countdowns."
+      ],
+      [
+        "Care becomes a record",
+        "How you care for Mongsil builds up and shapes its personality and look."
+      ],
+      [
+        "Your own pace",
+        "A few minutes a day is fine. Leave it for 8 hours and you lose nothing."
+      ]
+    ],
+    "about_link": "More about the game",
+    "journal_h2": "Latest news",
+    "journal_more": "All journal posts",
+    "about_title": "About — Mongsil",
+    "about_desc": "What Mongsil is and why we are making it.",
+    "about_h1": "About",
+    "about_p": "Mongsil is a pet care game made by ipe(). You look after a pet like a Tamagotchi, but the pet never dies. The game does not rush you, and missing a day is not punished.",
+    "about_h2a": "What you do",
+    "about_list": [
+      "Feed, wash, play, put to bed, turn on the light and pet Mongsil.",
+      "Mongsil starts as an egg and grows into a baby, a child and an adult.",
+      "How you care for Mongsil shapes its personality and look.",
+      "A graduated Mongsil stays in the collection."
+    ],
+    "about_h2b": "Made without ads",
+    "about_p2": "Mongsil has no ads, no servers of its own and no separate accounts. Progress is saved on your device. On iOS, you can continue on devices using the same Apple account when iCloud is enabled. Optional paid items are available as in-app purchases.",
+    "about_h2c": "Languages",
+    "about_p3": "This site is available in the same 12 languages as the app.",
+    "journal_title": "Journal — Mongsil",
+    "journal_desc": "Development news from Mongsil.",
+    "journal_h1": "Journal",
+    "journal_sub": "Notes from making Mongsil.",
+    "back_journal": "← Back to journal",
+    "footer": "ipe() · Mongsil",
+    "skip": "Skip to content",
+    "menu_label": "Main menu",
+    "original": "English original"
+  },
+  "legal": {
+    "privacy_link": "Privacy Policy",
+    "terms_link": "Terms of Use",
+    "legal_aria": "Legal links",
+    "back_home": "Home",
+    "privacy": {
+      "title": "Privacy Policy",
+      "desc": "Privacy policy for Mongsil — the app collects no personal information, and your progress is stored only on your device (or in your own iCloud if you turn iCloud on).",
+      "callout_label": "In short:",
+      "callout": "Mongsil collects no personal information. There is no server, no account, no advertising and no analytics.",
+      "sections": [
+        [
+          "1. Information we collect — none",
+          [
+            "Mongsil (\"the App\") is a mobile game operated by an individual developer, Davy Kim (ipe Studio). The App has no accounts or sign-in, and it does not collect any personal information such as your name, email, contact details or location. The App creates a random ID for each device and uses it only to tell apart coin records per device. If you turn on iCloud, this ID may sync with your progress data to your own iCloud, but it is not sent to ipe, and ipe receives no personal information. Your care records, settings and collection are stored on your device and, only if you turn on iCloud, synced through your own iCloud. ipe does not receive this data. Deleting the App deletes the data on your device.",
+            "The App contains no advertising, analytics or tracking SDKs."
+          ]
+        ],
+        [
+          "2. Device storage and iCloud",
+          [
+            "Current iOS App: your progress is stored on your device, and only if you turn on iCloud on an iPhone is progress synced between devices signed in to the same Apple account through your own iCloud. The sync runs on Apple's iCloud; there is no ipe server, and ipe does not receive this data.",
+            "If we release the App on other platforms, we will update this policy."
+          ]
+        ],
+        [
+          "3. The website",
+          [
+            "The Mongsil website (mongsil.ipe.rest) has no analytics tool that collects visit statistics. The site is hosted on GitHub Pages; when you visit the website, your IP address and other access records may be kept in GitHub Hosting's server logs. We do not collect or use these logs, and GitHub's server-log policies apply."
+          ]
+        ],
+        [
+          "4. Payments",
+          [
+            "Paid items in the App are sold only through Apple In-App Purchase (App Store). Payment information (such as card numbers and payment methods) is handled by Apple; Mongsil and ipe do not receive or keep it. Purchase checks and restores are based on Apple's store records."
+          ]
+        ],
+        [
+          "5. Third parties",
+          [
+            "The App collects no personal information, so there is nothing to share with or sell to third parties. The App is distributed through the Apple App Store; information related to downloads and payments is handled by Apple under Apple's privacy policy."
+          ]
+        ],
+        [
+          "6. Questions and your rights",
+          [
+            "To request access, correction, deletion or suspension of processing of your personal information, or to ask any question, write to {mail}. The App holds no personal information, so there may be nothing we can find to act on."
+          ]
+        ],
+        [
+          "7. Children",
+          [
+            "The App is not directed to children under 14 (or the minimum age in your region), and it collects no personal information from any user."
+          ]
+        ],
+        [
+          "8. Privacy officer",
+          [
+            "Name: Davy Kim (ipe Studio) · Contact: {mail}"
+          ]
+        ],
+        [
+          "9. Remedies (Korea)",
+          [
+            "- Personal Information Dispute Mediation Committee: 1833-6972 · kopico.go.kr",
+            "- Personal Information Infringement Report Center: 118 · privacy.kisa.or.kr",
+            "- Supreme Prosecutors' Office Cybercrime Division: 1301 · National Police Agency Cyber Bureau: 182"
+          ]
+        ],
+        [
+          "10. Changes",
+          [
+            "If the App later adds a server, accounts, advertising or analytics that change what is collected, we will update this policy first and change the effective date."
+          ]
+        ]
+      ]
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "desc": "Terms of Use for Mongsil.",
+      "sections": [
+        [
+          "1. Purpose",
+          [
+            "These terms set out the conditions for using the mobile game \"Mongsil\" (\"the App\"), provided by Davy Kim (ipe Studio)."
+          ]
+        ],
+        [
+          "2. License",
+          [
+            "You may install and use the App on your device for personal, non-commercial purposes. You may not copy, distribute, reverse engineer or commercially exploit the App's source code, images, audio or other content without permission."
+          ]
+        ],
+        [
+          "3. Nature of the service",
+          [
+            "The App works without an internet connection. Current iOS App: game data is stored on your device, and only if you turn on iCloud is it synced through your own iCloud. Data may be lost if you change devices, delete the App or reset your device, and we may not be able to restore it."
+          ]
+        ],
+        [
+          "4. Paid items",
+          [
+            "Paid items in the App are purchased through Apple In-App Purchase. Payment, refunds and cancellations follow Apple's policies and procedures, and purchased items can be restored with the same Apple account."
+          ]
+        ],
+        [
+          "5. Changes and discontinuation",
+          [
+            "We may improve or change the App's features, or stop providing it. Important changes will be announced in the App Store description or on this site."
+          ]
+        ],
+        [
+          "6. Disclaimer",
+          [
+            "The App is provided as it is. To the extent permitted by law, we are not liable for indirect or incidental damages arising from your use of the App."
+          ]
+        ],
+        [
+          "7. Governing law and contact",
+          [
+            "These terms are governed by the laws of the Republic of Korea. Contact: {mail}"
+          ]
+        ]
+      ]
+    }
+  },
+  "effective": {
+    "date": "November 19, 2026",
+    "format": "Effective {date} · Operated by {operator}"
+  }
+}

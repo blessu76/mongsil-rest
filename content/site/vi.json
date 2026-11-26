@@ -1,0 +1,187 @@
+{
+  "nav": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "journal": "Nhật ký"
+  },
+  "site": {
+    "site_title": "Mongsil",
+    "home_title": "Mongsil — Trò chơi nuôi thú cưng không bao giờ chết",
+    "home_desc": "Mongsil là trò chơi chăm sóc thú cưng kiểu Tamagotchi. Thú cưng của bạn không bao giờ chết.",
+    "hero_h1": "Chăm sóc Mongsil theo nhịp của bạn",
+    "hero_p": "Cho Mongsil ăn, tắm rửa, chơi cùng rồi đưa bé đi ngủ. Mongsil sẽ lớn dần và vẫn đợi bạn khi bạn vắng mặt vài ngày.",
+    "hero_soon": "Sắp ra mắt",
+    "points_h2": "Trò chơi có gì",
+    "points": [
+      [
+        "Luôn ở bên bạn",
+        "Khi chưa được chăm sóc, Mongsil chỉ ngủ thiếp đi. Trò chơi không có hình phạt, cảnh báo hay đồng hồ đếm ngược."
+      ],
+      [
+        "Mỗi lần chăm sóc đều có ý nghĩa",
+        "Cách bạn chăm sóc Mongsil sẽ định hình tính cách và ngoại hình của bé."
+      ],
+      [
+        "Theo nhịp của riêng bạn",
+        "Mỗi ngày vài phút là đủ. Bạn có thể rời đi tám tiếng mà không mất gì."
+      ]
+    ],
+    "about_link": "Tìm hiểu thêm",
+    "journal_h2": "Tin mới nhất",
+    "journal_more": "Xem toàn bộ nhật ký",
+    "about_title": "Giới thiệu — Mongsil",
+    "about_desc": "Tìm hiểu cách chơi Mongsil và lý do chúng tôi làm trò chơi này.",
+    "about_h1": "Giới thiệu",
+    "about_p": "Mongsil là trò chơi nuôi thú cưng do ipe() phát triển. Bạn sẽ chăm sóc thú cưng như trong Tamagotchi. Thú cưng không bao giờ chết và bạn sẽ không bị phạt nếu bỏ lỡ một ngày.",
+    "about_h2a": "Bạn có thể làm gì",
+    "about_list": [
+      "Cho Mongsil ăn, tắm, chơi, đưa bé đi ngủ, bật đèn và vuốt ve bé.",
+      "Từ một quả trứng, Mongsil lần lượt lớn thành em bé, trẻ nhỏ và trưởng thành.",
+      "Quá trình chăm sóc ảnh hưởng đến tính cách và ngoại hình của Mongsil.",
+      "Khi hoàn thành quá trình trưởng thành, Mongsil vẫn ở trong bộ sưu tập của bạn."
+    ],
+    "about_h2b": "Không có quảng cáo",
+    "about_p2": "Mongsil không có quảng cáo, máy chủ riêng hoặc tài khoản riêng. Tiến trình được lưu trên thiết bị. Trên iOS, nếu bật iCloud, bạn có thể chơi tiếp trên các thiết bị dùng cùng một Tài khoản Apple. Vật phẩm trả phí là tùy chọn và có thể mua trong ứng dụng.",
+    "about_h2c": "Ngôn ngữ",
+    "about_p3": "Trang web có 12 ngôn ngữ giống ứng dụng.",
+    "journal_title": "Nhật ký — Mongsil",
+    "journal_desc": "Tin phát triển Mongsil.",
+    "journal_h1": "Nhật ký",
+    "journal_sub": "Ghi chép trong quá trình làm Mongsil.",
+    "back_journal": "← Về trang nhật ký",
+    "footer": "ipe() · Mongsil",
+    "skip": "Chuyển đến nội dung",
+    "menu_label": "Menu chính",
+    "original": "Bản gốc tiếng Anh"
+  },
+  "legal": {
+    "privacy_link": "Chính sách quyền riêng tư",
+    "terms_link": "Điều khoản sử dụng",
+    "legal_aria": "Thông tin pháp lý",
+    "back_home": "Trang chủ",
+    "privacy": {
+      "title": "Chính sách quyền riêng tư",
+      "desc": "Ứng dụng không thu thập dữ liệu cá nhân. Tiến trình được lưu trên thiết bị hoặc trong iCloud của bạn.",
+      "callout_label": "Tóm tắt",
+      "callout": "Mongsil không thu thập dữ liệu cá nhân và không có máy chủ riêng, tài khoản, quảng cáo hay công cụ phân tích.",
+      "sections": [
+        [
+          "1. Thông tin thu thập",
+          [
+            "Mongsil (“Ứng dụng”) là trò chơi di động do nhà phát triển độc lập Davy Kim (ipe Studio) vận hành. Ứng dụng không yêu cầu tài khoản hay đăng nhập và không thu thập tên, email, thông tin liên hệ, vị trí hoặc dữ liệu cá nhân khác. Ứng dụng tạo mã ngẫu nhiên cho từng thiết bị chỉ để phân biệt lịch sử tiền xu. Khi bật iCloud, mã này có thể đồng bộ với tiến trình vào iCloud của chính bạn và không được gửi cho ipe. Nhật ký chăm sóc, cài đặt và bộ sưu tập lưu trên thiết bị và chỉ đồng bộ khi bật iCloud. ipe không nhận các dữ liệu này. Khi xóa Ứng dụng, dữ liệu của Ứng dụng trên thiết bị cũng bị xóa.",
+            "Ứng dụng không chứa quảng cáo, SDK phân tích hay theo dõi."
+          ]
+        ],
+        [
+          "2. Lưu trữ trên thiết bị và iCloud",
+          [
+            "Trong phiên bản iOS hiện tại, tiến trình được lưu trên thiết bị. Nếu bật iCloud trên iPhone, tiến trình được đồng bộ thông qua iCloud của Apple giữa các thiết bị đăng nhập cùng một Tài khoản Apple. ipe không có máy chủ riêng và không nhận dữ liệu này.",
+            "Nếu phát hành Ứng dụng trên nền tảng khác, chúng tôi sẽ cập nhật chính sách này."
+          ]
+        ],
+        [
+          "3. Trang web",
+          [
+            "mongsil.ipe.rest không dùng công cụ phân tích để thu thập thống kê truy cập. Trang được lưu trữ trên GitHub Pages. Địa chỉ IP và các bản ghi truy cập khác có thể được lưu trong nhật ký máy chủ của GitHub. Chúng tôi không thu thập hay sử dụng các nhật ký đó, và chính sách của GitHub sẽ được áp dụng."
+          ]
+        ],
+        [
+          "4. Thanh toán",
+          [
+            "Vật phẩm trả phí chỉ bán qua hệ thống mua trong ứng dụng của Apple trên App Store. Apple xử lý thông tin thanh toán như số thẻ hoặc phương thức thanh toán. Mongsil và ipe không nhận hay lưu các thông tin này. Việc kiểm tra và khôi phục giao dịch dựa trên hồ sơ cửa hàng của Apple."
+          ]
+        ],
+        [
+          "5. Bên thứ ba",
+          [
+            "Ứng dụng không thu thập dữ liệu cá nhân nên không có dữ liệu cá nhân để chia sẻ hoặc bán cho bên thứ ba. Ứng dụng được phân phối qua Apple App Store. Apple xử lý dữ liệu về lượt tải và thanh toán theo chính sách quyền riêng tư của mình."
+          ]
+        ],
+        [
+          "6. Câu hỏi và quyền của bạn",
+          [
+            "Để yêu cầu truy cập, chỉnh sửa, xóa hoặc tạm ngừng xử lý dữ liệu cá nhân, hoặc để đặt câu hỏi, hãy viết tới {mail}. Ứng dụng không lưu dữ liệu cá nhân nên có thể không có dữ liệu để chúng tôi xử lý yêu cầu."
+          ]
+        ],
+        [
+          "7. Trẻ em",
+          [
+            "Ứng dụng không hướng tới trẻ dưới 14 tuổi hoặc dưới độ tuổi tối thiểu của khu vực bạn sống. Ứng dụng không thu thập dữ liệu cá nhân của bất kỳ người dùng nào."
+          ]
+        ],
+        [
+          "8. Người phụ trách quyền riêng tư",
+          [
+            "Tên Davy Kim (ipe Studio) · Liên hệ {mail}"
+          ]
+        ],
+        [
+          "9. Kênh khiếu nại tại Hàn Quốc",
+          [
+            "- Ủy ban Hòa giải Tranh chấp Thông tin Cá nhân 1833-6972 · kopico.go.kr",
+            "- Trung tâm Báo cáo Vi phạm Thông tin Cá nhân 118 · privacy.kisa.or.kr",
+            "- Bộ phận Tội phạm Mạng thuộc Viện Công tố Tối cao 1301 · Cục An ninh Mạng thuộc Cơ quan Cảnh sát Quốc gia 182"
+          ]
+        ],
+        [
+          "10. Thay đổi",
+          [
+            "Nếu sau này việc bổ sung máy chủ, tài khoản, quảng cáo hoặc phân tích làm thay đổi dữ liệu thu thập, chúng tôi sẽ cập nhật trước chính sách và ngày có hiệu lực."
+          ]
+        ]
+      ]
+    },
+    "terms": {
+      "title": "Điều khoản sử dụng",
+      "desc": "Điều khoản sử dụng Mongsil.",
+      "sections": [
+        [
+          "1. Mục đích",
+          [
+            "Các điều khoản này quy định việc sử dụng trò chơi di động Mongsil (“Ứng dụng”) do Davy Kim (ipe Studio) cung cấp."
+          ]
+        ],
+        [
+          "2. Giấy phép",
+          [
+            "Bạn có thể cài đặt và sử dụng Ứng dụng trên thiết bị cho mục đích cá nhân, phi thương mại. Bạn không được sao chép, phân phối, đảo ngược kỹ thuật hoặc khai thác thương mại mã nguồn, hình ảnh, âm thanh hoặc nội dung khác của Ứng dụng khi chưa được phép."
+          ]
+        ],
+        [
+          "3. Tính chất của dịch vụ",
+          [
+            "Ứng dụng hoạt động khi không có kết nối mạng. Trên bản iOS hiện tại, dữ liệu trò chơi được lưu trên thiết bị và chỉ đồng bộ với iCloud riêng của bạn khi bật iCloud. Dữ liệu có thể mất khi đổi thiết bị, xóa Ứng dụng hoặc đặt lại thiết bị và chúng tôi có thể không khôi phục được."
+          ]
+        ],
+        [
+          "4. Vật phẩm trả phí",
+          [
+            "Vật phẩm trả phí được mua qua hệ thống mua trong ứng dụng của Apple. Thanh toán, hoàn tiền và hủy mua theo chính sách và quy trình của Apple. Bạn có thể khôi phục vật phẩm đã mua bằng cùng một Tài khoản Apple."
+          ]
+        ],
+        [
+          "5. Thay đổi và ngừng cung cấp",
+          [
+            "Chúng tôi có thể cải thiện, thay đổi tính năng hoặc ngừng cung cấp Ứng dụng. Thay đổi quan trọng sẽ được thông báo trong phần mô tả App Store hoặc trên trang này."
+          ]
+        ],
+        [
+          "6. Giới hạn trách nhiệm",
+          [
+            "Ứng dụng được cung cấp theo hiện trạng. Trong phạm vi pháp luật cho phép, chúng tôi không chịu trách nhiệm về thiệt hại gián tiếp hoặc ngẫu nhiên phát sinh từ việc sử dụng Ứng dụng."
+          ]
+        ],
+        [
+          "7. Luật áp dụng và liên hệ",
+          [
+            "Các điều khoản này tuân theo pháp luật Đại Hàn Dân Quốc. Liên hệ {mail}"
+          ]
+        ]
+      ]
+    }
+  },
+  "effective": {
+    "date": "19 tháng 11 năm 2026",
+    "format": "Có hiệu lực từ {date} · Do {operator} vận hành"
+  }
+}

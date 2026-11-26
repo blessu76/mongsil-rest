@@ -1,10 +1,12 @@
-"""Tiny stdlib helpers for the journal: front matter + a small Markdown subset (paragraphs, ## / ### headings,
-- lists, 1. lists, **bold**, *italic*, `code`, [links](url)). Copied from duskblocks-rest, trimmed to ko·en
-(both are original text here, so there is no translation review step)."""
+"""저널의 프런트매터와 Markdown 본문을 읽고 렌더링한다."""
 import html
 import os
 import re
 import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "vendor"))
+from ipe_web_kit import journal, languages  # noqa: E402
 
 ORIGINALS = ("ko", "en")
 
@@ -75,9 +77,28 @@ def render(body):
     return "\n".join(out)
 
 
+def read_editions(folder):
+    """기존 원문 두 편 또는 Iris 검수를 마친 12개 언어판의 원문·정보·본문을 읽는다."""
+    editions = {}
+    for path in sorted(Path(folder).glob("*.md")):
+        lang = path.stem
+        if lang not in languages.SUPPORTED:
+            raise ValueError(f"지원하지 않는 저널 언어판: {path}")
+        text = path.read_text(encoding="utf-8")
+        meta, body = parse(text)
+        if not (meta.get("title") and meta.get("desc") and body.strip()):
+            raise ValueError(f"저널 제목·설명·본문이 필요합니다: {path}")
+        editions[lang] = (text, meta, body)
+
+    if set(editions) != set(ORIGINALS):
+        journal.assert_publishable({
+            Path(folder).name: {lang: {**meta, "url": f"/{lang}/"} for lang, (_, meta, _) in editions.items()},
+        })
+    return editions
+
+
 def load_posts(root):
-    """Return {slug: {"ko": (meta, body), "en": (meta, body)}} from content/journal/<slug>/{ko,en}.md.
-    A post missing either language is skipped with a warning."""
+    """발행된 글과 언어판을 읽는다. 원문의 기존 주소를 유지한다."""
     base = os.path.join(root, "content", "journal")
     posts = {}
     if not os.path.isdir(base):
@@ -86,14 +107,12 @@ def load_posts(root):
         d = os.path.join(base, slug)
         if not os.path.isdir(d):
             continue
-        pair = {}
-        for lang in ORIGINALS:
-            f = os.path.join(d, lang + ".md")
-            if os.path.isfile(f):
-                with open(f, encoding="utf-8") as fh:
-                    pair[lang] = parse(fh.read())
-        if len(pair) != len(ORIGINALS):
-            print(f"WARN: content/journal/{slug} 은 ko·en 중 빠진 언어가 있어 뺐다", file=sys.stderr)
+        if not all(Path(d, f"{lang}.md").is_file() for lang in ORIGINALS):
+            print(f"저널 원문이 빠져 제외합니다: content/journal/{slug}", file=sys.stderr)
             continue
-        posts[slug] = pair
+        editions = read_editions(d)
+        stamps = {(meta.get("date"), meta.get("time")) for _, meta, _ in editions.values()}
+        if len(stamps) != 1:
+            raise ValueError(f"저널 언어판 발행 시각 불일치: {slug}")
+        posts[slug] = {lang: (meta, body) for lang, (_, meta, body) in editions.items()}
     return posts

@@ -1,0 +1,187 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang gim",
+    "journal": "Jurnal"
+  },
+  "site": {
+    "site_title": "Mongsil",
+    "home_title": "Mongsil — Gim merawat hewan peliharaan yang tak pernah mati",
+    "home_desc": "Mongsil adalah gim merawat hewan peliharaan ala Tamagotchi. Hewanmu tidak akan mati.",
+    "hero_h1": "Rawat Mongsil dengan santai",
+    "hero_p": "Beri Mongsil makan, mandikan, ajak bermain, lalu tidurkan. Ia tumbuh sedikit demi sedikit dan tetap menunggumu meski kamu pergi beberapa hari.",
+    "hero_soon": "Segera hadir",
+    "points_h2": "Tentang gim ini",
+    "points": [
+      [
+        "Selalu menemanimu",
+        "Jika kebutuhannya belum terpenuhi, Mongsil hanya akan tertidur. Tidak ada hukuman, peringatan, atau hitung mundur."
+      ],
+      [
+        "Setiap perhatian berarti",
+        "Cara kamu merawat Mongsil membentuk kepribadian dan penampilannya."
+      ],
+      [
+        "Sesuai waktumu",
+        "Beberapa menit sehari sudah cukup. Kamu bisa pergi delapan jam tanpa kehilangan apa pun."
+      ]
+    ],
+    "about_link": "Kenali gimnya",
+    "journal_h2": "Kabar terbaru",
+    "journal_more": "Lihat semua tulisan",
+    "about_title": "Tentang gim — Mongsil",
+    "about_desc": "Cari tahu cara bermain Mongsil dan alasan kami membuatnya.",
+    "about_h1": "Tentang gim",
+    "about_p": "Mongsil adalah gim merawat hewan peliharaan yang sedang dibuat ipe(). Kamu merawat hewan seperti di Tamagotchi. Hewan peliharaanmu tidak akan mati dan kamu tidak dihukum jika melewatkan satu hari.",
+    "about_h2a": "Yang bisa kamu lakukan",
+    "about_list": [
+      "Beri makan, mandikan, ajak bermain, tidurkan, nyalakan lampu, atau elus Mongsil.",
+      "Dari telur, Mongsil tumbuh menjadi bayi, anak, lalu dewasa.",
+      "Catatan perawatan membentuk kepribadian dan penampilannya.",
+      "Mongsil yang sudah lulus tetap tercatat di koleksimu."
+    ],
+    "about_h2b": "Tanpa iklan",
+    "about_p2": "Mongsil tidak menampilkan iklan dan tidak punya server sendiri atau akun terpisah. Progres tersimpan di perangkatmu. Jika iCloud diaktifkan di iOS, kamu dapat melanjutkan di perangkat dengan Akun Apple yang sama. Barang berbayar bersifat opsional dan dapat dibeli di aplikasi.",
+    "about_h2c": "Bahasa",
+    "about_p3": "Situs ini tersedia dalam 12 bahasa yang sama dengan aplikasinya.",
+    "journal_title": "Jurnal — Mongsil",
+    "journal_desc": "Kabar pengembangan Mongsil.",
+    "journal_h1": "Jurnal",
+    "journal_sub": "Catatan selama kami membuat Mongsil.",
+    "back_journal": "← Kembali ke jurnal",
+    "footer": "ipe() · Mongsil",
+    "skip": "Langsung ke isi",
+    "menu_label": "Menu utama",
+    "original": "Naskah asli bahasa Inggris"
+  },
+  "legal": {
+    "privacy_link": "Kebijakan Privasi",
+    "terms_link": "Ketentuan Penggunaan",
+    "legal_aria": "Informasi hukum",
+    "back_home": "Beranda",
+    "privacy": {
+      "title": "Kebijakan Privasi",
+      "desc": "Aplikasi tidak mengumpulkan data pribadi. Progres disimpan di perangkat atau di iCloud milikmu.",
+      "callout_label": "Ringkasan",
+      "callout": "Mongsil tidak mengumpulkan data pribadi. Gim ini tidak memiliki server sendiri, akun, iklan, atau alat analitik.",
+      "sections": [
+        [
+          "1. Informasi yang dikumpulkan",
+          [
+            "Mongsil (“Aplikasi”) adalah gim seluler yang dikelola pengembang independen Davy Kim (ipe Studio). Aplikasi tidak membutuhkan akun atau login dan tidak mengumpulkan nama, email, kontak, lokasi, atau data pribadi lainnya. Aplikasi membuat ID acak per perangkat khusus untuk membedakan catatan koin. Jika kamu mengaktifkan iCloud, ID ini dapat disinkronkan bersama progres ke iCloud milikmu tanpa dikirim ke ipe. Catatan perawatan, pengaturan, dan koleksi tersimpan di perangkatmu dan hanya disinkronkan jika iCloud diaktifkan. ipe tidak menerima data ini. Menghapus Aplikasi akan menghapus datanya dari perangkat.",
+            "Aplikasi tidak berisi iklan, SDK analitik, atau SDK pelacakan."
+          ]
+        ],
+        [
+          "2. Penyimpanan perangkat dan iCloud",
+          [
+            "Pada versi iOS saat ini, progres disimpan di perangkat. Jika iCloud diaktifkan di iPhone, progres disinkronkan lewat iCloud Apple antarperangkat yang menggunakan Akun Apple yang sama. ipe tidak punya server sendiri dan tidak menerima data ini.",
+            "Kami akan memperbarui kebijakan ini jika Aplikasi dirilis di platform lain."
+          ]
+        ],
+        [
+          "3. Situs web",
+          [
+            "mongsil.ipe.rest tidak memakai alat analitik untuk mengumpulkan statistik kunjungan. Situs dihosting di GitHub Pages. Alamat IP dan catatan akses lainnya dapat disimpan di log server GitHub. Kami tidak mengumpulkan atau menggunakan log itu dan kebijakan GitHub berlaku."
+          ]
+        ],
+        [
+          "4. Pembayaran",
+          [
+            "Barang berbayar hanya dijual melalui pembelian dalam aplikasi Apple di App Store. Apple menangani informasi pembayaran seperti nomor kartu dan metode pembayaran. Mongsil dan ipe tidak menerima atau menyimpannya. Pemeriksaan dan pemulihan pembelian menggunakan catatan toko Apple."
+          ]
+        ],
+        [
+          "5. Pihak ketiga",
+          [
+            "Aplikasi tidak mengumpulkan data pribadi sehingga tidak ada data yang dibagikan atau dijual ke pihak ketiga. Apple mendistribusikan Aplikasi melalui App Store dan menangani data unduhan dan pembayaran sesuai kebijakan privasinya."
+          ]
+        ],
+        [
+          "6. Pertanyaan dan hakmu",
+          [
+            "Untuk meminta akses, koreksi, penghapusan, penghentian pemrosesan data pribadi, atau mengajukan pertanyaan, hubungi {mail}. Aplikasi tidak menyimpan data pribadi, sehingga mungkin tidak ada data yang bisa kami temukan untuk diproses."
+          ]
+        ],
+        [
+          "7. Anak-anak",
+          [
+            "Aplikasi tidak ditujukan untuk anak di bawah usia 14 tahun atau usia minimum di wilayahmu dan tidak mengumpulkan data pribadi dari pengguna mana pun."
+          ]
+        ],
+        [
+          "8. Penanggung jawab privasi",
+          [
+            "Nama Davy Kim (ipe Studio) · Kontak {mail}"
+          ]
+        ],
+        [
+          "9. Layanan pengaduan di Korea Selatan",
+          [
+            "- Komite Mediasi Sengketa Data Pribadi 1833-6972 · kopico.go.kr",
+            "- Pusat Pelaporan Pelanggaran Data Pribadi 118 · privacy.kisa.or.kr",
+            "- Divisi Kejahatan Siber Kejaksaan Agung 1301 · Biro Siber Kepolisian Nasional 182"
+          ]
+        ],
+        [
+          "10. Perubahan",
+          [
+            "Jika penambahan server, akun, iklan, atau analitik mengubah data yang dikumpulkan, kami akan memperbarui kebijakan ini dan tanggal berlakunya terlebih dahulu."
+          ]
+        ]
+      ]
+    },
+    "terms": {
+      "title": "Ketentuan Penggunaan",
+      "desc": "Ketentuan Penggunaan Mongsil.",
+      "sections": [
+        [
+          "1. Tujuan",
+          [
+            "Ketentuan ini mengatur penggunaan gim seluler Mongsil (“Aplikasi”), yang disediakan oleh Davy Kim (ipe Studio)."
+          ]
+        ],
+        [
+          "2. Lisensi",
+          [
+            "Kamu dapat memasang dan menggunakan Aplikasi di perangkat untuk tujuan pribadi dan nonkomersial. Tanpa izin, kamu tidak boleh menyalin, menyebarkan, merekayasa balik, atau menggunakan kode sumber, gambar, audio, atau konten lain Aplikasi untuk kepentingan komersial."
+          ]
+        ],
+        [
+          "3. Sifat layanan",
+          [
+            "Aplikasi berfungsi tanpa internet. Pada versi iOS saat ini, data gim disimpan di perangkat dan hanya disinkronkan ke iCloud milikmu jika kamu mengaktifkannya. Data dapat hilang jika kamu berganti perangkat, menghapus Aplikasi, atau menyetel ulang perangkat. Kami mungkin tidak dapat memulihkan data itu."
+          ]
+        ],
+        [
+          "4. Barang berbayar",
+          [
+            "Barang berbayar dibeli melalui pembelian dalam aplikasi Apple. Pembayaran, pengembalian dana, dan pembatalan mengikuti kebijakan dan prosedur Apple. Barang yang dibeli dapat dipulihkan dengan Akun Apple yang sama."
+          ]
+        ],
+        [
+          "5. Perubahan dan penghentian",
+          [
+            "Kami dapat menyempurnakan atau mengubah fitur Aplikasi atau berhenti menyediakannya. Perubahan penting diumumkan di deskripsi App Store atau situs ini."
+          ]
+        ],
+        [
+          "6. Batasan tanggung jawab",
+          [
+            "Aplikasi disediakan sebagaimana adanya. Sejauh diizinkan hukum, kami tidak bertanggung jawab atas kerugian tidak langsung atau insidental akibat penggunaan Aplikasi."
+          ]
+        ],
+        [
+          "7. Hukum yang berlaku dan kontak",
+          [
+            "Ketentuan ini mengikuti hukum Republik Korea. Kontak {mail}"
+          ]
+        ]
+      ]
+    }
+  },
+  "effective": {
+    "date": "19 November 2026",
+    "format": "Berlaku {date} · Dikelola oleh {operator}"
+  }
+}
