@@ -6,6 +6,7 @@ import os
 import random
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import tempfile
@@ -179,7 +180,11 @@ class SeoTest(unittest.TestCase):
         r'<meta property="og:description" content="[^"]+">',
         r'<meta property="og:url" content="[^"]+">',
         r'<meta property="og:type" content="website">',
-        r'<meta property="og:image" content="https://mongsil\.ipe\.rest/assets/img/[^"]+">',
+        r'<meta property="og:image" content="https://mongsil\.ipe\.rest/assets/img/og-share\.png">',
+        r'<meta property="og:image:width" content="1200">',
+        r'<meta property="og:image:height" content="630">',
+        r'<meta name="twitter:card" content="summary_large_image">',
+        r'<meta name="theme-color" content="#fff6f0">',
     ]
 
     def test_every_page_has_title_description_canonical_hreflang_og(self):
@@ -188,13 +193,27 @@ class SeoTest(unittest.TestCase):
             for pattern in self.HEAD_TAGS:
                 with self.subTest(page=rel, tag=pattern):
                     self.assertRegex(text, pattern)
+            site_name = build.STR[lang_of(rel)]["site_title"]
+            with self.subTest(page=rel, tag="og:site_name"):
+                self.assertIn(f'<meta property="og:site_name" content="{site_name}">', text)
 
     def test_og_image_file_exists(self):
         for rel in self.ALL:
-            text = (ROOT / rel).read_text(encoding="utf-8")
-            for path in re.findall(r'og:image" content="https://mongsil\.ipe\.rest(/assets/img/[^"]+)"', text):
-                with self.subTest(page=rel, image=path):
-                    self.assertTrue((ROOT / path.lstrip("/")).is_file())
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8")
+                image_url = re.search(
+                    r'<meta property="og:image" content="https://mongsil\.ipe\.rest(/assets/img/[^"]+)">', text,
+                )
+                self.assertIsNotNone(image_url, "og:image URL missing")
+                path = ROOT / image_url.group(1).lstrip("/")
+                self.assertEqual(path.suffix, ".png")
+                self.assertTrue(path.is_file(), path)
+
+    def test_share_png_dimensions_and_size(self):
+        png = (ROOT / "assets/img/og-share.png").read_bytes()
+        self.assertLess(len(png), 300_000)
+        self.assertEqual(png[:16], b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR")
+        self.assertEqual(struct.unpack(">II", png[16:24]), (1200, 630))
 
     def test_no_noindex_anywhere(self):
         for rel in self.ALL:
@@ -348,7 +367,7 @@ class PairTest(unittest.TestCase):
                 text = (ROOT / rel).read_text(encoding="utf-8")
                 self.assertIn(f'href="/assets/img/icon.svg?v={build.CSS_V}"', text)
                 self.assertIn(f'src="/assets/img/icon.svg?v={build.CSS_V}"', text)
-                self.assertIn('content="https://mongsil.ipe.rest/assets/img/icon.svg">', text)
+                self.assertIn('<meta property="og:image" content="https://mongsil.ipe.rest/assets/img/og-share.png">', text)
         for rel in ("index.html", "en/index.html"):
             with self.subTest(page=rel):
                 text = (ROOT / rel).read_text(encoding="utf-8")
@@ -361,7 +380,8 @@ class PublisherTest(unittest.TestCase):
     """ops/publish_next.py 를 시험한다. 쪽마다 임시 레포 + 임시 bare origin 을 새로 만든다.
     실제 레포·큐·네트워크는 건드리지 않고, push 는 MONGSIL_PUSH=1 일 때만 임시 origin 으로 간다."""
 
-    SLUG = "how-to-care-for-mongsil"
+    SLUG = "publisher-test-post"
+    QUEUE_ITEM = f"01-{SLUG}"
     DATE, TIME = "2026-11-20", "14:30"
 
     def setUp(self):
@@ -387,6 +407,8 @@ class PublisherTest(unittest.TestCase):
     def fresh_queue(self, name="q"):
         q = self.tmp / name
         shutil.copytree(ROOT / "ops" / "queue_seed", q)
+        # The seed has already been published on the real site. Test a new URL.
+        (q / "01-how-to-care-for-mongsil").rename(q / self.QUEUE_ITEM)
         return q
 
     def publish(self, queue, *extra, push=None):
@@ -422,8 +444,8 @@ class PublisherTest(unittest.TestCase):
         self.assertIn(f"journal/{self.SLUG}/", (self.repo / "journal/index.html").read_text(encoding="utf-8"))
         self.assertIn(f"en/journal/{self.SLUG}/", (self.repo / "en/journal/index.html").read_text(encoding="utf-8"))
         self.assertIn(f"journal/{self.SLUG}/", (self.repo / "sitemap.xml").read_text(encoding="utf-8"))
-        self.assertFalse((q / "01-how-to-care-for-mongsil").exists())
-        self.assertTrue((q / ".published" / "01-how-to-care-for-mongsil" / "ko.md").is_file())
+        self.assertFalse((q / self.QUEUE_ITEM).exists())
+        self.assertTrue((q / ".published" / self.QUEUE_ITEM / "ko.md").is_file())
         self.assertEqual(self.status(), "")
 
     def test_empty_queue_is_noop_with_stock_alert(self):
@@ -443,7 +465,7 @@ class PublisherTest(unittest.TestCase):
         self.assertIn("[dry-run] 예정 발행: 2026-11-20 14:30 KST", r.stdout)
         self.assertEqual(self.commits(), before)
         self.assertEqual(self.status(), "")
-        self.assertTrue((q / "01-how-to-care-for-mongsil" / "ko.md").is_file())
+        self.assertTrue((q / self.QUEUE_ITEM / "ko.md").is_file())
         self.assertFalse((q / ".published").exists())
 
     def test_dirty_tree_exits_4_and_keeps_queue(self):
@@ -453,14 +475,14 @@ class PublisherTest(unittest.TestCase):
         r = self.publish(q)
         self.assertEqual(r.returncode, 4, r.stdout + r.stderr)
         self.assertEqual(self.commits(), before)
-        self.assertTrue((q / "01-how-to-care-for-mongsil").is_dir())
+        self.assertTrue((q / self.QUEUE_ITEM).is_dir())
         self.assertFalse((q / ".published").exists())
         self.assertFalse((self.repo / "content" / "journal" / self.SLUG).exists())
 
     def test_check_failure_exits_5_and_commits_nothing(self):
         # 금칙어(Firebase)를 넣으면 check.sh 의 금칙어 시험이 새 저널 쪽에서 실패해야 한다.
         q = self.fresh_queue()
-        en = q / "01-how-to-care-for-mongsil" / "en.md"
+        en = q / self.QUEUE_ITEM / "en.md"
         en.write_text(en.read_text(encoding="utf-8") + "\nWe use Firebase here.\n", encoding="utf-8")
         before = self.commits()
         r = self.publish(q)
@@ -469,7 +491,7 @@ class PublisherTest(unittest.TestCase):
         self.assertEqual(self.status(), "")
         self.assertFalse((self.repo / "content" / "journal" / self.SLUG).exists())
         self.assertFalse((self.repo / "journal" / self.SLUG).exists())
-        self.assertTrue((q / "01-how-to-care-for-mongsil").is_dir())
+        self.assertTrue((q / self.QUEUE_ITEM).is_dir())
         self.assertFalse((q / ".published").exists())
 
     def test_pull_failure_exits_7_and_commits_nothing(self):
@@ -488,7 +510,7 @@ class PublisherTest(unittest.TestCase):
         r = self.publish(q)
         self.assertEqual(r.returncode, 7, r.stdout + r.stderr)
         self.assertEqual(self.commits(), before)
-        self.assertTrue((q / "01-how-to-care-for-mongsil").is_dir())
+        self.assertTrue((q / self.QUEUE_ITEM).is_dir())
         self.assertFalse((self.repo / "content" / "journal" / self.SLUG).exists())
 
     def test_no_push_when_env_unset(self):
@@ -519,8 +541,8 @@ class PublisherTest(unittest.TestCase):
         self.assertIn("PUSH 거절", r.stderr)
         self.assertEqual(self.origin_main(), base)
         self.assertEqual(self.commits(), before + 1)
-        self.assertTrue((q / ".published" / "01-how-to-care-for-mongsil").is_dir())
-        self.assertFalse((q / "01-how-to-care-for-mongsil").exists())
+        self.assertTrue((q / ".published" / self.QUEUE_ITEM).is_dir())
+        self.assertFalse((q / self.QUEUE_ITEM).exists())
 
 
 def load_gate():

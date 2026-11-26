@@ -28,6 +28,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import journal_md  # noqa: E402
 CSS_V = "20261119c"  # bump with any CSS / asset change (cache busting ?v=)
 SITE = "https://mongsil.ipe.rest"
+THEME_COLOR = "#fff6f0"  # light background in assets/mongsil.css
+OG_IMAGE = "/assets/img/og-share.png"
+OG_WIDTH, OG_HEIGHT = 1200, 630
 
 NAV = {
     "ko": {"home": "홈", "about": "소개", "journal": "저널", "switch": "English"},
@@ -296,14 +299,21 @@ def alternates(path):
     return SITE + base, SITE + "/en" + base
 
 
-def head(lang, title, desc, path, og_img="/assets/img/icon.svg", extra=""):
+def head(lang, title, desc, path, og_img=OG_IMAGE, extra=""):
     canonical = SITE + path
     ko_url, en_url = alternates(path)  # x-default = 이 쪽의 ko 판 URL (영어 쪽이면 ko 쪽 주소)
+    og_size = ""
+    if og_img == OG_IMAGE:
+        og_size = (
+            f'<meta property="og:image:width" content="{OG_WIDTH}">\n'
+            f'<meta property="og:image:height" content="{OG_HEIGHT}">\n'
+        )
     return f"""<!doctype html>
 <html lang="{STR[lang]['lang']}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="{THEME_COLOR}">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{canonical}">
@@ -314,7 +324,9 @@ def head(lang, title, desc, path, og_img="/assets/img/icon.svg", extra=""):
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{canonical}">
+<meta property="og:site_name" content="{esc(STR[lang]['site_title'])}">
 <meta property="og:image" content="{SITE}{og_img}">
+{og_size}<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/img/icon.svg?v={CSS_V}" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/mongsil.css?v={CSS_V}">
 {extra}</head>
