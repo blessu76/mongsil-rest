@@ -41,9 +41,9 @@
       "Mongsil yang sudah lulus tetap tercatat di koleksimu."
     ],
     "about_h2b": "Tanpa iklan",
-    "about_p2": "Mongsil tidak menampilkan iklan dan tidak punya server sendiri atau akun terpisah. Progres tersimpan di perangkatmu. Jika iCloud diaktifkan di iOS, kamu dapat melanjutkan di perangkat dengan Akun Apple yang sama. Barang berbayar bersifat opsional dan dapat dibeli di aplikasi.",
+    "about_p2": "Mongsil tidak menampilkan iklan dan tidak punya server sendiri atau akun ipe atau pendaftaran. Progres tersimpan di perangkatmu. Jika iCloud diaktifkan di iOS, kamu dapat melanjutkan di perangkat dengan Akun Apple yang sama. Barang berbayar bersifat opsional dan dapat dibeli di aplikasi.",
     "about_h2c": "Bahasa",
-    "about_p3": "Situs ini tersedia dalam 12 bahasa yang sama dengan aplikasinya.",
+    "about_p3": "Halaman tentang, kebijakan privasi, dan ketentuan tersedia dalam 12 bahasa yang sama dengan aplikasinya. Tulisan jurnal terbit dalam bahasa Korea dan Inggris.",
     "journal_title": "Jurnal — Mongsil",
     "journal_desc": "Kabar pengembangan Mongsil.",
     "journal_h1": "Jurnal",
@@ -63,12 +63,12 @@
       "title": "Kebijakan Privasi",
       "desc": "Aplikasi tidak mengumpulkan data pribadi. Progres disimpan di perangkat atau di iCloud milikmu.",
       "callout_label": "Ringkasan",
-      "callout": "Mongsil tidak mengumpulkan data pribadi. Gim ini tidak memiliki server sendiri, akun, iklan, atau alat analitik.",
+      "callout": "Mongsil tidak mengumpulkan data pribadi. Gim ini tidak memiliki server sendiri, akun ipe, iklan, atau alat analitik.",
       "sections": [
         [
           "1. Informasi yang dikumpulkan",
           [
-            "Mongsil (“Aplikasi”) adalah gim seluler yang dikelola pengembang independen Davy Kim (ipe Studio). Aplikasi tidak membutuhkan akun atau login dan tidak mengumpulkan nama, email, kontak, lokasi, atau data pribadi lainnya. Aplikasi membuat ID acak per perangkat khusus untuk membedakan catatan koin. Jika kamu mengaktifkan iCloud, ID ini dapat disinkronkan bersama progres ke iCloud milikmu tanpa dikirim ke ipe. Catatan perawatan, pengaturan, dan koleksi tersimpan di perangkatmu dan hanya disinkronkan jika iCloud diaktifkan. ipe tidak menerima data ini. Menghapus Aplikasi akan menghapus datanya dari perangkat.",
+            "Mongsil (“Aplikasi”) adalah gim seluler yang dikelola pengembang independen Davy Kim (ipe Studio). Aplikasi tidak membutuhkan akun ipe atau pendaftaran dan tidak mengumpulkan nama, email, kontak, lokasi, atau data pribadi lainnya. Aplikasi membuat ID acak per perangkat khusus untuk membedakan catatan koin. Jika kamu mengaktifkan iCloud, ID ini dapat disinkronkan bersama progres ke iCloud milikmu tanpa dikirim ke ipe. Catatan perawatan, pengaturan, dan koleksi tersimpan di perangkatmu dan hanya disinkronkan jika iCloud diaktifkan. ipe tidak menerima data ini. Menghapus Aplikasi akan menghapus datanya dari perangkat.",
             "Aplikasi tidak berisi iklan, SDK analitik, atau SDK pelacakan."
           ]
         ],
@@ -94,7 +94,8 @@
         [
           "5. Pihak ketiga",
           [
-            "Aplikasi tidak mengumpulkan data pribadi sehingga tidak ada data yang dibagikan atau dijual ke pihak ketiga. Apple mendistribusikan Aplikasi melalui App Store dan menangani data unduhan dan pembayaran sesuai kebijakan privasinya."
+            "Aplikasi tidak mengumpulkan data pribadi sehingga tidak ada data yang dibagikan atau dijual ke pihak ketiga. Apple mendistribusikan Aplikasi melalui App Store dan menangani data unduhan dan pembayaran sesuai kebijakan privasinya.",
+            "Papan peringkat (Apple Game Center) bersifat opsional. Jika kamu menggunakannya, skor dan nama panggilan Game Center-mu diteruskan ke Apple dan ditangani Apple sesuai kebijakan privasinya. Informasi ini tidak masuk ke server ipe dan ipe tidak menerimanya."
           ]
         ],
         [

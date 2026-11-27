@@ -41,9 +41,9 @@
       "A graduated Mongsil stays in the collection."
     ],
     "about_h2b": "Made without ads",
-    "about_p2": "Mongsil has no ads, no servers of its own and no separate accounts. Progress is saved on your device. On iOS, you can continue on devices using the same Apple account when iCloud is enabled. Optional paid items are available as in-app purchases.",
+    "about_p2": "Mongsil has no ads, no servers of its own and no ipe account or sign-up. Progress is saved on your device. On iOS, you can continue on devices using the same Apple account when iCloud is enabled. Optional paid items are available as in-app purchases.",
     "about_h2c": "Languages",
-    "about_p3": "This site is available in the same 12 languages as the app.",
+    "about_p3": "The About, Privacy Policy and Terms pages are available in the same 12 languages as the app. Journal posts are published in Korean and English.",
     "journal_title": "Journal — Mongsil",
     "journal_desc": "Development news from Mongsil.",
     "journal_h1": "Journal",
@@ -63,12 +63,12 @@
       "title": "Privacy Policy",
       "desc": "Privacy policy for Mongsil — the app collects no personal information, and your progress is stored only on your device (or in your own iCloud if you turn iCloud on).",
       "callout_label": "In short:",
-      "callout": "Mongsil collects no personal information. There is no server, no account, no advertising and no analytics.",
+      "callout": "Mongsil collects no personal information. There is no server, no ipe account, no advertising and no analytics.",
       "sections": [
         [
           "1. Information we collect — none",
           [
-            "Mongsil (\"the App\") is a mobile game operated by an individual developer, Davy Kim (ipe Studio). The App has no accounts or sign-in, and it does not collect any personal information such as your name, email, contact details or location. The App creates a random ID for each device and uses it only to tell apart coin records per device. If you turn on iCloud, this ID may sync with your progress data to your own iCloud, but it is not sent to ipe, and ipe receives no personal information. Your care records, settings and collection are stored on your device and, only if you turn on iCloud, synced through your own iCloud. ipe does not receive this data. Deleting the App deletes the data on your device.",
+            "Mongsil (\"the App\") is a mobile game operated by an individual developer, Davy Kim (ipe Studio). The App has no ipe account or sign-up, and it does not collect any personal information such as your name, email, contact details or location. The App creates a random ID for each device and uses it only to tell apart coin records per device. If you turn on iCloud, this ID may sync with your progress data to your own iCloud, but it is not sent to ipe, and ipe receives no personal information. Your care records, settings and collection are stored on your device and, only if you turn on iCloud, synced through your own iCloud. ipe does not receive this data. Deleting the App deletes the data on your device.",
             "The App contains no advertising, analytics or tracking SDKs."
           ]
         ],
@@ -94,7 +94,8 @@
         [
           "5. Third parties",
           [
-            "The App collects no personal information, so there is nothing to share with or sell to third parties. The App is distributed through the Apple App Store; information related to downloads and payments is handled by Apple under Apple's privacy policy."
+            "The App collects no personal information, so there is nothing to share with or sell to third parties. The App is distributed through the Apple App Store; information related to downloads and payments is handled by Apple under Apple's privacy policy.",
+            "The leaderboard (Apple Game Center) is optional. If you use it, your score and your Game Center nickname are passed to Apple and handled by Apple under Apple's privacy policy. This information does not come to any ipe server, and ipe does not receive it."
           ]
         ],
         [

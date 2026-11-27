@@ -41,9 +41,9 @@
       "Khi hoàn thành quá trình trưởng thành, Mongsil vẫn ở trong bộ sưu tập của bạn."
     ],
     "about_h2b": "Không có quảng cáo",
-    "about_p2": "Mongsil không có quảng cáo, máy chủ riêng hoặc tài khoản riêng. Tiến trình được lưu trên thiết bị. Trên iOS, nếu bật iCloud, bạn có thể chơi tiếp trên các thiết bị dùng cùng một Tài khoản Apple. Vật phẩm trả phí là tùy chọn và có thể mua trong ứng dụng.",
+    "about_p2": "Mongsil không có quảng cáo, máy chủ riêng hoặc tài khoản ipe. Tiến trình được lưu trên thiết bị. Trên iOS, nếu bật iCloud, bạn có thể chơi tiếp trên các thiết bị dùng cùng một Tài khoản Apple. Vật phẩm trả phí là tùy chọn và có thể mua trong ứng dụng.",
     "about_h2c": "Ngôn ngữ",
-    "about_p3": "Trang web có 12 ngôn ngữ giống ứng dụng.",
+    "about_p3": "Trang giới thiệu, chính sách quyền riêng tư và điều khoản có 12 ngôn ngữ giống ứng dụng. Bài viết nhật ký được đăng bằng tiếng Hàn và tiếng Anh.",
     "journal_title": "Nhật ký — Mongsil",
     "journal_desc": "Tin phát triển Mongsil.",
     "journal_h1": "Nhật ký",
@@ -63,12 +63,12 @@
       "title": "Chính sách quyền riêng tư",
       "desc": "Ứng dụng không thu thập dữ liệu cá nhân. Tiến trình được lưu trên thiết bị hoặc trong iCloud của bạn.",
       "callout_label": "Tóm tắt",
-      "callout": "Mongsil không thu thập dữ liệu cá nhân và không có máy chủ riêng, tài khoản, quảng cáo hay công cụ phân tích.",
+      "callout": "Mongsil không thu thập dữ liệu cá nhân và không có máy chủ riêng, tài khoản ipe, quảng cáo hay công cụ phân tích.",
       "sections": [
         [
           "1. Thông tin thu thập",
           [
-            "Mongsil (“Ứng dụng”) là trò chơi di động do nhà phát triển độc lập Davy Kim (ipe Studio) vận hành. Ứng dụng không yêu cầu tài khoản hay đăng nhập và không thu thập tên, email, thông tin liên hệ, vị trí hoặc dữ liệu cá nhân khác. Ứng dụng tạo mã ngẫu nhiên cho từng thiết bị chỉ để phân biệt lịch sử tiền xu. Khi bật iCloud, mã này có thể đồng bộ với tiến trình vào iCloud của chính bạn và không được gửi cho ipe. Nhật ký chăm sóc, cài đặt và bộ sưu tập lưu trên thiết bị và chỉ đồng bộ khi bật iCloud. ipe không nhận các dữ liệu này. Khi xóa Ứng dụng, dữ liệu của Ứng dụng trên thiết bị cũng bị xóa.",
+            "Mongsil (“Ứng dụng”) là trò chơi di động do nhà phát triển độc lập Davy Kim (ipe Studio) vận hành. Ứng dụng không yêu cầu tài khoản ipe hay đăng ký và không thu thập tên, email, thông tin liên hệ, vị trí hoặc dữ liệu cá nhân khác. Ứng dụng tạo mã ngẫu nhiên cho từng thiết bị chỉ để phân biệt lịch sử tiền xu. Khi bật iCloud, mã này có thể đồng bộ với tiến trình vào iCloud của chính bạn và không được gửi cho ipe. Nhật ký chăm sóc, cài đặt và bộ sưu tập lưu trên thiết bị và chỉ đồng bộ khi bật iCloud. ipe không nhận các dữ liệu này. Khi xóa Ứng dụng, dữ liệu của Ứng dụng trên thiết bị cũng bị xóa.",
             "Ứng dụng không chứa quảng cáo, SDK phân tích hay theo dõi."
           ]
         ],
@@ -94,7 +94,8 @@
         [
           "5. Bên thứ ba",
           [
-            "Ứng dụng không thu thập dữ liệu cá nhân nên không có dữ liệu cá nhân để chia sẻ hoặc bán cho bên thứ ba. Ứng dụng được phân phối qua Apple App Store. Apple xử lý dữ liệu về lượt tải và thanh toán theo chính sách quyền riêng tư của mình."
+            "Ứng dụng không thu thập dữ liệu cá nhân nên không có dữ liệu cá nhân để chia sẻ hoặc bán cho bên thứ ba. Ứng dụng được phân phối qua Apple App Store. Apple xử lý dữ liệu về lượt tải và thanh toán theo chính sách quyền riêng tư của mình.",
+            "Bảng xếp hạng (Apple Game Center) là tùy chọn. Nếu dùng, điểm số và biệt danh Game Center của bạn sẽ được chuyển cho Apple và do Apple xử lý theo chính sách quyền riêng tư của họ. Thông tin này không đến máy chủ của ipe và ipe không nhận."
           ]
         ],
         [

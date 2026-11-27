@@ -141,6 +141,37 @@ class SiteTest(unittest.TestCase):
         self.assertIn("ipe 로는 보내지 않", ko_s1)
         self.assertIn("not sent to ipe", en_s1)
 
+    def test_privacy_mentions_game_center_in_every_language(self):
+        for rel in LEGAL_PAGES:
+            if build.base_path(ALL_PAGES[rel]).strip("/") != "privacy":
+                continue
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8")
+                self.assertIn("Game Center", text)
+                self.assertEqual(text.count("<h2>"), 10)
+
+    def test_privacy_section5_has_same_paragraph_count_in_every_language(self):
+        counts = {lang: len(build.LEGAL[lang]["privacy"]["sections"][4][1]) for lang in EXPECTED_LANGUAGES}
+        self.assertEqual(set(counts.values()), {2}, counts)
+
+    def test_root_does_not_auto_redirect_to_another_language(self):
+        # 루트(/)는 ko 그대로 — 자동 언어 리다이렉트는 검색엔진·공유 링크에 불리해 끈다.
+        for rel in ("index.html", "en/index.html", "ja/index.html"):
+            with self.subTest(page=rel):
+                text = (ROOT / rel).read_text(encoding="utf-8")
+                self.assertNotIn("data-redirect", text)
+                self.assertIn("ipe-lang.js", text)  # 언어 전환 링크는 그대로
+
+    def test_journal_dates_use_each_language_format(self):
+        self.assertEqual(build.date_label("ko", "2026-11-26"), "2026년 11월 26일")
+        self.assertEqual(build.date_label("en", "2026-11-26"), "November 26, 2026")
+        self.assertEqual(build.date_label("ja", "2026-11-26"), "2026年11月26日")
+        self.assertEqual(build.date_label("zh-Hant", "2026-11-06"), "2026年11月6日")
+        self.assertEqual(build.date_label("de", "2026-11-06"), "06.11.2026")
+        self.assertEqual(build.date_label("fr", "2026-11-06"), "06/11/2026")
+        for lang in EXPECTED_LANGUAGES:
+            self.assertNotEqual(build.date_label(lang, "2026-11-26"), "2026-11-26", lang)
+
     def test_no_external_analytics_script_on_any_page(self):
         # 외부 스크립트(http/https src) 금지 — 인라인 <script> 와 같은 출처 스크립트는 허용.
         for rel in PAGES + LEGAL_PAGES:

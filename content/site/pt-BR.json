@@ -41,9 +41,9 @@
       "Quando Mongsil se forma, ele fica registrado na coleção."
     ],
     "about_h2b": "Sem anúncios",
-    "about_p2": "Mongsil não exibe anúncios e não tem servidores próprios nem contas separadas. O progresso é salvo no aparelho. No iOS, se você ativar o iCloud, pode continuar em aparelhos com a mesma conta Apple. Itens pagos são opcionais e podem ser comprados no aplicativo.",
+    "about_p2": "Mongsil não exibe anúncios e não tem servidores próprios nem conta ipe nem cadastro. O progresso é salvo no aparelho. No iOS, se você ativar o iCloud, pode continuar em aparelhos com a mesma conta Apple. Itens pagos são opcionais e podem ser comprados no aplicativo.",
     "about_h2c": "Idiomas",
-    "about_p3": "Este site está disponível nos mesmos 12 idiomas do aplicativo.",
+    "about_p3": "A página sobre o jogo, a política de privacidade e os termos estão disponíveis nos mesmos 12 idiomas do aplicativo. As postagens do diário são publicadas em coreano e inglês.",
     "journal_title": "Diário — Mongsil",
     "journal_desc": "Novidades do desenvolvimento de Mongsil.",
     "journal_h1": "Diário",
@@ -63,12 +63,12 @@
       "title": "Política de privacidade",
       "desc": "O aplicativo não coleta dados pessoais. Seu progresso fica no aparelho ou no seu próprio iCloud.",
       "callout_label": "Em resumo",
-      "callout": "Mongsil não coleta dados pessoais. Não tem servidor próprio, contas, anúncios nem ferramentas de análise.",
+      "callout": "Mongsil não coleta dados pessoais. Não tem servidor próprio, conta ipe, anúncios nem ferramentas de análise.",
       "sections": [
         [
           "1. Dados coletados",
           [
-            "Mongsil (o «Aplicativo») é um jogo para dispositivos móveis operado pelo desenvolvedor independente Davy Kim (ipe Studio). Não exige conta ou login nem coleta nomes, e-mails, contatos, localização ou outros dados pessoais. Cria um identificador aleatório por aparelho para distinguir apenas os registros de moedas. Se ativar o iCloud, o identificador pode ser sincronizado com seu progresso no seu próprio iCloud. A ipe não o recebe. Os registros de cuidados, as preferências e a coleção ficam no aparelho e só são sincronizados se você ativar o iCloud. A ipe não recebe esses dados. Desinstalar o Aplicativo apaga os dados dele no aparelho.",
+            "Mongsil (o «Aplicativo») é um jogo para dispositivos móveis operado pelo desenvolvedor independente Davy Kim (ipe Studio). Não exige conta ipe nem cadastro nem coleta nomes, e-mails, contatos, localização ou outros dados pessoais. Cria um identificador aleatório por aparelho para distinguir apenas os registros de moedas. Se ativar o iCloud, o identificador pode ser sincronizado com seu progresso no seu próprio iCloud. A ipe não o recebe. Os registros de cuidados, as preferências e a coleção ficam no aparelho e só são sincronizados se você ativar o iCloud. A ipe não recebe esses dados. Desinstalar o Aplicativo apaga os dados dele no aparelho.",
             "O Aplicativo não contém publicidade nem SDKs de análise ou rastreamento."
           ]
         ],
@@ -94,7 +94,8 @@
         [
           "5. Terceiros",
           [
-            "O Aplicativo não coleta dados pessoais, portanto não há dados pessoais para compartilhar ou vender a terceiros. A Apple distribui o Aplicativo na App Store e trata os dados de download e pagamento de acordo com sua política de privacidade."
+            "O Aplicativo não coleta dados pessoais, portanto não há dados pessoais para compartilhar ou vender a terceiros. A Apple distribui o Aplicativo na App Store e trata os dados de download e pagamento de acordo com sua política de privacidade.",
+            "O ranking (Apple Game Center) é opcional. Se você usá-lo, sua pontuação e seu apelido do Game Center são enviados à Apple e tratados por ela conforme sua política de privacidade. Essas informações não chegam a nenhum servidor da ipe, e a ipe não as recebe."
           ]
         ],
         [

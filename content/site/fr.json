@@ -41,9 +41,9 @@
       "À la fin de son parcours, Mongsil reste dans votre collection."
     ],
     "about_h2b": "Sans publicité",
-    "about_p2": "Mongsil ne comporte aucune publicité, aucun serveur propre et aucun compte distinct. La progression est enregistrée sur votre appareil. Sur iOS, si vous activez iCloud, vous pouvez reprendre sur les appareils utilisant le même compte Apple. Les objets payants sont facultatifs et s’achètent dans l’application.",
+    "about_p2": "Mongsil ne comporte aucune publicité, aucun serveur propre et aucun compte ipe ni inscription. La progression est enregistrée sur votre appareil. Sur iOS, si vous activez iCloud, vous pouvez reprendre sur les appareils utilisant le même compte Apple. Les objets payants sont facultatifs et s’achètent dans l’application.",
     "about_h2c": "Langues",
-    "about_p3": "Ce site est disponible dans les mêmes 12 langues que l’application.",
+    "about_p3": "La page de présentation, la politique de confidentialité et les conditions d’utilisation sont disponibles dans les mêmes 12 langues que l’application. Les articles du journal sont publiés en coréen et en anglais.",
     "journal_title": "Journal — Mongsil",
     "journal_desc": "Nouvelles du développement de Mongsil.",
     "journal_h1": "Journal",
@@ -63,12 +63,12 @@
       "title": "Politique de confidentialité",
       "desc": "L’application ne collecte aucune donnée personnelle. Votre progression reste sur votre appareil ou dans votre propre espace iCloud.",
       "callout_label": "En bref",
-      "callout": "Mongsil ne collecte aucune donnée personnelle et ne comporte ni serveur propre, ni compte, ni publicité, ni outil d’analyse.",
+      "callout": "Mongsil ne collecte aucune donnée personnelle et ne comporte ni serveur propre, ni compte ipe, ni publicité, ni outil d’analyse.",
       "sections": [
         [
           "1. Données collectées",
           [
-            "Mongsil (l’« application ») est un jeu mobile exploité par le développeur indépendant Davy Kim (ipe Studio). L’application ne nécessite ni compte ni connexion et ne collecte ni nom, ni e-mail, ni coordonnées, ni localisation, ni autre donnée personnelle. Elle crée un identifiant aléatoire par appareil uniquement pour distinguer les historiques de pièces. Si vous activez iCloud, cet identifiant peut être synchronisé avec votre progression dans votre propre espace iCloud, sans être envoyé à ipe. L’historique de soins, les réglages et la collection sont enregistrés sur votre appareil et ne sont synchronisés que si vous activez iCloud. ipe ne reçoit aucune de ces données. La suppression de l’application efface ses données de votre appareil.",
+            "Mongsil (l’« application ») est un jeu mobile exploité par le développeur indépendant Davy Kim (ipe Studio). L’application ne nécessite ni compte ipe ni inscription et ne collecte ni nom, ni e-mail, ni coordonnées, ni localisation, ni autre donnée personnelle. Elle crée un identifiant aléatoire par appareil uniquement pour distinguer les historiques de pièces. Si vous activez iCloud, cet identifiant peut être synchronisé avec votre progression dans votre propre espace iCloud, sans être envoyé à ipe. L’historique de soins, les réglages et la collection sont enregistrés sur votre appareil et ne sont synchronisés que si vous activez iCloud. ipe ne reçoit aucune de ces données. La suppression de l’application efface ses données de votre appareil.",
             "L’application ne comporte ni publicité, ni SDK d’analyse ou de suivi."
           ]
         ],
@@ -94,7 +94,8 @@
         [
           "5. Tiers",
           [
-            "L’application ne collecte aucune donnée personnelle et n’en communique ni n’en vend donc à des tiers. L’application est distribuée sur l’App Store. Apple traite les données liées aux téléchargements et aux paiements selon sa politique de confidentialité."
+            "L’application ne collecte aucune donnée personnelle et n’en communique ni n’en vend donc à des tiers. L’application est distribuée sur l’App Store. Apple traite les données liées aux téléchargements et aux paiements selon sa politique de confidentialité.",
+            "Le classement (Apple Game Center) est facultatif. Si vous l’utilisez, votre score et votre pseudo Game Center sont transmis à Apple, qui les traite selon sa politique de confidentialité. Ces informations ne parviennent à aucun serveur d’ipe et ipe ne les reçoit pas."
           ]
         ],
         [

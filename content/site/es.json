@@ -41,9 +41,9 @@
       "Cuando Mongsil se gradúa, queda registrado en tu colección."
     ],
     "about_h2b": "Sin publicidad",
-    "about_p2": "Mongsil no tiene publicidad, servidores propios ni cuentas separadas. El progreso se guarda en tu dispositivo. En iOS, si activas iCloud, puedes continuar en dispositivos con la misma cuenta de Apple. Los artículos de pago son opcionales y se pueden comprar dentro de la aplicación.",
+    "about_p2": "Mongsil no tiene publicidad, servidores propios ni cuenta de ipe ni registro. El progreso se guarda en tu dispositivo. En iOS, si activas iCloud, puedes continuar en dispositivos con la misma cuenta de Apple. Los artículos de pago son opcionales y se pueden comprar dentro de la aplicación.",
     "about_h2c": "Idiomas",
-    "about_p3": "Este sitio está disponible en los mismos 12 idiomas que la aplicación.",
+    "about_p3": "La página de información, la política de privacidad y los términos están disponibles en los mismos 12 idiomas que la aplicación. Las entradas del diario se publican en coreano e inglés.",
     "journal_title": "Diario — Mongsil",
     "journal_desc": "Noticias sobre el desarrollo de Mongsil.",
     "journal_h1": "Diario",
@@ -63,12 +63,12 @@
       "title": "Política de privacidad",
       "desc": "La aplicación no recopila datos personales. Tu progreso se guarda en tu dispositivo o en tu propio iCloud.",
       "callout_label": "Resumen",
-      "callout": "Mongsil no recopila datos personales. No tiene servidores propios, cuentas, publicidad ni herramientas de análisis.",
+      "callout": "Mongsil no recopila datos personales. No tiene servidores propios, cuenta de ipe, publicidad ni herramientas de análisis.",
       "sections": [
         [
           "1. Información que se recopila",
           [
-            "Mongsil (la «aplicación») es un juego para móviles gestionado por el desarrollador independiente Davy Kim (ipe Studio). No requiere cuenta ni inicio de sesión ni recopila nombres, correos electrónicos, datos de contacto, ubicación u otros datos personales. Crea un identificador aleatorio por dispositivo únicamente para distinguir los registros de monedas. Si activas iCloud, el identificador puede sincronizarse con tu progreso en tu propio iCloud. ipe no lo recibe. El historial de cuidados, los ajustes y la colección se guardan en tu dispositivo y solo se sincronizan si activas iCloud. ipe no recibe estos datos. Al desinstalar la aplicación se eliminan sus datos del dispositivo.",
+            "Mongsil (la «aplicación») es un juego para móviles gestionado por el desarrollador independiente Davy Kim (ipe Studio). No requiere cuenta de ipe ni registro ni recopila nombres, correos electrónicos, datos de contacto, ubicación u otros datos personales. Crea un identificador aleatorio por dispositivo únicamente para distinguir los registros de monedas. Si activas iCloud, el identificador puede sincronizarse con tu progreso en tu propio iCloud. ipe no lo recibe. El historial de cuidados, los ajustes y la colección se guardan en tu dispositivo y solo se sincronizan si activas iCloud. ipe no recibe estos datos. Al desinstalar la aplicación se eliminan sus datos del dispositivo.",
             "La aplicación no contiene publicidad ni SDK de análisis o seguimiento."
           ]
         ],
@@ -94,7 +94,8 @@
         [
           "5. Terceros",
           [
-            "La aplicación no recopila datos personales, por lo que no los comparte ni vende a terceros. La distribución se realiza a través del App Store. Apple gestiona los datos de descargas y pagos con arreglo a su política de privacidad."
+            "La aplicación no recopila datos personales, por lo que no los comparte ni vende a terceros. La distribución se realiza a través del App Store. Apple gestiona los datos de descargas y pagos con arreglo a su política de privacidad.",
+            "La clasificación (Apple Game Center) es opcional. Si la usas, tu puntuación y tu apodo de Game Center se envían a Apple, que los trata conforme a su política de privacidad. Estos datos no llegan a ningún servidor de ipe y ipe no los recibe."
           ]
         ],
         [

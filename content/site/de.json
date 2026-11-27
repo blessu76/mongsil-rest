@@ -41,9 +41,9 @@
       "Wenn Mongsil seine Entwicklung abschließt, bleibt es in deiner Sammlung."
     ],
     "about_h2b": "Ohne Werbung",
-    "about_p2": "Mongsil hat keine Werbung, keine eigenen Server und keine separaten Konten. Der Fortschritt wird auf deinem Gerät gespeichert. Wenn du iCloud unter iOS aktivierst, kannst du auf Geräten mit demselben Apple Account weiterspielen. Kostenpflichtige Gegenstände kannst du optional in der App kaufen.",
+    "about_p2": "Mongsil hat keine Werbung, keine eigenen Server und kein ipe-Konto und keine Registrierung. Der Fortschritt wird auf deinem Gerät gespeichert. Wenn du iCloud unter iOS aktivierst, kannst du auf Geräten mit demselben Apple Account weiterspielen. Kostenpflichtige Gegenstände kannst du optional in der App kaufen.",
     "about_h2c": "Sprachen",
-    "about_p3": "Diese Website gibt es in denselben 12 Sprachen wie die App.",
+    "about_p3": "Über-Seite, Datenschutzerklärung und Nutzungsbedingungen gibt es in denselben 12 Sprachen wie die App. Tagebucheinträge erscheinen auf Koreanisch und Englisch.",
     "journal_title": "Tagebuch — Mongsil",
     "journal_desc": "Neuigkeiten zur Entwicklung von Mongsil.",
     "journal_h1": "Tagebuch",
@@ -63,12 +63,12 @@
       "title": "Datenschutzerklärung",
       "desc": "Die App erhebt keine personenbezogenen Daten. Dein Fortschritt wird auf deinem Gerät oder in deiner eigenen iCloud gespeichert.",
       "callout_label": "Kurzfassung",
-      "callout": "Mongsil erhebt keine personenbezogenen Daten und hat keine eigenen Server, Konten, Werbung oder Analysewerkzeuge.",
+      "callout": "Mongsil erhebt keine personenbezogenen Daten und hat keine eigenen Server, kein ipe-Konto, keine Werbung oder Analysewerkzeuge.",
       "sections": [
         [
           "1. Erhobene Daten",
           [
-            "Mongsil (die „App“) ist ein mobiles Spiel des unabhängigen Entwicklers Davy Kim (ipe Studio). Die App erfordert weder ein Konto noch eine Anmeldung und erhebt keine Namen, E-Mail-Adressen, Kontaktdaten, Standortdaten oder sonstigen personenbezogenen Daten. Sie erstellt pro Gerät eine zufällige Kennung, um nur die jeweiligen Münzaufzeichnungen zu unterscheiden. Ist iCloud aktiviert, kann diese Kennung mit deinem Fortschritt in deiner eigenen iCloud synchronisiert werden. Sie wird nicht an ipe gesendet. Pflegeverlauf, Einstellungen und Sammlung bleiben auf deinem Gerät und werden nur bei aktivierter iCloud synchronisiert. ipe erhält diese Daten nicht. Beim Löschen der App werden ihre Daten auf deinem Gerät gelöscht.",
+            "Mongsil (die „App“) ist ein mobiles Spiel des unabhängigen Entwicklers Davy Kim (ipe Studio). Die App erfordert weder ein ipe-Konto noch eine Registrierung und erhebt keine Namen, E-Mail-Adressen, Kontaktdaten, Standortdaten oder sonstigen personenbezogenen Daten. Sie erstellt pro Gerät eine zufällige Kennung, um nur die jeweiligen Münzaufzeichnungen zu unterscheiden. Ist iCloud aktiviert, kann diese Kennung mit deinem Fortschritt in deiner eigenen iCloud synchronisiert werden. Sie wird nicht an ipe gesendet. Pflegeverlauf, Einstellungen und Sammlung bleiben auf deinem Gerät und werden nur bei aktivierter iCloud synchronisiert. ipe erhält diese Daten nicht. Beim Löschen der App werden ihre Daten auf deinem Gerät gelöscht.",
             "Die App enthält weder Werbung noch Analyse- oder Tracking-SDKs."
           ]
         ],
@@ -94,7 +94,8 @@
         [
           "5. Dritte",
           [
-            "Die App erhebt keine personenbezogenen Daten und gibt deshalb auch keine solchen Daten an Dritte weiter oder verkauft sie. Die App wird über Apples App Store angeboten. Apple verarbeitet Daten zu Downloads und Zahlungen gemäß seiner Datenschutzerklärung."
+            "Die App erhebt keine personenbezogenen Daten und gibt deshalb auch keine solchen Daten an Dritte weiter oder verkauft sie. Die App wird über Apples App Store angeboten. Apple verarbeitet Daten zu Downloads und Zahlungen gemäß seiner Datenschutzerklärung.",
+            "Die Bestenliste (Apple Game Center) ist optional. Wenn du sie nutzt, werden dein Punktestand und dein Game-Center-Spitzname an Apple übermittelt und von Apple gemäß dessen Datenschutzerklärung verarbeitet. Diese Daten gelangen nicht auf einen ipe-Server, und ipe erhält sie nicht."
           ]
         ],
         [

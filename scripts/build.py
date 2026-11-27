@@ -70,7 +70,7 @@ def head(lang, title, desc, path, og_img=OG_IMAGE, extra=""):
     alternate_html = seo.alternate_links(urls.items(), x_default=urls["ko"])
     language_scripts = (
         f'<script src="/assets/mongsil-lang.js?v={CSS_V}" defer></script>\n'
-        + langswitch.script(LANG_ASSET, redirect=(path == "/"))
+        + langswitch.script(LANG_ASSET, redirect=False)  # 루트는 ko 그대로 — 자동 언어 이동은 검색엔진·공유 링크에 불리해 끈다
     )
     og_size = ""
     if og_img == OG_IMAGE:
@@ -179,7 +179,11 @@ def date_label(lang, iso):
         return f"{y}년 {m}월 {d}일"
     if lang == "en":
         return f"{MONTHS_EN[m - 1]} {d}, {y}"
-    return iso
+    if lang in ("ja", "zh-Hant"):
+        return f"{y}年{m}月{d}日"
+    if lang in ("de", "tr"):
+        return f"{d:02d}.{m:02d}.{y}"
+    return f"{d:02d}/{m:02d}/{y}"  # es fr id pt-BR th vi
 
 
 def post_list(lang):
