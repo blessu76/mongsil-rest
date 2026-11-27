@@ -13,6 +13,7 @@ Mongsil (몽실이 키우기) is a Tamagotchi-style pet care game where your pet
 - [홈](https://mongsil.ipe.rest/): 게임 소개
 - [소개](https://mongsil.ipe.rest/about/): 무엇을 하는지, 광고 없이 만드는 이유
 - [저널](https://mongsil.ipe.rest/journal/): 개발 소식
+- [저널: 가까워질수록 작은 선물이 와요](https://mongsil.ipe.rest/journal/bond-and-little-gifts/)
 - [저널: 오늘 할 일은 세 칸뿐이에요](https://mongsil.ipe.rest/journal/three-things-for-today/)
 - [저널: 동화를 읽어 주면 꿈 일기가 생겨요](https://mongsil.ipe.rest/journal/bedtime-stories-and-dream-diary/)
 - [저널: 몽실이는 기기 안에 살아요](https://mongsil.ipe.rest/journal/mongsil-lives-on-your-device/)
@@ -27,6 +28,7 @@ Mongsil (몽실이 키우기) is a Tamagotchi-style pet care game where your pet
 - [Home](https://mongsil.ipe.rest/en/): game overview
 - [About](https://mongsil.ipe.rest/en/about/): what you do and why it has no ads
 - [Journal](https://mongsil.ipe.rest/en/journal/): development news
+- [Journal: Little gifts as you grow closer](https://mongsil.ipe.rest/en/journal/bond-and-little-gifts/)
 - [Journal: Just three things for today](https://mongsil.ipe.rest/en/journal/three-things-for-today/)
 - [Journal: Bedtime stories make a dream diary](https://mongsil.ipe.rest/en/journal/bedtime-stories-and-dream-diary/)
 - [Journal: Mongsil lives on your device](https://mongsil.ipe.rest/en/journal/mongsil-lives-on-your-device/)
