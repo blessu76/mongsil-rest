@@ -81,6 +81,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
   </url>
   <url>
+    <loc>https://mongsil.ipe.rest/en/journal/sending-mongsil-on-a-trip/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/sending-mongsil-on-a-trip/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/sending-mongsil-on-a-trip/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/sending-mongsil-on-a-trip/"/>
+  </url>
+  <url>
     <loc>https://mongsil.ipe.rest/en/journal/bond-and-little-gifts/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/bond-and-little-gifts/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/bond-and-little-gifts/"/>
@@ -207,6 +213,12 @@
     <xhtml:link rel="alternate" hreflang="vi" href="https://mongsil.ipe.rest/vi/journal/"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://mongsil.ipe.rest/tr/journal/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/"/>
+  </url>
+  <url>
+    <loc>https://mongsil.ipe.rest/journal/sending-mongsil-on-a-trip/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mongsil.ipe.rest/en/journal/sending-mongsil-on-a-trip/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mongsil.ipe.rest/journal/sending-mongsil-on-a-trip/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mongsil.ipe.rest/journal/sending-mongsil-on-a-trip/"/>
   </url>
   <url>
     <loc>https://mongsil.ipe.rest/journal/bond-and-little-gifts/</loc>
